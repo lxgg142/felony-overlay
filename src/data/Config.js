@@ -10,6 +10,10 @@ const store = new Store({
       type: 'string',
       default: 'DEFAULT',
     },
+    mode: {
+      type: 'string',
+      default: 'OVERALL',
+    },
   },
 });
 window.$ = window.jQuery = require('jquery');
@@ -73,7 +77,7 @@ const client = {
   },
 
   /**
-   * @returns Minecraft Client [lunar, blion, etc..]
+   * @returns Minecraft Client [lunar, badlion, etc..]
    */
   getClient: function () {
     try {
@@ -93,4 +97,35 @@ const client = {
   },
 };
 
-module.exports = { apiKey, client, CLIENTS };
+const MODES = {
+  overall: 'overall',
+  squad: 'four_four',
+  trio: 'four_three',
+  doubels: 'eight_two',
+  solo: 'eight_one',
+  four_vs_vour: 'two_four',
+};
+
+const mode = {
+  /**
+   * @returns Bedwars Mode [overall, four_four, etc..]
+   */
+  getMode: function () {
+    try {
+      const mode = store.get('mode');
+      return mode;
+    } catch (error) {}
+  },
+
+  /**
+   * @param {MODES} mode Bedwars mode
+   */
+  setMode: function (mode) {
+    try {
+      if (mode == null) return;
+      store.set('mode', mode);
+    } catch (error) {}
+  },
+};
+
+module.exports = { apiKey, client, CLIENTS, mode, MODES };

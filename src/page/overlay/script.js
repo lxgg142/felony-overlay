@@ -37,7 +37,7 @@ function main() {
 
   loadPATH();
   if (!fs.existsSync(logpath)) {
-    return console.log('logpath');
+    return console.log('logpath was not found!');
   }
 
   console.log(logpath);
@@ -59,7 +59,7 @@ function main() {
         clear();
         let who = msg.substring(8).split(', ');
         for (let i = 0; i < who.length; i++) {
-          addPlayer(who[i]);
+          addPlayer(who[i].split(' ')[0]);
         }
         chat.log(who);
       } else if (msg.indexOf('has joined') !== -1 && msg.indexOf(':') === -1) {
@@ -70,7 +70,6 @@ function main() {
         removePlayer(left);
       } else if (msg.indexOf('new API key') !== -1 && msg.indexOf(':') === -1) {
         let key = msg.substring(msg.indexOf('is ') + 3);
-        apiKey.setKey(key);
         clear();
         apiKey.setKey(key);
       } else if (msg.indexOf('Sending you') !== -1 && msg.indexOf(':') === -1) {

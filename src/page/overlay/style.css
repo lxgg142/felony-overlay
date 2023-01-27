@@ -22,7 +22,6 @@ body {
   overflow: hidden;
   user-select: none;
   height: 100%;
-  --primaryColor: rgb(188, 44, 255);
 }
 body::-webkit-scrollbar {
   display: none;

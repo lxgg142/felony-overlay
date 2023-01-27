@@ -1,7 +1,8 @@
 const LoggerManager = require('../../helper/Logger');
 const logger = new LoggerManager('RPC');
 
-const clientId = '1067537275132575844';
+const { clientId } = require('../../config.json');
+
 const startTimestamp = new Date();
 
 const DiscordRPC = require('discord-rpc');
@@ -17,7 +18,7 @@ async function setActivity() {
     buttons: [
       {
         label: `Get Overlay`,
-        url: `https://github.com/andy-bergner/felony-overlay/releases/latest`,
+        url: `https://github.com/lxgg142/felony-overlay/releases/latest`,
       },
       {
         label: `Felony Guild`,
@@ -35,6 +36,6 @@ RPC.on('ready', async () => {
   }, 15 * 1000);
 });
 
-RPC.login({ clientId }).catch((err) => {
+RPC.login({ clientId: clientId }).catch((err) => {
   logger.error(err);
 });
