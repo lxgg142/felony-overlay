@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <style>
+    html,
+    body {
+      margin: 0px;
+      padding: 0px;
+      height: 100%;
+      width: 100%;
+
+      font-family: 'Poppins', sans-serif;
+      background-color: #282b30;
+    }
+    #base {
+      height: 100%;
+      width: 100%;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      background-color: #282b30;
+    }
+    p {
+      color: #424549;
+      font-weight: 700;
+      font-size: x-large;
+    }
+
+    .loader {
+      width: 100%;
+      height: 4.8px;
+      display: inline-block;
+      position: relative;
+      background: #282b30;
+      overflow: hidden;
+    }
+    .loader::after {
+      content: '';
+      width: 192px;
+      height: 4.8px;
+      background: #55ff55;
+      position: absolute;
+      top: 0;
+      left: 0;
+      box-sizing: border-box;
+      animation: animloader 2s linear infinite;
+    }
+
+    @keyframes animloader {
+      0% {
+        left: 0;
+        transform: translateX(-100%);
+      }
+      100% {
+        left: 100%;
+        transform: translateX(0%);
+      }
+    }
+  </style>
+  <body>
+    <div id="base">
+      <p>Felony Guild</p>
+      <span class="loader"></span>
+    </div>
+  </body>
+</html>

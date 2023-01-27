@@ -1,0 +1,60 @@
+{
+  "name": "felony-overlay",
+  "productName": "Felony Overlay",
+  "version": "1.0.0",
+  "description": "The Official Felony Stats Overlay",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "build-installer": "electron-builder --win --x64 --ia32"
+  },
+  "build": {
+    "appId": "felony-overlay",
+    "artifactName": "${productName}-Setup_${arch}.${ext}",
+    "asarUnpack": [
+      "exec"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "publish": null,
+      "icon": "assets/favicon.ico"
+    },
+    "nsis": {
+      "installerIcon": "assets/favicon.ico",
+      "uninstallerIcon": "assets/favicon.ico",
+      "uninstallDisplayName": "Felony Overlay",
+      "oneClick": false
+    },
+    "mac": {
+      "artifactName": "${productName}-Setup_MAC.${ext}",
+      "category": "public.app-category.games",
+      "target": [
+        "dmg"
+      ],
+      "icon": "assets/favicon.ico"
+    },
+    "dmg": {
+      "backgroundColor": "#424549",
+      "icon": "assets/favicon.ico"
+    }
+  },
+  "author": "lxgg#8588",
+  "repository": "github:andy-bergner/felony-overlay",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^22.0.3",
+    "electron-builder": "^23.6.0"
+  },
+  "dependencies": {
+    "@electron/remote": "^2.0.9",
+    "axios": "^1.2.3",
+    "discord-rpc": "^4.0.1",
+    "electron-json-config": "^2.0.0",
+    "electron-localshortcut": "^3.2.1",
+    "electron-store": "^8.1.0",
+    "jquery": "^3.6.3",
+    "tail": "^2.2.6"
+  }
+}

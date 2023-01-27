@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<head>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="script.js"></script>
+    <script>
+      window.$ = window.jQuery = require('jquery');
+    </script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <script
+      src="https://kit.fontawesome.com/f900befaca.js"
+      crossorigin="anonymous"
+    ></script>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    />
+  </head>
+  <body>
+    <div id="base">
+      <!--menu bar-->
+      <div class="menu">
+        <div class="menu_bar">
+          <span id="sidebar-toggle"><i class="fa-solid fa-bars"></i></span>
+          <p class="menu_label">Felony Overlay</p>
+        </div>
+        <div class="menu_buttons">
+          <button name="reload" id="btnReload">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+          <button name="mini" id="btnMini">
+            <i class="fa-solid fa-window-minimize"></i>
+          </button>
+          <button name="close-btn" id="btnClose">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!--content-->
+      <div id="content">
+        <div id="sidebar-menu" class="sidebar">
+          <label>Clients</label>
+          <div>
+            <a id="lunar">Lunar</a>
+            <a id="badlion">Badlion</a>
+            <a id="default">Vanilla/Forge</a>
+          </div>
+
+          <label>Mode</label>
+          <div>
+            <a id="overall">Overall</a>
+            <a id="eight_one">Solo</a>
+            <a id="eight_two">Doubles</a>
+            <a id="four_three">Trio</a>
+            <a id="four_four">Squad</a>
+            <a id="two_four">4v4</a>
+          </div>
+        </div>
+        <div id="player">
+          <div>
+            <div class="title"><label>PLAYERS</label></div>
+            <ul class="playerlist">
+              <li id="ign"></li>
+            </ul>
+          </div>
+          <div>
+            <div class="flex-warp">
+              <!--WINSTREAK-->
+              <div>
+                <div class="title"><label>WS</label></div>
+                <ul id="ws" class="list"></ul>
+              </div>
+
+              <!--FKDR-->
+              <div>
+                <div class="title"><label>FKDR</label></div>
+                <ul id="fkdr" class="list"></ul>
+              </div>
+
+              <!--WLR-->
+              <div>
+                <div class="title"><label>WLR</label></div>
+                <ul id="wlr" class="list"></ul>
+              </div>
+
+              <!--BBLR-->
+              <div>
+                <div class="title"><label>BBLR</label></div>
+                <ul id="blr" class="list"></ul>
+              </div>
+
+              <!--FINALS-->
+              <div>
+                <div class="title"><label>FINALS</label></div>
+                <ul id="finals" class="list"></ul>
+              </div>
+
+              <!--WINS-->
+              <div>
+                <div class="title"><label>WINS</label></div>
+                <ul id="wins" class="list"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="info">
+          <p>API-Key was not specified do: /api new</p>
+        </div>
+      </div>
+    </div>
+    <script src="window.js" defer type="module"></script>
+    <script src="discordRPC.js" defer type="module"></script>
+  </body>
+</head>
