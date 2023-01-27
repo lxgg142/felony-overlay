@@ -113,7 +113,7 @@ function addPlayer(player) {
         fkdr = `<li class="player-item ${player}">
         ${fkdrColor(res.fkdr)}</li>`;
 
-        wlr = `<li class="player-item ${player}">${wlrColor(res[0].wlr)}</li>`;
+        wlr = `<li class="player-item ${player}">${wlrColor(res.wlr)}</li>`;
 
         finals = `<li class="player-item ${player}">
         ${finalsColor(res.final_kills)}</li>`;
@@ -121,7 +121,7 @@ function addPlayer(player) {
         wins = `<li class="player-item ${player}">
         ${winsColor(res.wins)}</li>`;
 
-        blr = `<li class="player-item ${player}">${bblrColor(res[0].blr)}</li>`;
+        blr = `<li class="player-item ${player}">${bblrColor(res.blr)}</li>`;
       }
     })
     .then(() => {
