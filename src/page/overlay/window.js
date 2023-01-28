@@ -55,13 +55,13 @@ async function setSelectedClient() {
   });
   switch (client.getClient()) {
     case CLIENTS.default:
-      DEFAULT.style.color = 'var(--colors-yellow)';
+      DEFAULT.style.color = 'var(--colors-lime)';
       break;
     case CLIENTS.lunar:
-      LUNAR.style.color = 'var(--colors-yellow)';
+      LUNAR.style.color = 'var(--colors-lime)';
       break;
     case CLIENTS.badlion:
-      BADLION.style.color = 'var(--colors-yellow)';
+      BADLION.style.color = 'var(--colors-lime)';
       break;
   }
 }
@@ -129,22 +129,22 @@ async function setSelectedMode() {
   });
   switch (mode.getMode()) {
     case MODES.overall:
-      OVERALL.style.color = 'var(--colors-yellow)';
+      OVERALL.style.color = 'var(--colors-lime)';
       break;
     case MODES.solo:
-      EIGHT_ONE.style.color = 'var(--colors-yellow)';
+      EIGHT_ONE.style.color = 'var(--colors-lime)';
       break;
     case MODES.doubels:
-      EIGHT_TWO.style.color = 'var(--colors-yellow)';
+      EIGHT_TWO.style.color = 'var(--colors-lime)';
       break;
     case MODES.trio:
-      FOUR_THREE.style.color = 'var(--colors-yellow)';
+      FOUR_THREE.style.color = 'var(--colors-lime)';
       break;
     case MODES.squad:
-      FOUR_FOUR.style.color = 'var(--colors-yellow)';
+      FOUR_FOUR.style.color = 'var(--colors-lime)';
       break;
     case MODES.four_vs_four:
-      TWO_FOUR.style.color = 'var(--colors-yellow)';
+      TWO_FOUR.style.color = 'var(--colors-lime)';
       break;
   }
 }
