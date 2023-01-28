@@ -6,6 +6,8 @@ const _mode = mode.getMode();
 
 /**
  * @author lxgg#8588
+ * - Variables _beds_broken, _beds_lost, etc... are set from the player stats
+ * - Object with all variables is returned
  */
 const bedwars = {
   /**

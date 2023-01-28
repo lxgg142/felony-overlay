@@ -9,6 +9,8 @@ const {
   wsColor,
   winsColor,
   finalsColor,
+  starColor,
+  wlrColor,
 } = require('../../helper/hypixelColors');
 const LoggerManager = require('../../helper/Logger');
 
@@ -37,6 +39,8 @@ function main() {
     return logger.log('logpath was not found!');
   }
 
+  console.log(logpath);
+
   const tail = new Tail(logpath, {
     useWatchFile: true,
     nLines: 1,
@@ -63,6 +67,11 @@ function main() {
       } else if (msg.indexOf('has quit') !== -1 && msg.indexOf(':') === -1) {
         let left = msg.split(' ')[0];
         removePlayer(left);
+      } else if (
+        msg.indexOf('The game starts in 1 second!') !== -1 &&
+        msg.indexOf(':') === -1
+      ) {
+        console.log('game started');
       } else if (msg.indexOf('new API key') !== -1 && msg.indexOf(':') === -1) {
         let key = msg.substring(msg.indexOf('is ') + 3);
         apiKey.setKey(key);
@@ -95,8 +104,7 @@ function addPlayer(player) {
   bedwars
     .get(player)
     .then((res) => {
-      console.log(res.success);
-      if (res.success) {
+      if (res.success == true) {
         ign = `<li class="player-item ${player}">
         ${starColor(res.star)} 
         ${nameColor(res.player)}</li>`;
