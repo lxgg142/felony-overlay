@@ -1,7 +1,7 @@
 const remote = require('@electron/remote');
 const fs = require('fs');
-const { apiKey, CLIENTS, client } = require('../../../data/Config');
-const { bedwars } = require('../../../helper/bedwars');
+const { apiKey, CLIENTS, client } = require('../../data/Config');
+const { bedwars } = require('../../helper/bedwars');
 const {
   nameColor,
   fkdrColor,
@@ -9,7 +9,8 @@ const {
   wsColor,
   winsColor,
   finalsColor,
-} = require('../../../helper/hypixelColors');
+} = require('../../helper/hypixelColors');
+const LoggerManager = require('../../helper/Logger');
 
 const Tail = require('tail').Tail;
 const { app } = remote;

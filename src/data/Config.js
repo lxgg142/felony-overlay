@@ -1,5 +1,4 @@
 const Store = require('electron-store');
-const { data } = require('jquery');
 const LoggerManager = require('../helper/Logger');
 const store = new Store({
   schema: {
@@ -16,13 +15,13 @@ const store = new Store({
     },
   },
 });
-window.$ = window.jQuery = require('jquery');
 
 const logger = new LoggerManager('CONFIG');
 
 /**
  * @author lxgg#8588
  */
+
 const apiKey = {
   /**
    * @returns true if config contains api key
