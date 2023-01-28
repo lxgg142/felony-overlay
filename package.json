@@ -44,7 +44,7 @@
   "repository": "github:andy-bergner/felony-overlay",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^22.0.3",
+    "electron": "^22.1.0",
     "electron-builder": "^23.6.0"
   },
   "dependencies": {

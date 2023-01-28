@@ -1,27 +1,23 @@
 const remote = require('@electron/remote');
-const { apiKey, client, CLIENTS } = require('../../data/Config');
-const { bedwars } = require('../../helper/bedwars');
 const fs = require('fs');
+const { apiKey, CLIENTS, client } = require('../../../data/Config');
+const { bedwars } = require('../../../helper/bedwars');
 const {
   nameColor,
-  starColor,
-  wsColor,
   fkdrColor,
-  wlrColor,
-  finalsColor,
-  winsColor,
   bblrColor,
-} = require('../../helper/hypixelColors');
-const LoggerManager = require('../../helper/Logger');
+  wsColor,
+  winsColor,
+  finalsColor,
+} = require('../../../helper/hypixelColors');
+
 const Tail = require('tail').Tail;
 const { app } = remote;
 const homedir = app.getPath('home').replaceAll('\\', '/');
 window.$ = window.jQuery = require('jquery');
 
-const chat = new LoggerManager('CHAT');
-const api = new LoggerManager('APIKey');
+const logger = new LoggerManager('Overlay');
 
-var players = [];
 let logpath;
 
 function main() {
@@ -32,15 +28,13 @@ function main() {
     $(document).ready(function () {
       $('#ign').append(key);
     });
-    api.log('API-Key was not specified do: /api new');
+    logger.log('API-Key was not specified do: /api new');
   }
 
   loadPATH();
   if (!fs.existsSync(logpath)) {
-    return console.log('logpath was not found!');
+    return logger.log('logpath was not found!');
   }
-
-  console.log(logpath);
 
   const tail = new Tail(logpath, {
     useWatchFile: true,
@@ -61,7 +55,7 @@ function main() {
         for (let i = 0; i < who.length; i++) {
           addPlayer(who[i].split(' ')[0]);
         }
-        chat.log(who);
+        logger.log(who);
       } else if (msg.indexOf('has joined') !== -1 && msg.indexOf(':') === -1) {
         let join = msg.split(' ')[0];
         addPlayer(join);
@@ -70,8 +64,8 @@ function main() {
         removePlayer(left);
       } else if (msg.indexOf('new API key') !== -1 && msg.indexOf(':') === -1) {
         let key = msg.substring(msg.indexOf('is ') + 3);
-        clear();
         apiKey.setKey(key);
+        clear();
       } else if (msg.indexOf('Sending you') !== -1 && msg.indexOf(':') === -1) {
         clear();
       }
@@ -133,7 +127,7 @@ function addPlayer(player) {
       $('#wins').append(wins);
     })
     .catch((error) => {
-      console.log(error);
+      logger.log(error);
     });
 }
 
@@ -147,22 +141,39 @@ function clear() {
 
 function loadPATH() {
   if (client.getClient() === CLIENTS.lunar) {
-    let log_18 = `${homedir}/.lunarclient/offline/1.8/logs/latest.log`;
-    let log_189 = `${homedir}/.lunarclient/offline/1.8.9/logs/latest.log`;
-    let log_multiver = `${homedir}/.lunarclient/offline/multiver/logs/latest.log`;
+    /**
+     * Find the latest LunarClient log file. It creates three objects containing the
+     * path and modification time of the three log files, checks if the files exist
+     * and updates the modification times accordingly, sorts the three objects by the
+     * modified variable and sets the logpath variable to the modified file.
+     */
+    let lunar_18 = {
+      path: `${homedir}/.lunarclient/offline/1.8/logs/latest.log`,
+      modified: 0,
+    };
+    let lunar_189 = {
+      path: `${homedir}/.lunarclient/offline/1.8.9/logs/latest.log`,
+      modified: 0,
+    };
+    let lunar_multiver = {
+      path: `${homedir}/.lunarclient/offline/multiver/logs/latest.log`,
+      modified: 0,
+    };
 
-    if (fs.existsSync(log_18)) {
-      logpath = log_18;
-      return;
-    }
-    if (fs.existsSync(log_189)) {
-      logpath = log_189;
-      return;
-    }
-    if (fs.existsSync(log_multiver)) {
-      logpath = log_multiver;
-      return;
-    }
+    if (fs.existsSync(lunar_18.path))
+      lunar_18.modified = fs.statSync(lunar_18.path).mtime;
+    if (fs.existsSync(lunar_189.path))
+      lunar_189.modified = fs.statSync(lunar_189.path).mtime;
+    if (fs.existsSync(lunar_multiver.path))
+      lunar_multiver.modified = fs.statSync(lunar_multiver.path).mtime;
+
+    const lunarLogs = [lunar_18, lunar_189, lunar_multiver];
+
+    lunarLogs.sort((a, b) => {
+      return b.modified - a.modified;
+    });
+
+    logpath = lunarLogs[0].path;
   } else if (process.platform === 'darwin') {
     if (client.getClient() === CLIENTS.badlion) {
       logpath = `${homedir}/Library/Application Support/minecraft/logs/blclient/minecraft/latest.log`;
