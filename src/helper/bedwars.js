@@ -2,7 +2,11 @@ const { getPlayer } = require('../api/HypixelAPI');
 const { mojang } = require('../api/MojangAPI');
 const { mode, MODES } = require('../data/Config');
 
-const _mode = mode.getMode();
+const _mode = () => {
+  if (mode.getMode() == MODES.overall) {
+    return '';
+  } else return `${mode.getMode()}_`;
+};
 
 /**
  * @author lxgg#8588
@@ -19,21 +23,25 @@ const bedwars = {
       const stats = await getPlayer((await _player).uuid);
       if (stats.success) {
         var _beds_broken =
-          stats.player?.stats?.Bedwars?.beds_broken_bedwars || 0;
-        var _beds_lost = stats.player?.stats?.Bedwars?.beds_lost_bedwars || 0;
-        var _ws = stats.player?.stats?.Bedwars?.winstreak || '?';
+          stats.player?.stats?.Bedwars[`${_mode()}beds_broken_bedwars`] || 0;
+        var _beds_lost =
+          stats.player?.stats?.Bedwars[`${_mode()}beds_lost_bedwars`] || 0;
+        var _ws = stats.player?.stats?.Bedwars[`${_mode()}winstreak`] || '?';
         var _name = stats.player.displayname;
         var _star = stats.player?.achievements?.bedwars_level || 0;
         var _final_kills =
-          stats.player?.stats?.Bedwars?.final_kills_bedwars || 0;
+          stats.player?.stats?.Bedwars[`${_mode()}final_kills_bedwars`] || 0;
         var _final_deaths =
-          stats.player?.stats?.Bedwars?.final_deaths_bedwars || 0;
-        var _wins = stats.player?.stats?.Bedwars?.wins_bedwars || 0;
-        var _losses = stats.player?.stats?.Bedwars?.losses_bedwars || 0;
+          stats.player?.stats?.Bedwars[`${_mode()}final_deaths_bedwars`] || 0;
+        var _wins = stats.player?.stats?.Bedwars[`${_mode()}wins_bedwars`] || 0;
+        var _losses =
+          stats.player?.stats?.Bedwars[`${_mode()}losses_bedwars`] || 0;
 
         var _rank = stats.player?.newPackageRank;
         var _rankPlusColor = stats.player?.rankPlusColor;
         var _monthlyPackageRank = stats.player?.monthlyPackageRank;
+
+        console.log(_beds_broken);
 
         return {
           success: true,

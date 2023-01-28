@@ -102,7 +102,7 @@ const MODES = {
   trio: 'four_three',
   doubels: 'eight_two',
   solo: 'eight_one',
-  four_vs_vour: 'two_four',
+  four_vs_four: 'two_four',
 };
 
 const mode = {

@@ -199,3 +199,7 @@ function loadPATH() {
 }
 
 main();
+
+bedwars.get('obvBetter').then((res) => {
+  console.log(res);
+});

@@ -26,24 +26,45 @@ function minimize_app() {
 const LUNAR = document.getElementById('lunar');
 const BADLION = document.getElementById('badlion');
 const DEFAULT = document.getElementById('default');
+const CLEINTS_BTN = document.getElementById('clients').querySelectorAll('a');
 
 LUNAR.addEventListener('click', () => {
   if (client.getClient() == CLIENTS.lunar) return;
+  setSelectedClient();
   client.setClient(CLIENTS.lunar);
   ipcRenderer.send('client/change');
 });
 
 BADLION.addEventListener('click', () => {
   if (client.getClient() == CLIENTS.badlion) return;
+  setSelectedClient();
   client.setClient(CLIENTS.badlion);
   ipcRenderer.send('client/change');
 });
 
 DEFAULT.addEventListener('click', () => {
   if (client.getClient() == CLIENTS.default) return;
+  setSelectedClient();
   client.getClient(CLIENTS.default);
   ipcRenderer.send('client/change');
 });
+
+async function setSelectedClient() {
+  await CLEINTS_BTN.forEach((btn) => {
+    btn.style.color = `var(--colors-light)`;
+  });
+  switch (client.getClient()) {
+    case CLIENTS.default:
+      DEFAULT.style.color = 'var(--colors-yellow)';
+      break;
+    case CLIENTS.lunar:
+      LUNAR.style.color = 'var(--colors-yellow)';
+      break;
+    case CLIENTS.badlion:
+      BADLION.style.color = 'var(--colors-yellow)';
+      break;
+  }
+}
 
 /**SIDEBAR */
 
@@ -64,33 +85,69 @@ const EIGHT_TWO = document.getElementById('eight_one');
 const FOUR_THREE = document.getElementById('four_three');
 const FOUR_FOUR = document.getElementById('four_four');
 const TWO_FOUR = document.getElementById('two_four');
+const MODE_BTN = document.getElementById('modes').querySelectorAll('a');
 
 OVERALL.addEventListener('click', () => {
   if (mode.getMode() == MODES.overall) return;
+  setSelectedMode();
   mode.setMode(MODES.overall);
 });
 
 EIGHT_ONE.addEventListener('click', () => {
   if (mode.getMode() == MODES.solo) return;
+  setSelectedMode();
   mode.setMode(MODES.solo);
 });
 
 EIGHT_TWO.addEventListener('click', () => {
   if (mode.getMode() == MODES.doubels) return;
+  setSelectedMode();
   mode.setMode(MODES.doubels);
 });
 
 FOUR_THREE.addEventListener('click', () => {
   if (mode.getMode() == MODES.trio) return;
+  setSelectedMode();
   mode.setMode(MODES.trio);
 });
 
 FOUR_FOUR.addEventListener('click', () => {
   if (mode.getMode() == MODES.squad) return;
+  setSelectedMode();
   mode.setMode(MODES.squad);
 });
 
 TWO_FOUR.addEventListener('click', () => {
-  if (mode.getMode() == MODES.four_vs_vour) return;
-  mode.setMode(MODES.four_vs_vour);
+  if (mode.getMode() == MODES.four_vs_four) return;
+  setSelectedMode();
+  mode.setMode(MODES.four_vs_four);
 });
+
+async function setSelectedMode() {
+  await MODE_BTN.forEach((btn) => {
+    btn.style.color = `var(--colors-light)`;
+  });
+  switch (mode.getMode()) {
+    case MODES.overall:
+      OVERALL.style.color = 'var(--colors-yellow)';
+      break;
+    case MODES.solo:
+      EIGHT_ONE.style.color = 'var(--colors-yellow)';
+      break;
+    case MODES.doubels:
+      EIGHT_TWO.style.color = 'var(--colors-yellow)';
+      break;
+    case MODES.trio:
+      FOUR_THREE.style.color = 'var(--colors-yellow)';
+      break;
+    case MODES.squad:
+      FOUR_FOUR.style.color = 'var(--colors-yellow)';
+      break;
+    case MODES.four_vs_four:
+      TWO_FOUR.style.color = 'var(--colors-yellow)';
+      break;
+  }
+}
+
+setSelectedClient();
+setSelectedMode();

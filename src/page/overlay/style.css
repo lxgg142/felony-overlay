@@ -205,7 +205,7 @@ body::-webkit-scrollbar {
 
 .sidebar div a:hover {
   background-color: var(--colors-background);
-  color: var(--colors-lime);
+  color: var(--colors-yellow);
 }
 
 .sidebar label {
