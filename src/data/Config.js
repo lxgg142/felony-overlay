@@ -11,7 +11,7 @@ const store = new Store({
     },
     mode: {
       type: 'string',
-      default: 'OVERALL',
+      default: 'overall',
     },
   },
 });
