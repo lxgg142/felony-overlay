@@ -21,11 +21,11 @@ window.$ = window.jQuery = require('jquery');
 
 const logger = new LoggerManager('Overlay');
 
-let logpath;
+let logpath,
+  players = [];
 
 function main() {
   if (!apiKey.isKey()) {
-    console.log(apiKey.getKey());
     let key = `<li class="player-item "><span style="color: #ef4444">INVAILID/MISSING API KEY</span></li>
     <li class="player-item "><span style="color: #ef4444">DO /API NEW</span></li>`;
     $(document).ready(function () {
@@ -58,14 +58,37 @@ function main() {
         clear();
         let who = msg.substring(8).split(', ');
         for (let i = 0; i < who.length; i++) {
-          addPlayer(who[i].split(' ')[0]);
+          if (!players.includes(who[i].split(' ')[0])) {
+            if (who[i].indexOf('[') !== -1)
+              who[i] = who[i].substring(0, who[i].indexOf('[') - 1);
+            let contains = false;
+            for (let l = 0; l < players.length; l++) {
+              if (players[l] === who[i]) contains = true;
+            }
+            if (!contains) addPlayer(who[i]);
+          }
         }
-        logger.log(who);
+        for (let i = 0; i < players.length; i++) {
+          if (!who.includes(players[i])) {
+            players.splice(i, 1);
+          }
+        }
       } else if (msg.indexOf('has joined') !== -1 && msg.indexOf(':') === -1) {
         let join = msg.split(' ')[0];
-        addPlayer(join);
+        let contains = false;
+        for (let i = 0; i < players.length; i++) {
+          if (join === players[i]) {
+            contains = true;
+          }
+        }
+        if (!contains) addPlayer(join);
       } else if (msg.indexOf('has quit') !== -1 && msg.indexOf(':') === -1) {
         let left = msg.split(' ')[0];
+        for (let i = 0; i < players.length; i++) {
+          if (left == players[i]) {
+            players.splice(i, 1);
+          }
+        }
         removePlayer(left);
       } else if (
         msg.indexOf('The game starts in 1 second!') !== -1 &&
@@ -199,7 +222,3 @@ function loadPATH() {
 }
 
 main();
-
-bedwars.get('obvBetter').then((res) => {
-  console.log(res);
-});

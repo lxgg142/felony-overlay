@@ -41,8 +41,6 @@ const bedwars = {
         var _rankPlusColor = stats.player?.rankPlusColor;
         var _monthlyPackageRank = stats.player?.monthlyPackageRank;
 
-        console.log(_beds_broken);
-
         return {
           success: true,
           player: {

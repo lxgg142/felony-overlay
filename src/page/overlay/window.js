@@ -45,7 +45,7 @@ BADLION.addEventListener('click', () => {
 DEFAULT.addEventListener('click', () => {
   if (client.getClient() == CLIENTS.default) return;
   setSelectedClient();
-  client.getClient(CLIENTS.default);
+  client.setClient(CLIENTS.default);
   ipcRenderer.send('client/change');
 });
 
