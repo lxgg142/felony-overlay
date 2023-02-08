@@ -25,6 +25,11 @@ let logpath,
   players = [];
 
 function main() {
+  /**
+   * This code checks to see if an API key is valid. If the API key is not valid, it
+   * adds some HTML elements to an element with the id "ign", and then logs an error
+   * message in the console.
+   */
   if (!apiKey.isKey()) {
     let key = `<li class="player-item "><span style="color: #ef4444">INVAILID/MISSING API KEY</span></li>
     <li class="player-item "><span style="color: #ef4444">DO /API NEW</span></li>`;
@@ -39,8 +44,11 @@ function main() {
     return logger.log('logpath was not found!');
   }
 
-  console.log(logpath);
-
+  /**
+   * The Tail object is configured to use the log file specified by logpath, to monitor
+   * for only one line of log output at a time, and to check the log file for updates
+   * every 100 milliseconds.
+   */
   const tail = new Tail(logpath, {
     useWatchFile: true,
     nLines: 1,
@@ -57,6 +65,12 @@ function main() {
       if (msg.indexOf('ONLINE:') !== -1 && msg.indexOf(',') !== -1) {
         clear();
         let who = msg.substring(8).split(', ');
+        /**
+         * looping through an array of strings, "who", and checking them against an array
+         * of players. If the players array does not contain the first name of each string
+         * in the who array, then a check is done to see if the player's name is in the
+         * string. If there is no name in the string, the player is added to the players array.
+         */
         for (let i = 0; i < who.length; i++) {
           if (!players.includes(who[i].split(' ')[0])) {
             if (who[i].indexOf('[') !== -1)
@@ -65,7 +79,7 @@ function main() {
             for (let l = 0; l < players.length; l++) {
               if (players[l] === who[i]) contains = true;
             }
-            if (!contains) addPlayer(who[i]);
+            if (!contains) addPlayer(who[i]); //adds Player to UI (HTML)
           }
         }
         for (let i = 0; i < players.length; i++) {
@@ -75,32 +89,29 @@ function main() {
         }
       } else if (msg.indexOf('has joined') !== -1 && msg.indexOf(':') === -1) {
         let join = msg.split(' ')[0];
+        // if a player is already in the players array. If the player is not already in the array, it adds the player to the array.
         let contains = false;
         for (let i = 0; i < players.length; i++) {
           if (join === players[i]) {
             contains = true;
           }
         }
-        if (!contains) addPlayer(join);
+        if (!contains) addPlayer(join); //adds Player to UI (HTML)
       } else if (msg.indexOf('has quit') !== -1 && msg.indexOf(':') === -1) {
         let left = msg.split(' ')[0];
+        //remove player from array
         for (let i = 0; i < players.length; i++) {
           if (left == players[i]) {
             players.splice(i, 1);
           }
         }
-        removePlayer(left);
-      } else if (
-        msg.indexOf('The game starts in 1 second!') !== -1 &&
-        msg.indexOf(':') === -1
-      ) {
-        console.log('game started');
+        removePlayer(left); //remove player from UI (HTML)
       } else if (msg.indexOf('new API key') !== -1 && msg.indexOf(':') === -1) {
         let key = msg.substring(msg.indexOf('is ') + 3);
-        apiKey.setKey(key);
-        clear();
+        apiKey.setKey(key); //save the api key
+        clear(); //clear the ui (HTML)
       } else if (msg.indexOf('Sending you') !== -1 && msg.indexOf(':') === -1) {
-        clear();
+        clear(); //clear the ui (HTML)
       }
     }
   });
