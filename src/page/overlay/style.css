@@ -220,6 +220,55 @@ body::-webkit-scrollbar {
   font-size: 16px;
 }
 
+.clients_wrapper {
+  margin: 20px;
+}
+
+.clients_btn {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+}
+
+.clients_btn a {
+  color: #fff;
+  border-radius: 25px;
+  font-size: large;
+  font-weight: 500;
+  display: flex;
+  width: 100%;
+  height: 75px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.badlion_btn {
+  background-color: #ffc646;
+}
+
+.badlion_btn:hover {
+  box-shadow: 0 4px 15px 0 #ffc646;
+}
+
+.lunar_btn {
+  background-color: #c324ff;
+}
+
+.lunar_btn:hover {
+  box-shadow: 0 4px 15px 0 #c324ff;
+}
+
+.default_btn {
+  background-color: #72b147;
+}
+
+.default_btn:hover {
+  box-shadow: 0 4px 15px 0 #72b147;
+}
+
 @media screen and (min-width: 640px) {
   #player {
     font-size: 13px;
@@ -237,5 +286,12 @@ body::-webkit-scrollbar {
 
   .flex-warp {
     gap: 30px;
+  }
+
+  .clients_btn {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
   }
 }

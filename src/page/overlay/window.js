@@ -22,31 +22,36 @@ function minimize_app() {
 }
 
 /** CLEINT */
-
-const LUNAR = document.getElementById('lunar');
-const BADLION = document.getElementById('badlion');
-const DEFAULT = document.getElementById('default');
+const LUNAR = document.querySelectorAll("[id='lunar']");
+const BADLION = document.querySelectorAll("[id='badlion']");
+const DEFAULT = document.querySelectorAll("[id='default']");
 const CLEINTS_BTN = document.getElementById('clients').querySelectorAll('a');
 
-LUNAR.addEventListener('click', () => {
-  if (client.getClient() == CLIENTS.lunar) return;
-  setSelectedClient();
-  client.setClient(CLIENTS.lunar);
-  ipcRenderer.send('client/change');
+LUNAR.forEach((button) => {
+  button.addEventListener('click', () => {
+    if (client.getClient() == CLIENTS.lunar) return;
+    setSelectedClient();
+    client.setClient(CLIENTS.lunar);
+    ipcRenderer.send('client/change');
+  });
 });
 
-BADLION.addEventListener('click', () => {
-  if (client.getClient() == CLIENTS.badlion) return;
-  setSelectedClient();
-  client.setClient(CLIENTS.badlion);
-  ipcRenderer.send('client/change');
+BADLION.forEach((button) => {
+  button.addEventListener('click', () => {
+    if (client.getClient() == CLIENTS.badlion) return;
+    setSelectedClient();
+    client.setClient(CLIENTS.badlion);
+    ipcRenderer.send('client/change');
+  });
 });
 
-DEFAULT.addEventListener('click', () => {
-  if (client.getClient() == CLIENTS.default) return;
-  setSelectedClient();
-  client.setClient(CLIENTS.default);
-  ipcRenderer.send('client/change');
+DEFAULT.forEach((button) => {
+  button.addEventListener('click', () => {
+    if (client.getClient() == CLIENTS.default) return;
+    setSelectedClient();
+    client.setClient(CLIENTS.default);
+    ipcRenderer.send('client/change');
+  });
 });
 
 async function setSelectedClient() {
@@ -55,13 +60,19 @@ async function setSelectedClient() {
   });
   switch (client.getClient()) {
     case CLIENTS.default:
-      DEFAULT.style.color = 'var(--colors-lime)';
+      DEFAULT.forEach((button) => {
+        button.style.color = 'var(--colors-lime)';
+      });
       break;
     case CLIENTS.lunar:
-      LUNAR.style.color = 'var(--colors-lime)';
+      LUNAR.forEach((button) => {
+        button.style.color = 'var(--colors-lime)';
+      });
       break;
     case CLIENTS.badlion:
-      BADLION.style.color = 'var(--colors-lime)';
+      BADLION.forEach((button) => {
+        button.style.color = 'var(--colors-lime)';
+      });
       break;
   }
 }

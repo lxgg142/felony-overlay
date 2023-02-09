@@ -174,12 +174,12 @@ function addPlayer(player) {
     });
 }
 
-function removePlayer(player) {
-  $(`.${player}`).remove();
-}
-
 function clear() {
   $('.player-item').remove();
+}
+
+function removePlayer(player) {
+  $(`.${player}`).remove();
 }
 
 function loadPATH() {
@@ -232,4 +232,15 @@ function loadPATH() {
   }
 }
 
-main();
+$(() => {
+  if (!client.isClient()) {
+    $('#client').css('display', 'block');
+    $('#player').remove();
+    logger.log(
+      'Client was not specified, please selected client in the settings menu'
+    );
+  } else {
+    $('#client').remove();
+    main();
+  }
+});
