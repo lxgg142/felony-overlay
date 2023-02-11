@@ -1,5 +1,5 @@
 const Store = require('electron-store');
-const LoggerManager = require('../helper/Logger');
+const LoggerManager = require('../helper/logger');
 const store = new Store({
   schema: {
     key: {

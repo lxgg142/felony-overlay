@@ -29,7 +29,7 @@ const CLEINTS_BTN = document.getElementById('clients').querySelectorAll('a');
 
 LUNAR.forEach((button) => {
   button.addEventListener('click', () => {
-    if (client.getClient() == CLIENTS.lunar) return;
+    if (String(client.getClient()).toUpperCase() == CLIENTS.lunar) return;
     setSelectedClient();
     client.setClient(CLIENTS.lunar);
     ipcRenderer.send('client/change');
@@ -38,7 +38,7 @@ LUNAR.forEach((button) => {
 
 BADLION.forEach((button) => {
   button.addEventListener('click', () => {
-    if (client.getClient() == CLIENTS.badlion) return;
+    if (String(client.getClient()).toUpperCase() == CLIENTS.badlion) return;
     setSelectedClient();
     client.setClient(CLIENTS.badlion);
     ipcRenderer.send('client/change');
@@ -47,7 +47,7 @@ BADLION.forEach((button) => {
 
 DEFAULT.forEach((button) => {
   button.addEventListener('click', () => {
-    if (client.getClient() == CLIENTS.default) return;
+    if (String(client.getClient()).toUpperCase() == CLIENTS.default) return;
     setSelectedClient();
     client.setClient(CLIENTS.default);
     ipcRenderer.send('client/change');
@@ -58,7 +58,7 @@ async function setSelectedClient() {
   await CLEINTS_BTN.forEach((btn) => {
     btn.style.color = `var(--colors-light)`;
   });
-  switch (client.getClient()) {
+  switch (String(client.getClient()).toUpperCase()) {
     case CLIENTS.default:
       DEFAULT.forEach((button) => {
         button.style.color = 'var(--colors-lime)';

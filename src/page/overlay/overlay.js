@@ -12,7 +12,7 @@ const {
   starColor,
   wlrColor,
 } = require('../../helper/hypixelColors');
-const LoggerManager = require('../../helper/Logger');
+const LoggerManager = require('../../helper/logger');
 
 const Tail = require('tail').Tail;
 const { app } = remote;
@@ -23,6 +23,19 @@ const logger = new LoggerManager('Overlay');
 
 let logpath,
   players = [];
+
+$(() => {
+  if (!client.isClient()) {
+    $('#client').css('display', 'block');
+    $('#player').remove();
+    logger.log(
+      'Client was not specified, please selected client in the settings menu'
+    );
+  } else {
+    $('#client').remove();
+    main();
+  }
+});
 
 function main() {
   /**
@@ -117,6 +130,56 @@ function main() {
   });
 }
 
+function loadPATH() {
+  if (client.getClient() === CLIENTS.lunar) {
+    /**
+     * Find the latest LunarClient log file. It creates three objects containing the
+     * path and modification time of the three log files, checks if the files exist
+     * and updates the modification times accordingly, sorts the three objects by the
+     * modified variable and sets the logpath variable to the modified file.
+     */
+    let lunar_18 = {
+      path: `${homedir}/.lunarclient/offline/1.8/logs/latest.log`,
+      modified: 0,
+    };
+    let lunar_189 = {
+      path: `${homedir}/.lunarclient/offline/1.8.9/logs/latest.log`,
+      modified: 0,
+    };
+    let lunar_multiver = {
+      path: `${homedir}/.lunarclient/offline/multiver/logs/latest.log`,
+      modified: 0,
+    };
+
+    if (fs.existsSync(lunar_18.path))
+      lunar_18.modified = fs.statSync(lunar_18.path).mtime;
+    if (fs.existsSync(lunar_189.path))
+      lunar_189.modified = fs.statSync(lunar_189.path).mtime;
+    if (fs.existsSync(lunar_multiver.path))
+      lunar_multiver.modified = fs.statSync(lunar_multiver.path).mtime;
+
+    const lunarLogs = [lunar_18, lunar_189, lunar_multiver];
+
+    lunarLogs.sort((a, b) => {
+      return b.modified - a.modified;
+    });
+
+    logpath = lunarLogs[0].path;
+  } else if (process.platform === 'darwin') {
+    if (client.getClient() === CLIENTS.badlion) {
+      logpath = `${homedir}/Library/Application Support/minecraft/logs/blclient/minecraft/latest.log`;
+    } else if (client.getClient() === CLIENTS.default) {
+      logpath = `${homedir}/Library/Application Support/minecraft/logs/latest.log`;
+    }
+  } else {
+    if (client.getClient() === CLIENTS.badlion) {
+      logpath = `${homedir}/AppData/Roaming/.minecraft/logs/blclient/minecraft/latest.log`;
+    } else if (client.getClient() === CLIENTS.default) {
+      logpath = `${homedir}/AppData/Roaming/.minecraft/logs/latest.log`;
+    }
+  }
+}
+
 function addPlayer(player) {
   let nick = {
     newPackageRank: undefined,
@@ -174,73 +237,10 @@ function addPlayer(player) {
     });
 }
 
-function clear() {
-  $('.player-item').remove();
-}
-
 function removePlayer(player) {
   $(`.${player}`).remove();
 }
 
-function loadPATH() {
-  if (client.getClient() === CLIENTS.lunar) {
-    /**
-     * Find the latest LunarClient log file. It creates three objects containing the
-     * path and modification time of the three log files, checks if the files exist
-     * and updates the modification times accordingly, sorts the three objects by the
-     * modified variable and sets the logpath variable to the modified file.
-     */
-    let lunar_18 = {
-      path: `${homedir}/.lunarclient/offline/1.8/logs/latest.log`,
-      modified: 0,
-    };
-    let lunar_189 = {
-      path: `${homedir}/.lunarclient/offline/1.8.9/logs/latest.log`,
-      modified: 0,
-    };
-    let lunar_multiver = {
-      path: `${homedir}/.lunarclient/offline/multiver/logs/latest.log`,
-      modified: 0,
-    };
-
-    if (fs.existsSync(lunar_18.path))
-      lunar_18.modified = fs.statSync(lunar_18.path).mtime;
-    if (fs.existsSync(lunar_189.path))
-      lunar_189.modified = fs.statSync(lunar_189.path).mtime;
-    if (fs.existsSync(lunar_multiver.path))
-      lunar_multiver.modified = fs.statSync(lunar_multiver.path).mtime;
-
-    const lunarLogs = [lunar_18, lunar_189, lunar_multiver];
-
-    lunarLogs.sort((a, b) => {
-      return b.modified - a.modified;
-    });
-
-    logpath = lunarLogs[0].path;
-  } else if (process.platform === 'darwin') {
-    if (client.getClient() === CLIENTS.badlion) {
-      logpath = `${homedir}/Library/Application Support/minecraft/logs/blclient/minecraft/latest.log`;
-    } else if (client.getClient() === CLIENTS.default) {
-      logpath = `${homedir}/Library/Application Support/minecraft/logs/latest.log`;
-    }
-  } else {
-    if (client.getClient() === CLIENTS.badlion) {
-      logpath = `${homedir}/AppData/Roaming/.minecraft/logs/blclient/minecraft/latest.log`;
-    } else if (client.getClient() === CLIENTS.default) {
-      logpath = `${homedir}/AppData/Roaming/.minecraft/logs/latest.log`;
-    }
-  }
+function clear() {
+  $('.player-item').remove();
 }
-
-$(() => {
-  if (!client.isClient()) {
-    $('#client').css('display', 'block');
-    $('#player').remove();
-    logger.log(
-      'Client was not specified, please selected client in the settings menu'
-    );
-  } else {
-    $('#client').remove();
-    main();
-  }
-});

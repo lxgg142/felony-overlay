@@ -1,5 +1,5 @@
-const { getPlayer } = require('../api/HypixelAPI');
-const { mojang } = require('../api/MojangAPI');
+const { getPlayer } = require('../api/hypixelAPI');
+const { mojang } = require('../api/mojangAPI');
 const { mode, MODES } = require('../data/Config');
 
 const _mode = () => {

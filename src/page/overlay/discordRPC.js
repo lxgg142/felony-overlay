@@ -1,4 +1,4 @@
-const LoggerManager = require('../../helper/Logger');
+const LoggerManager = require('../../helper/logger');
 const logger = new LoggerManager('RPC');
 
 const { clientId } = require('../../config.json');
@@ -14,6 +14,8 @@ async function setActivity() {
   if (!RPC) return;
   RPC.setActivity({
     instance: false,
+    details: `The Official Felony Stats Overlay`,
+    state: `Version: ${require('../../../package.json').version}`,
     startTimestamp,
     buttons: [
       {
@@ -22,7 +24,7 @@ async function setActivity() {
       },
       {
         label: `Felony Guild`,
-        url: `https://discord.gg/felony`,
+        url: `https://discord.gg/F2FFSB8JTr`,
       },
     ],
   });
