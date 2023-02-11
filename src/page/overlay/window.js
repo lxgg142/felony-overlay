@@ -1,5 +1,5 @@
 const { ipcRenderer } = require('electron');
-const { client, CLIENTS, mode, MODES } = require('../../data/Config');
+const { client, CLIENTS, mode, MODES } = require('../../data/config');
 
 const RELOAD = document.getElementById('btnReload');
 const MINUS = document.getElementById('btnMini');

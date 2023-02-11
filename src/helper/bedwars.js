@@ -1,6 +1,6 @@
 const { getPlayer } = require('../api/hypixelAPI');
 const { mojang } = require('../api/mojangAPI');
-const { mode, MODES } = require('../data/Config');
+const { mode, MODES } = require('../data/config');
 
 const _mode = () => {
   if (mode.getMode() == MODES.overall) {

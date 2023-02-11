@@ -1,6 +1,6 @@
 const remote = require('@electron/remote');
 const fs = require('fs');
-const { apiKey, CLIENTS, client } = require('../../data/Config');
+const { apiKey, CLIENTS, client } = require('../../data/config');
 const { bedwars } = require('../../helper/bedwars');
 const {
   nameColor,
