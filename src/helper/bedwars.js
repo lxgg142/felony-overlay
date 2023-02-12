@@ -35,7 +35,7 @@ const bedwars = {
           stats.player?.stats?.Bedwars[`${_mode()}final_deaths_bedwars`] || 0;
         var _wins = stats.player?.stats?.Bedwars[`${_mode()}wins_bedwars`] || 0;
         var _losses =
-          stats.player?.stats?.Bedwars[`${_mode()}losses_bedwars`] || 0;
+          stats.player?.stats?.Bedwars[`${_mode()}losses_bedwars`] || 1;
 
         var _rank = stats.player?.newPackageRank;
         var _rankPlusColor = stats.player?.rankPlusColor;
