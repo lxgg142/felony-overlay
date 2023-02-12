@@ -7,7 +7,7 @@ const store = new Store({
     },
     client: {
       type: 'string',
-      default: 'DEFAULT',
+      default: '',
     },
     mode: {
       type: 'string',
