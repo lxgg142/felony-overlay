@@ -25,14 +25,14 @@ const bedwars = {
         var _beds_broken =
           stats.player?.stats?.Bedwars[`${_mode()}beds_broken_bedwars`] || 0;
         var _beds_lost =
-          stats.player?.stats?.Bedwars[`${_mode()}beds_lost_bedwars`] || 0;
+          stats.player?.stats?.Bedwars[`${_mode()}beds_lost_bedwars`] || 1;
         var _ws = stats.player?.stats?.Bedwars[`${_mode()}winstreak`] || '?';
         var _name = stats.player.displayname;
         var _star = stats.player?.achievements?.bedwars_level || 0;
         var _final_kills =
           stats.player?.stats?.Bedwars[`${_mode()}final_kills_bedwars`] || 0;
         var _final_deaths =
-          stats.player?.stats?.Bedwars[`${_mode()}final_deaths_bedwars`] || 0;
+          stats.player?.stats?.Bedwars[`${_mode()}final_deaths_bedwars`] || 1;
         var _wins = stats.player?.stats?.Bedwars[`${_mode()}wins_bedwars`] || 0;
         var _losses =
           stats.player?.stats?.Bedwars[`${_mode()}losses_bedwars`] || 1;
@@ -52,13 +52,13 @@ const bedwars = {
           star: _star,
           bedwars_beds: _beds_broken,
           beds_lost_bedwars: _beds_lost,
-          blr: (_beds_broken / _beds_lost || 0).toFixed(2),
+          blr: (_beds_broken / _beds_lost).toFixed(2) || 0,
           winstreak: _ws,
           final_kills: _final_kills,
           final_deaths: _final_deaths,
-          fkdr: (_final_kills / _final_deaths || 0).toFixed(2),
+          fkdr: (_final_kills / _final_deaths).toFixed(2) || 0,
           wins: _wins,
-          wlr: (_wins / _losses || 0).toFixed(2),
+          wlr: (_wins / _losses).toFixed(2) || 0,
         };
       } else return { success: false };
     } else

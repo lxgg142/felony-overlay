@@ -1,5 +1,12 @@
-const { ipcRenderer } = require('electron');
-const { client, CLIENTS, mode, MODES } = require('../../data/config');
+const { ipcRenderer, clipboard } = require('electron');
+const { client, CLIENTS, mode, MODES, apiKey } = require('../../data/config');
+function ms(ms) {
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve;
+    }, ms)
+  );
+}
 
 const RELOAD = document.getElementById('btnReload');
 const MINUS = document.getElementById('btnMini');
@@ -159,6 +166,16 @@ async function setSelectedMode() {
       break;
   }
 }
+
+// api_key
+
+const api_key = document.getElementById('api_key');
+api_key.addEventListener('click', () => {
+  let key = clipboard.readText();
+  if (key) key = key.replace(/\s/g, '');
+  if (key.length !== 36) return;
+  apiKey.setKey(key);
+});
 
 setSelectedClient();
 setSelectedMode();

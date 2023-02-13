@@ -220,6 +220,19 @@ body::-webkit-scrollbar {
   font-size: 16px;
 }
 
+.sidebar div input {
+  display: block;
+  background: none;
+  border: none;
+  color: var(--colors-light);
+  padding: 0px;
+  text-decoration: none;
+  transition: 0.3s;
+  justify-content: center;
+  margin-left: 10px;
+  font-size: 12px;
+}
+
 .clients_wrapper {
   margin: 20px;
 }
