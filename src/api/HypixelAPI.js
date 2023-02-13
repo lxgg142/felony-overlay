@@ -1,5 +1,5 @@
+const { apiKey } = require('../data/config.js');
 const axios = require('axios').default;
-const { apiKey } = require('../data/config');
 
 const key = apiKey.getKey();
 
