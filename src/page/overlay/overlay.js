@@ -44,7 +44,7 @@ function main() {
    * message in the console.
    */
   if (!apiKey.isKey()) {
-    let key = `<li class="player-item "><span style="color: #ef4444">INVAILID/MISSING API KEY</span></li>
+    const key = `<li class="player-item "><span style="color: #ef4444">INVAILID/MISSING API KEY</span></li>
     <li class="player-item "><span style="color: #ef4444">DO /API NEW</span></li>`;
     $(document).ready(function () {
       $('#ign').append(key);
@@ -77,7 +77,7 @@ function main() {
 
       if (msg.indexOf('ONLINE:') !== -1 && msg.indexOf(',') !== -1) {
         clear();
-        let who = msg.substring(8).split(', ');
+        const who = msg.substring(8).split(', ');
         /**
          * looping through an array of strings, "who", and checking them against an array
          * of players. If the players array does not contain the first name of each string
@@ -87,7 +87,7 @@ function main() {
         for (let i = 0; i < who.length; i++) {
           if (!players.includes(who[i].split(' ')[0])) {
             if (who[i].indexOf('[') !== -1)
-              who[i] = who[i].substring(0, who[i].indexOf('[') - 1);
+              {who[i] = who[i].substring(0, who[i].indexOf('[') - 1);}
             let contains = false;
             for (let l = 0; l < players.length; l++) {
               if (players[l] === who[i]) contains = true;
@@ -101,7 +101,7 @@ function main() {
           }
         }
       } else if (msg.indexOf('has joined') !== -1 && msg.indexOf(':') === -1) {
-        let join = msg.split(' ')[0];
+        const join = msg.split(' ')[0];
         // if a player is already in the players array. If the player is not already in the array, it adds the player to the array.
         let contains = false;
         for (let i = 0; i < players.length; i++) {
@@ -111,7 +111,7 @@ function main() {
         }
         if (!contains) addPlayer(join); //adds Player to UI (HTML)
       } else if (msg.indexOf('has quit') !== -1 && msg.indexOf(':') === -1) {
-        let left = msg.split(' ')[0];
+        const left = msg.split(' ')[0];
         //remove player from array
         for (let i = 0; i < players.length; i++) {
           if (left == players[i]) {
@@ -120,7 +120,7 @@ function main() {
         }
         removePlayer(left); //remove player from UI (HTML)
       } else if (msg.indexOf('new API key') !== -1 && msg.indexOf(':') === -1) {
-        let key = msg.substring(msg.indexOf('is ') + 3);
+        const key = msg.substring(msg.indexOf('is ') + 3);
         apiKey.setKey(key); //save the api key
         clear(); //clear the ui (HTML)
       } else if (msg.indexOf('Sending you') !== -1 && msg.indexOf(':') === -1) {
@@ -138,25 +138,25 @@ function loadPATH() {
      * and updates the modification times accordingly, sorts the three objects by the
      * modified variable and sets the logpath variable to the modified file.
      */
-    let lunar_18 = {
+    const lunar_18 = {
       path: `${homedir}/.lunarclient/offline/1.8/logs/latest.log`,
       modified: 0,
     };
-    let lunar_189 = {
+    const lunar_189 = {
       path: `${homedir}/.lunarclient/offline/1.8.9/logs/latest.log`,
       modified: 0,
     };
-    let lunar_multiver = {
+    const lunar_multiver = {
       path: `${homedir}/.lunarclient/offline/multiver/logs/latest.log`,
       modified: 0,
     };
 
     if (fs.existsSync(lunar_18.path))
-      lunar_18.modified = fs.statSync(lunar_18.path).mtime;
+      {lunar_18.modified = fs.statSync(lunar_18.path).mtime;}
     if (fs.existsSync(lunar_189.path))
-      lunar_189.modified = fs.statSync(lunar_189.path).mtime;
+      {lunar_189.modified = fs.statSync(lunar_189.path).mtime;}
     if (fs.existsSync(lunar_multiver.path))
-      lunar_multiver.modified = fs.statSync(lunar_multiver.path).mtime;
+      {lunar_multiver.modified = fs.statSync(lunar_multiver.path).mtime;}
 
     const lunarLogs = [lunar_18, lunar_189, lunar_multiver];
 
@@ -181,7 +181,7 @@ function loadPATH() {
 }
 
 function addPlayer(player) {
-  let nick = {
+  const nick = {
     newPackageRank: undefined,
     displayname: player,
     rankPlusColor: '',
