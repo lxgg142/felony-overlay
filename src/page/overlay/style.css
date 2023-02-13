@@ -201,6 +201,8 @@ body::-webkit-scrollbar {
   justify-content: center;
   padding-left: 10px;
   font-size: 12px;
+  inline-size: 250px;
+  overflow: hidden;
 }
 
 .sidebar div a:hover {
@@ -218,6 +220,8 @@ body::-webkit-scrollbar {
   padding-left: 10px;
   padding-top: 20px;
   font-size: 16px;
+  inline-size: 250px;
+  overflow: hidden;
 }
 
 .clients_wrapper {
