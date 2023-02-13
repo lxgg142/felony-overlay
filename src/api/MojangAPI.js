@@ -13,17 +13,15 @@ const mojang = {
       const res = await axios.get(
         `https://api.mojang.com/users/profiles/minecraft/${username}`
       );
-      if (res.data.id != undefined)
-        return {
-          success: true,
-          uuid: res.data.id,
-        };
-      else
-        return {
-          success: false,
-          error: 'BadRequestException',
-          errorMessage: `${username} is undefined`,
-        };
+      if (res.data.id != undefined) return {
+        success: true,
+        uuid: res.data.id,
+      };
+      else return {
+        success: false,
+        error: 'BadRequestException',
+        errorMessage: `${username} is undefined`,
+      };
     } catch (error) {
       return {
         success: false,
@@ -42,17 +40,15 @@ const mojang = {
       const res = await axios.get(
         `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`
       );
-      if (res.data.id != undefined)
-        return {
-          success: true,
-          username: res.data.name,
-        };
-      else
-        return {
-          success: false,
-          error: 'BadRequestException',
-          errorMessage: `Not a valid UUID: ${uuid}`,
-        };
+      if (res.data.id != undefined) return {
+        success: true,
+        username: res.data.name,
+      };
+      else return {
+        success: false,
+        error: 'BadRequestException',
+        errorMessage: `Not a valid UUID: ${uuid}`,
+      };
     } catch (error) {
       return {
         success: false,
