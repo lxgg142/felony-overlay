@@ -1,11 +1,11 @@
-const { getPlayer } = require('../api/hypixelAPI');
-const { mojang } = require('../api/mojangAPI');
-const { mode, MODES } = require('../data/config');
+const { getPlayer } = require('../api/hypixelAPI.js');
+const { mode, MODES } = require('../data/config.js');
+const { mojang } = require('../api/mojangAPI.js');
 
 const _mode = () => {
   if (mode.getMode() == MODES.overall) {
     return '';
-  } else return `${mode.getMode()}_`;
+  } else { return `${mode.getMode()}_`; }
 };
 
 /**
@@ -60,12 +60,13 @@ const bedwars = {
           wins: _wins,
           wlr: (_wins / _losses || 0).toFixed(2),
         };
-      } else return { success: false };
-    } else
+      } else { return { success: false }; }
+    } else {
       return {
         success: false,
         error: (await _player).errorMessage,
       };
+    }
   },
 };
 
