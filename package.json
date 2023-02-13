@@ -6,7 +6,9 @@
   "main": "index.js",
   "scripts": {
     "start": "electron .",
-    "build-installer": "electron-builder --win --x64 --ia32"
+    "build-installer": "electron-builder --win --x64 --ia32",
+    "lint": "npx eslint .",
+    "lint:fix": "npx eslint . --fix"
   },
   "build": {
     "appId": "felony-overlay",
@@ -43,10 +45,6 @@
   "author": "lxgg",
   "repository": "github:andy-bergner/felony-overlay",
   "license": "ISC",
-  "devDependencies": {
-    "electron": "^22.1.0",
-    "electron-builder": "^23.6.0"
-  },
   "dependencies": {
     "@electron/remote": "^2.0.9",
     "axios": "^1.2.3",
@@ -56,5 +54,21 @@
     "electron-store": "^8.1.0",
     "jquery": "^3.6.3",
     "tail": "^2.2.6"
+  },
+  "devDependencies": {
+    "electron": "^22.1.0",
+    "electron-builder": "^23.6.0",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.33.1",
+    "concurrently": "^7.3.0",
+    "ejs-lint": "^2.0.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-deprecation": "^1.3.2",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-lit": "^1.6.1",
+    "eslint-plugin-wc": "^1.3.2",
+    "nodemon": "^2.0.19",
+    "prettier": "2.8.3"
   }
 }
