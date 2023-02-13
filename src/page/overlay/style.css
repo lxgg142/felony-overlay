@@ -205,7 +205,7 @@ body::-webkit-scrollbar {
 
 .sidebar div a:hover {
   background-color: var(--colors-background);
-  color: var(--colors-yellow);
+  color: var(--colors-lime);
 }
 
 .sidebar label {
@@ -218,27 +218,6 @@ body::-webkit-scrollbar {
   padding-left: 10px;
   padding-top: 20px;
   font-size: 16px;
-}
-
-.sidebar div input {
-  display: block;
-  background: none;
-  border: none;
-  color: var(--colors-light);
-  padding: 0px;
-  text-decoration: none;
-  transition: 0.3s;
-  justify-content: center;
-  margin-left: 10px;
-  font-size: 12px;
-  caret-color: transparent;
-  cursor: pointer;
-}
-
-.sidebar div input::placeholder,
-input:focus {
-  outline: none;
-  color: var(--colors-light);
 }
 
 .clients_wrapper {
