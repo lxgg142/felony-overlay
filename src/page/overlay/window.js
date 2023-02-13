@@ -85,7 +85,7 @@ SIDEBAR_MENU.addEventListener('click', () => {
   const width = SIDEBAR.style.width;
   if (width == '200px') {
     SIDEBAR.style.width = '0px';
-  } else SIDEBAR.style.width = '200px';
+  } else {SIDEBAR.style.width = '200px';}
 });
 
 /**MODE SELECTION */
