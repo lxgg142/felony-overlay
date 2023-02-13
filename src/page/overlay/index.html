@@ -43,6 +43,10 @@
           <p id="menu_label" class="menu_label">Felony Overlay</p>
         </div>
         <div class="menu_buttons">
+          <button name="reload" id="btnSettings">
+            <!--SETTINGS-->
+            <i class="fa-solid fa-gear"></i>
+          </button>
           <button name="reload" id="btnReload">
             <!--RELOAD-->
             <i class="fa-solid fa-rotate-right"></i>
@@ -59,7 +63,7 @@
       </div>
 
       <!--content-->
-      <div id="content">
+      <div class="content">
         <div id="sidebar-menu" class="sidebar">
           <label>Clients</label>
           <div id="clients">
@@ -132,7 +136,7 @@
         </div>
 
         <div id="client" style="display: none">
-          <ul class="list" style="padding-top: 20px">
+          <ul class="list">
             <li>
               <span style="color: #ef4444">CLIENT WAS NOT SPECIFIED</span>
             </li>
@@ -147,6 +151,10 @@
               <a id="default" class="default_btn">Vanilla/Forge</a>
             </div>
           </div>
+        </div>
+
+        <div id="settings" style="display: none">
+          <div class="settings_wrapper"></div>
         </div>
       </div>
     </div>

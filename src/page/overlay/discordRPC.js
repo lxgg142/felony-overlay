@@ -3,10 +3,10 @@ const logger = new LoggerManager('RPC');
 
 const { clientId } = require('../../config.json');
 
-const startTimestamp = new Date();
-
 const DiscordRPC = require('discord-rpc');
 const RPC = new DiscordRPC.Client({ transport: 'ipc' });
+
+const startTimestamp = new Date();
 
 DiscordRPC.register(clientId);
 
@@ -15,7 +15,6 @@ async function setActivity() {
   RPC.setActivity({
     instance: false,
     details: `The Official Felony Stats Overlay`,
-    state: `Version: ${require('../../../package.json').version}`,
     startTimestamp,
     buttons: [
       {

@@ -165,5 +165,19 @@ api_key.addEventListener('click', () => {
   apiKey.setKey(key);
 });
 
+//settings screen (not finish!)
+
+const settings = document.getElementById('btnSettings');
+settings.addEventListener('click', () => {
+  console.log('test');
+  if ($('#settings').css('display') === 'none') {
+    $('#settings').css('display', 'block');
+    $('#player').css('display', 'none');
+  } else {
+    $('#settings').css('display', 'none');
+    $('#player').css('display', 'flex');
+  }
+});
+
 setSelectedClient();
 setSelectedMode();
