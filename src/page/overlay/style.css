@@ -231,6 +231,14 @@ body::-webkit-scrollbar {
   justify-content: center;
   margin-left: 10px;
   font-size: 12px;
+  caret-color: transparent;
+  cursor: pointer;
+}
+
+.sidebar div input::placeholder,
+input:focus {
+  outline: none;
+  color: var(--colors-light);
 }
 
 .clients_wrapper {

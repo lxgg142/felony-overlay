@@ -12,21 +12,9 @@ const RELOAD = document.getElementById('btnReload');
 const MINUS = document.getElementById('btnMini');
 const CLOSE = document.getElementById('btnClose');
 
-RELOAD.addEventListener('click', reload_app);
-MINUS.addEventListener('click', minimize_app);
-CLOSE.addEventListener('click', close_app);
-
-function reload_app() {
-  ipcRenderer.send('app/reload');
-}
-
-function close_app() {
-  ipcRenderer.send('app/close');
-}
-
-function minimize_app() {
-  ipcRenderer.send('app/minimize');
-}
+RELOAD.addEventListener('click', () => ipcRenderer.send('app/reload'));
+MINUS.addEventListener('click', () => ipcRenderer.send('app/minimize'));
+CLOSE.addEventListener('click', () => ipcRenderer.send('app/close'));
 
 /** CLEINT */
 const LUNAR = document.querySelectorAll("[id='lunar']");
