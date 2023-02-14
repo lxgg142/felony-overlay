@@ -1,12 +1,5 @@
-const { getPlayer } = require('../api/hypixelAPI');
-const { mojang } = require('../api/mojangAPI');
-const { mode, MODES } = require('../data/config');
-
-const _mode = () => {
-  if (mode.getMode() == MODES.overall) {
-    return '';
-  } else return `${mode.getMode()}_`;
-};
+const hypixel = require('../api/hypixelAPI');
+const { mode } = require('../data/config');
 
 /**
  * @author lxgg#8588
@@ -18,54 +11,56 @@ const bedwars = {
    * @param {String} player ingame name
    */
   get: async function (player) {
-    const _player = mojang.getUUID(player);
-    if ((await _player).success) {
-      const stats = await getPlayer((await _player).uuid);
-      if (stats.success) {
-        var _beds_broken =
-          stats.player?.stats?.Bedwars[`${_mode()}beds_broken_bedwars`] || 0;
-        var _beds_lost =
-          stats.player?.stats?.Bedwars[`${_mode()}beds_lost_bedwars`] || 1;
-        var _ws = stats.player?.stats?.Bedwars[`${_mode()}winstreak`] || '?';
-        var _name = stats.player.displayname;
-        var _star = stats.player?.achievements?.bedwars_level || 0;
-        var _final_kills =
-          stats.player?.stats?.Bedwars[`${_mode()}final_kills_bedwars`] || 0;
-        var _final_deaths =
-          stats.player?.stats?.Bedwars[`${_mode()}final_deaths_bedwars`] || 1;
-        var _wins = stats.player?.stats?.Bedwars[`${_mode()}wins_bedwars`] || 0;
-        var _losses =
-          stats.player?.stats?.Bedwars[`${_mode()}losses_bedwars`] || 1;
+    const playerStats = await hypixel.getPlayer(player);
+    var star = playerStats.achievements.bedwarsLevel;
+    var nickname = playerStats.nickname;
+    var plusColor = playerStats.plusColor;
+    var rank = playerStats.rank;
+    var gamemode = mode.getMode();
 
-        var _rank = stats.player?.newPackageRank;
-        var _rankPlusColor = stats.player?.rankPlusColor;
-        var _monthlyPackageRank = stats.player?.monthlyPackageRank;
+    if (playerStats.stats.bedwars != undefined) {
+      if (gamemode != 'overall') {
+        var wins = playerStats.stats.bedwars[gamemode].wins;
+        var losses = playerStats.stats.bedwars[gamemode].losses;
+        var finalKills = playerStats.stats.bedwars[gamemode].finalKills;
+        var finalDeaths = playerStats.stats.bedwars[gamemode].finalDeaths;
+        var bedsBroken = playerStats.stats.bedwars[gamemode].beds.broken;
+        var bedsLost = playerStats.stats.bedwars[gamemode].beds.lost;
+        var winstreak = playerStats.stats.bedwars[gamemode].winstreak || '?';
+      } else {
+        var wins = playerStats.stats.bedwars.wins;
+        var losses = playerStats.stats.bedwars.losses;
+        var finalKills = playerStats.stats.bedwars.finalKills;
+        var finalDeaths = playerStats.stats.bedwars.finalDeaths;
+        var bedsBroken = playerStats.stats.bedwars.beds.broken;
+        var bedsLost = playerStats.stats.bedwars.beds.lost;
+        var winstreak = playerStats.stats.bedwars.winstreak || '?';
+      }
 
-        return {
-          success: true,
-          player: {
-            newPackageRank: _rank,
-            displayname: _name,
-            rankPlusColor: _rankPlusColor,
-            monthlyPackageRank: _monthlyPackageRank,
-          },
-          star: _star,
-          bedwars_beds: _beds_broken,
-          beds_lost_bedwars: _beds_lost,
-          blr: (_beds_broken / _beds_lost).toFixed(2) || 0,
-          winstreak: _ws,
-          final_kills: _final_kills,
-          final_deaths: _final_deaths,
-          fkdr: (_final_kills / _final_deaths).toFixed(2) || 0,
-          wins: _wins,
-          wlr: (_wins / _losses).toFixed(2) || 0,
-        };
-      } else return { success: false };
-    } else
+      return {
+        success: true,
+        player: {
+          rank: rank,
+          displayname: nickname,
+          plus_color: plusColor?.toCode() || ' ',
+        },
+        star: star,
+        bedwars_beds: bedsBroken,
+        beds_lost_bedwars: bedsLost,
+        blr: (bedsBroken / bedsLost).toFixed(2) || 0,
+        winstreak: winstreak,
+        final_kills: finalKills,
+        final_deaths: finalDeaths,
+        fkdr: (finalKills / finalDeaths).toFixed(2) || 0,
+        wins: wins,
+        wlr: (wins / losses).toFixed(2) || 0,
+      };
+    } else {
       return {
         success: false,
-        error: (await _player).errorMessage,
+        error: `Player has not played Bedwars`,
       };
+    }
   },
 };
 

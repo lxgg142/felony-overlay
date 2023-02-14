@@ -45,34 +45,33 @@ function starColor(stars) {
     }</span><span style="color: #FF55FF">✯</span><span style="color: #AA00AA">]</span>`;
 }
 
-function nameColor(rank) {
-  let _rank = rank.newPackageRank;
-  let plus = rank.rankPlusColor;
+function nameColor(player) {
+  let rank = player.rank;
+  let plus = player.plus_color;
   if (plus !== undefined) {
     plus = HypixelColors[plus];
   } else plus = '#FF5555';
-  if (rank.rank !== undefined) {
-    if (rank.rank === 'YOUTUBER')
-      return `<span style="color: #FF5555;">[</span><span style="color: #FFFFFF;">YT</span><span style="color: #FF5555;">] ${rank.displayname}</span>`;
-    else if (rank.rank === 'ADMIN')
-      return `<span style="color: #AA0000">[ADMIN] ${rank.displayname}</span>`;
-    else if (rank.rank === 'MODERATOR')
-      return `<span style="color: #00AA00">[MOD] ${rank.displayname}</span>`;
-    else if (rank.rank === 'GAME_MASTER')
-      return `<span style="color: #00AA00">[GM] ${rank.displayname}</span>`;
+  if (rank !== undefined) {
+    if (rank === 'YOUTUBER')
+      return `<span style="color: #FF5555;">[</span><span style="color: #FFFFFF;">YT</span><span style="color: #FF5555;">] ${player.displayname}</span>`;
+    else if (rank === 'ADMIN')
+      return `<span style="color: #AA0000">[ADMIN] ${player.displayname}</span>`;
+    else if (rank === 'MODERATOR')
+      return `<span style="color: #00AA00">[MOD] ${player.displayname}</span>`;
+    else if (rank === 'GAME_MASTER')
+      return `<span style="color: #00AA00">[GM] ${player.displayname}</span>`;
   }
-  if (_rank === 'MVP_PLUS') {
-    if (rank.monthlyPackageRank !== 'SUPERSTAR')
-      return `<span style="color: #55FFFF;">[MVP</span><span style="color: ${plus}">+</span><span style="color: #55FFFF;">] ${rank.displayname}</span>`;
-    else
-      return `<span style="color: #FFAA00;">[MVP</span><span style="color: ${plus}">++</span><span style="color: #FFAA00;">] ${rank.displayname}</span>`;
-  } else if (_rank === 'MVP')
-    return `<span style="color: #55FFFF;">[MVP] ${rank.displayname}</span>`;
-  else if (_rank === 'VIP_PLUS')
-    return `<span style="color: #55FF55;">[VIP</span><span style="color: #FFAA00;">+</span><span style="color: #55FF55;">] ${rank.displayname}</span>`;
-  else if (_rank === 'VIP')
-    return `<span style="color: #55FF55;">[VIP] ${rank.displayname}</span>`;
-  else return `<span style="color: #AAAAAA;">${rank.displayname}</span>`;
+  if (rank === 'MVP++') {
+    return `<span style="color: #FFAA00;">[MVP</span><span style="color: ${plus}">++</span><span style="color: #FFAA00;">] ${player.displayname}</span>`;
+  } else if (rank === 'MVP+') {
+    return `<span style="color: #55FFFF;">[MVP</span><span style="color: ${plus}">+</span><span style="color: #55FFFF;">] ${player.displayname}</span>`;
+  } else if (rank === 'MVP')
+    return `<span style="color: #55FFFF;">[MVP] ${player.displayname}</span>`;
+  else if (rank === 'VIP+')
+    return `<span style="color: #55FF55;">[VIP</span><span style="color: #FFAA00;">+</span><span style="color: #55FF55;">] ${player.displayname}</span>`;
+  else if (rank === 'VIP')
+    return `<span style="color: #55FF55;">[VIP] ${player.displayname}</span>`;
+  else return `<span style="color: #AAAAAA;">${player.displayname}</span>`;
 }
 
 function wsColor(ws) {
