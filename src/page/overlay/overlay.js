@@ -33,7 +33,7 @@ $(() => {
     );
   } else {
     $('#client').remove();
-    main();
+    return main();
   }
 });
 
@@ -131,7 +131,7 @@ function main() {
 }
 
 function loadPATH() {
-  if (client.getClient() === CLIENTS.lunar) {
+  if (String(client.getClient()).toUpperCase() === CLIENTS.lunar) {
     /**
      * Find the latest LunarClient log file. It creates three objects containing the
      * path and modification time of the three log files, checks if the files exist
@@ -164,18 +164,18 @@ function loadPATH() {
       return b.modified - a.modified;
     });
 
-    logpath = lunarLogs[0].path;
+    return (logpath = lunarLogs[0].path);
   } else if (process.platform === 'darwin') {
     if (client.getClient() === CLIENTS.badlion) {
-      logpath = `${homedir}/Library/Application Support/minecraft/logs/blclient/minecraft/latest.log`;
+      return (logpath = `${homedir}/Library/Application Support/minecraft/logs/blclient/minecraft/latest.log`);
     } else if (client.getClient() === CLIENTS.default) {
-      logpath = `${homedir}/Library/Application Support/minecraft/logs/latest.log`;
+      return (logpath = `${homedir}/Library/Application Support/minecraft/logs/latest.log`);
     }
   } else {
     if (client.getClient() === CLIENTS.badlion) {
-      logpath = `${homedir}/AppData/Roaming/.minecraft/logs/blclient/minecraft/latest.log`;
+      return (logpath = `${homedir}/AppData/Roaming/.minecraft/logs/blclient/minecraft/latest.log`);
     } else if (client.getClient() === CLIENTS.default) {
-      logpath = `${homedir}/AppData/Roaming/.minecraft/logs/latest.log`;
+      return (logpath = `${homedir}/AppData/Roaming/.minecraft/logs/latest.log`);
     }
   }
 }
@@ -233,14 +233,14 @@ function addPlayer(player) {
       $('#wins').append(wins);
     })
     .catch((error) => {
-      logger.log(error);
+      return logger.log(error);
     });
 }
 
 function removePlayer(player) {
-  $(`.${player}`).remove();
+  return $(`.${player}`).remove();
 }
 
 function clear() {
-  $('.player-item').remove();
+  return $('.player-item').remove();
 }
