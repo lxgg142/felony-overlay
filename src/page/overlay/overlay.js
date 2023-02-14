@@ -1,28 +1,19 @@
-const remote = require('@electron/remote');
-const fs = require('fs');
-const { apiKey, CLIENTS, client } = require('../../data/config');
-const { bedwars } = require('../../helper/bedwars');
-const {
-  nameColor,
-  fkdrColor,
-  bblrColor,
-  wsColor,
-  winsColor,
-  finalsColor,
-  starColor,
-  wlrColor,
-} = require('../../helper/hypixelColors');
-const LoggerManager = require('../../helper/logger');
-
-const Tail = require('tail').Tail;
-const { app } = remote;
+const { nameColor, fkdrColor, bblrColor, wsColor, winsColor, finalsColor, starColor, wlrColor } = require('../../helper/hypixelColors.js');
+const { apiKey, CLIENTS, client } = require('../../data/config.js');
 const homedir = app.getPath('home').replaceAll('\\', '/');
+const loggerManager = require('../../helper/logger.js');
+const { bedwars } = require('../../helper/bedwars.js');
+const remote = require('@electron/remote');
+const tails = require('tail').Tail;
+const fs = require('fs');
+const { app } = remote;
+
+// eslint-disable-next-line
 window.$ = window.jQuery = require('jquery');
 
-const logger = new LoggerManager('Overlay');
+const logger = new loggerManager('Overlay');
 
-let logpath,
-  players = [];
+var logpath, players = [];
 
 $(() => {
   if (!client.isClient()) {
@@ -62,7 +53,7 @@ function main() {
    * for only one line of log output at a time, and to check the log file for updates
    * every 100 milliseconds.
    */
-  const tail = new Tail(logpath, {
+  const tail = new tails(logpath, {
     useWatchFile: true,
     nLines: 1,
     fsWatchOptions: { interval: 100 },
@@ -86,8 +77,7 @@ function main() {
          */
         for (let i = 0; i < who.length; i++) {
           if (!players.includes(who[i].split(' ')[0])) {
-            if (who[i].indexOf('[') !== -1)
-              {who[i] = who[i].substring(0, who[i].indexOf('[') - 1);}
+            if (who[i].indexOf('[') !== -1) { who[i] = who[i].substring(0, who[i].indexOf('[') - 1); }
             let contains = false;
             for (let l = 0; l < players.length; l++) {
               if (players[l] === who[i]) contains = true;
@@ -138,27 +128,24 @@ function loadPATH() {
      * and updates the modification times accordingly, sorts the three objects by the
      * modified variable and sets the logpath variable to the modified file.
      */
-    const lunar_18 = {
+    const lunar18 = {
       path: `${homedir}/.lunarclient/offline/1.8/logs/latest.log`,
       modified: 0,
     };
-    const lunar_189 = {
+    const lunar189 = {
       path: `${homedir}/.lunarclient/offline/1.8.9/logs/latest.log`,
       modified: 0,
     };
-    const lunar_multiver = {
+    const lunarMultiver = {
       path: `${homedir}/.lunarclient/offline/multiver/logs/latest.log`,
       modified: 0,
     };
 
-    if (fs.existsSync(lunar_18.path))
-      {lunar_18.modified = fs.statSync(lunar_18.path).mtime;}
-    if (fs.existsSync(lunar_189.path))
-      {lunar_189.modified = fs.statSync(lunar_189.path).mtime;}
-    if (fs.existsSync(lunar_multiver.path))
-      {lunar_multiver.modified = fs.statSync(lunar_multiver.path).mtime;}
+    if (fs.existsSync(lunar18.path)) { lunar18.modified = fs.statSync(lunar18.path).mtime; }
+    if (fs.existsSync(lunar189.path)) { lunar189.modified = fs.statSync(lunar189.path).mtime; }
+    if (fs.existsSync(lunarMultiver.path)) { lunarMultiver.modified = fs.statSync(lunarMultiver.path).mtime; }
 
-    const lunarLogs = [lunar_18, lunar_189, lunar_multiver];
+    const lunarLogs = [lunar18, lunar189, lunarMultiver];
 
     lunarLogs.sort((a, b) => {
       return b.modified - a.modified;

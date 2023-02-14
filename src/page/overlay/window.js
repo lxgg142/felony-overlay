@@ -1,12 +1,6 @@
+const { client, CLIENTS, mode, MODES, apiKey } = require('../../data/config.js');
 const { ipcRenderer, clipboard } = require('electron');
-const { client, CLIENTS, mode, MODES, apiKey } = require('../../data/config');
-function ms(ms) {
-  return new Promise((resolve) =>
-    setTimeout(() => {
-      resolve;
-    }, ms)
-  );
-}
+
 
 const RELOAD = document.getElementById('btnReload');
 const MINUS = document.getElementById('btnMini');

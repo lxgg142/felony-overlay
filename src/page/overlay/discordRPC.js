@@ -1,14 +1,14 @@
-const LoggerManager = require('../../helper/logger');
-const logger = new LoggerManager('RPC');
+const loggerManager = require('../../helper/logger.js');
+const logger = new loggerManager('RPC');
 
 const { clientId } = require('../../config.json');
 
-const DiscordRPC = require('discord-rpc');
-const RPC = new DiscordRPC.Client({ transport: 'ipc' });
+const discordRPC = require('discord-rpc');
+const RPC = new discordRPC.Client({ transport: 'ipc' });
 
 const startTimestamp = new Date();
 
-DiscordRPC.register(clientId);
+discordRPC.register(clientId);
 
 async function setActivity() {
   if (!RPC) return;

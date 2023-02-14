@@ -1,6 +1,7 @@
 const { getPlayer } = require('../api/hypixelAPI.js');
 const { mode, MODES } = require('../data/config.js');
 const { mojang } = require('../api/mojangAPI.js');
+/* eslint-disable */
 
 const _mode = () => {
   if (mode.getMode() == MODES.overall) {
@@ -69,5 +70,6 @@ const bedwars = {
     }
   },
 };
+/* eslint-enable */
 
 module.exports = { bedwars };

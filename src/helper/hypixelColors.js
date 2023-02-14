@@ -1,4 +1,4 @@
-const HypixelColors = {
+const hypixelRankColors = {
   RED: '#FF5555',
   GOLD: '#FFAA00',
   GREEN: '#55FF55',
@@ -46,10 +46,10 @@ function starColor(stars) {
 }
 
 function nameColor(rank) {
-  const _rank = rank.newPackageRank;
+  const rankInfo = rank.newPackageRank;
   let plus = rank.rankPlusColor;
   if (plus !== undefined) {
-    plus = HypixelColors[plus];
+    plus = hypixelRankColors[plus];
   } else {plus = '#FF5555';}
   if (rank.rank !== undefined) {
     if (rank.rank === 'YOUTUBER')
@@ -61,16 +61,16 @@ function nameColor(rank) {
     else if (rank.rank === 'GAME_MASTER')
       {return `<span style="color: #00AA00">[GM] ${rank.displayname}</span>`;}
   }
-  if (_rank === 'MVP_PLUS') {
+  if (rankInfo === 'MVP_PLUS') {
     if (rank.monthlyPackageRank !== 'SUPERSTAR')
       {return `<span style="color: #55FFFF;">[MVP</span><span style="color: ${plus}">+</span><span style="color: #55FFFF;">] ${rank.displayname}</span>`;}
     else
       {return `<span style="color: #FFAA00;">[MVP</span><span style="color: ${plus}">++</span><span style="color: #FFAA00;">] ${rank.displayname}</span>`;}
-  } else if (_rank === 'MVP')
+  } else if (rankInfo === 'MVP')
     {return `<span style="color: #55FFFF;">[MVP] ${rank.displayname}</span>`;}
-  else if (_rank === 'VIP_PLUS')
+  else if (rankInfo === 'VIP_PLUS')
     {return `<span style="color: #55FF55;">[VIP</span><span style="color: #FFAA00;">+</span><span style="color: #55FF55;">] ${rank.displayname}</span>`;}
-  else if (_rank === 'VIP')
+  else if (rankInfo === 'VIP')
     {return `<span style="color: #55FF55;">[VIP] ${rank.displayname}</span>`;}
   else {return `<span style="color: #AAAAAA;">${rank.displayname}</span>`;}
 }
@@ -82,6 +82,8 @@ function wsColor(ws) {
       {return `<span style="color: #FFFFFF">${ws}</span>`;} //100 stars
     else if (ws < 25)
       {return `<span style="color: #FFAA00">${ws}</span>`;} //200 stars
+      // TODO ask lxgg about this
+      // eslint-disable-next-line
     else if (ws < 25)
       {return `<span style="color: #00AAAA">${ws}</span>`;} //500 stars
     else if (ws < 100)
