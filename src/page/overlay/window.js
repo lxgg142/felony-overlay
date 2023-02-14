@@ -9,18 +9,7 @@ RELOAD.addEventListener('click', () => ipcRenderer.send('app/reload'));
 MINUS.addEventListener('click', () => ipcRenderer.send('app/minimize'));
 CLOSE.addEventListener('click', () => ipcRenderer.send('app/close'));
 
-// api_key
-
-const api_key = document.getElementById('api_key');
-api_key.addEventListener('click', () => {
-  let key = clipboard.readText();
-  if (key) key = key.replace(/\s/g, '');
-  if (key.length !== 36) return;
-  apiKey.setKey(key);
-});
-
-//settings screen (not finish!)
-
+//settings
 const settings = document.getElementById('btnSettings');
 settings.addEventListener('click', () => {
   if ($('#settings').css('display') === 'none') {
@@ -30,6 +19,16 @@ settings.addEventListener('click', () => {
     $('#settings').css('display', 'none');
     $('#player').css('display', 'flex');
   }
+});
+
+// api_key
+
+const api_key = document.getElementById('api_key');
+api_key.addEventListener('click', () => {
+  let key = clipboard.readText();
+  if (key) key = key.replace(/\s/g, '');
+  if (key.length !== 36) return;
+  apiKey.setKey(key);
 });
 
 //dropdown @QuickCodingTuts
