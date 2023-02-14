@@ -27,6 +27,8 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+/* taskbar */
+
 .menu {
   -webkit-app-region: drag;
   height: 20px;
@@ -95,12 +97,16 @@ body::-webkit-scrollbar {
   color: var(--colors-lime);
 }
 
-#content {
+/* content */
+
+.content {
   height: 100%;
   width: 100%;
 
   background-color: var(--colors-background);
 }
+
+/* player */
 
 #player {
   display: flex;
@@ -154,16 +160,7 @@ body::-webkit-scrollbar {
   color: #ff5555;
 }
 
-#info {
-  height: 100%;
-  display: none;
-
-  justify-content: center;
-  align-items: center;
-
-  color: var(--colors-close);
-  text-transform: uppercase;
-}
+/* sidebar */
 
 #sidebar-toggle {
   display: flex;
@@ -201,11 +198,13 @@ body::-webkit-scrollbar {
   justify-content: center;
   padding-left: 10px;
   font-size: 12px;
+  inline-size: 250px;
+  overflow: hidden;
 }
 
 .sidebar div a:hover {
   background-color: var(--colors-background);
-  color: var(--colors-yellow);
+  color: var(--colors-lime);
 }
 
 .sidebar label {
@@ -218,10 +217,17 @@ body::-webkit-scrollbar {
   padding-left: 10px;
   padding-top: 20px;
   font-size: 16px;
+  inline-size: 250px;
+  overflow: hidden;
+}
+
+/* client */
+#client {
+  padding: 20px;
 }
 
 .clients_wrapper {
-  margin: 20px;
+  padding-top: 20px;
 }
 
 .clients_btn {
@@ -269,6 +275,11 @@ body::-webkit-scrollbar {
   box-shadow: 0 4px 15px 0 #72b147;
 }
 
+/* settings */
+#settings {
+  padding: 20px;
+}
+
 @media screen and (min-width: 640px) {
   #player {
     font-size: 13px;
@@ -276,6 +287,13 @@ body::-webkit-scrollbar {
 
   .flex-warp {
     gap: 25px;
+  }
+
+  .clients_btn {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
   }
 }
 
@@ -286,12 +304,5 @@ body::-webkit-scrollbar {
 
   .flex-warp {
     gap: 30px;
-  }
-
-  .clients_btn {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-column-gap: 20px;
-    grid-row-gap: 20px;
   }
 }

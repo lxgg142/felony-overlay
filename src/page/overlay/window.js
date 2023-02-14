@@ -1,25 +1,20 @@
-const { ipcRenderer } = require('electron');
-const { client, CLIENTS, mode, MODES } = require('../../data/config');
+const { ipcRenderer, clipboard } = require('electron');
+const { client, CLIENTS, mode, MODES, apiKey } = require('../../data/config');
+function ms(ms) {
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve;
+    }, ms)
+  );
+}
 
 const RELOAD = document.getElementById('btnReload');
 const MINUS = document.getElementById('btnMini');
 const CLOSE = document.getElementById('btnClose');
 
-RELOAD.addEventListener('click', reload_app);
-MINUS.addEventListener('click', minimize_app);
-CLOSE.addEventListener('click', close_app);
-
-function reload_app() {
-  ipcRenderer.send('app/reload');
-}
-
-function close_app() {
-  ipcRenderer.send('app/close');
-}
-
-function minimize_app() {
-  ipcRenderer.send('app/minimize');
-}
+RELOAD.addEventListener('click', () => ipcRenderer.send('app/reload'));
+MINUS.addEventListener('click', () => ipcRenderer.send('app/minimize'));
+CLOSE.addEventListener('click', () => ipcRenderer.send('app/close'));
 
 /** CLEINT */
 const LUNAR = document.querySelectorAll("[id='lunar']");
@@ -159,6 +154,30 @@ async function setSelectedMode() {
       break;
   }
 }
+
+// api_key
+
+const api_key = document.getElementById('api_key');
+api_key.addEventListener('click', () => {
+  let key = clipboard.readText();
+  if (key) key = key.replace(/\s/g, '');
+  if (key.length !== 36) return;
+  apiKey.setKey(key);
+});
+
+//settings screen (not finish!)
+
+const settings = document.getElementById('btnSettings');
+settings.addEventListener('click', () => {
+  console.log('test');
+  if ($('#settings').css('display') === 'none') {
+    $('#settings').css('display', 'block');
+    $('#player').css('display', 'none');
+  } else {
+    $('#settings').css('display', 'none');
+    $('#player').css('display', 'flex');
+  }
+});
 
 setSelectedClient();
 setSelectedMode();
