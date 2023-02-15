@@ -49,7 +49,7 @@ function nameColor(player) {
   const rank = player.rank;
   let plus = player.plus_color;
   if (plus !== undefined) {
-    plus = HypixelColors[plus];
+    plus = hypixelRankColors[plus];
   } else {plus = '#FF5555';}
   if (rank.rank !== undefined) {
     if (rank.rank === 'YOUTUBER')

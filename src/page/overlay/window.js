@@ -1,8 +1,7 @@
 const { client, CLIENTS, mode, MODES, apiKey } = require('../../data/config.js');
 const { ipcRenderer, clipboard } = require('electron');
-const { ModalWindow } = require('./modalWindow.js');
-ModalWindow.initialize();
-const { client, CLIENTS, mode, MODES, apiKey } = require('../../data/config');
+const { modalWindow } = require('./modalWindow.js');
+modalWindow.initialize();
 
 const RELOAD = document.getElementById('btnReload');
 const MINUS = document.getElementById('btnMini');
@@ -26,13 +25,13 @@ settings.addEventListener('click', () => {
 
 // api_key
 
-const api_key = document.getElementById('api_key');
-api_key.addEventListener('click', () => {
+const hypixelAPIKey = document.getElementById('api_key');
+hypixelAPIKey.addEventListener('click', () => {
   let key = clipboard.readText();
   if (key) key = key.replace(/\s/g, '');
   if (key.length !== 36) return;
   apiKey.setKey(key);
-  return ModalWindow.open({
+  return modalWindow.open({
     content: 'API-Key has been pasted in',
   });
 });
