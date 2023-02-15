@@ -29,7 +29,7 @@ body::-webkit-scrollbar {
 
 /* taskbar */
 
-.menu {
+.task {
   -webkit-app-region: drag;
   height: 20px;
   width: 100%;
@@ -42,31 +42,21 @@ body::-webkit-scrollbar {
   z-index: 1;
 }
 
-.menu_bar {
-  display: flex;
-  flex-direction: row;
-
-  gap: 2px;
-
-  justify-content: center;
-  align-items: center;
-  height: 20px;
-}
-
-.menu_label {
+.task_label {
   font-size: 10px;
   color: var(--colors-light);
   font-weight: 700;
 
   margin: 0;
+  margin-left: 4px;
 }
 
-.menu_buttons {
+.task_buttons {
   display: flex;
   flex-direction: row;
 }
 
-.menu_buttons button {
+.task_buttons button {
   border: none;
   background: none;
 
@@ -81,19 +71,19 @@ body::-webkit-scrollbar {
   transition: all 0.3s ease;
 }
 
-.menu_buttons button:hover {
+.task_buttons button:hover {
   background-color: var(--colors-background);
 }
 
-.menu_buttons #btnClose:hover {
+.task_buttons #btnClose:hover {
   color: var(--colors-red);
 }
 
-.menu_buttons #btnMini:hover {
+.task_buttons #btnMini:hover {
   color: var(--colors-yellow);
 }
 
-.menu_buttons #btnReload:hover {
+.task_buttons #btnReload:hover {
   color: var(--colors-lime);
 }
 
@@ -280,6 +270,13 @@ body::-webkit-scrollbar {
   padding: 20px;
 }
 
+.settings_title {
+  color: var(--colors-lime);
+  font-size: large;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
 @media screen and (min-width: 640px) {
   #player {
     font-size: 13px;
@@ -305,4 +302,194 @@ body::-webkit-scrollbar {
   .flex-warp {
     gap: 30px;
   }
+}
+
+.settings-item {
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: var(--colors-dark);
+  border-radius: 0.5em;
+  margin-bottom: 10px;
+}
+
+.settings-item:last-child {
+  margin: 0;
+}
+
+.settings-info {
+  margin-left: 10px;
+}
+
+.settings-info label {
+  color: var(--colors-lime);
+  margin: 0;
+  padding: 0;
+}
+
+.settings-info p {
+  color: var(--colors-light);
+  margin: 0;
+  padding: 0;
+
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.dropdown {
+  min-width: 15em;
+  position: relative;
+  font-weight: 500;
+}
+
+.dropdown * {
+  box-sizing: border-box;
+}
+
+.select {
+  background: var(--colors-dark);
+  color: var(--colors-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px var(--colors-dark) solid;
+  border-radius: 0.5em;
+  padding: 0.7em;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.select-clicked {
+  border: 2px var(--colors-lime) solid;
+}
+
+.select:hover {
+  background: var(--colors-background);
+}
+
+.caret {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--colors-light);
+  transition: 0.3s;
+}
+
+.caret-rotate {
+  transform: rotate(180deg);
+}
+
+.menu {
+  list-style: none;
+  padding: 0.2em 0.5em;
+  background: var(--colors-dark);
+  border: 1px var(--colors-dark) solid;
+  box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
+  border-radius: 0.5em;
+  color: var(--colors-light);
+  position: absolute;
+  top: 2.5em;
+  width: 100%;
+  opacity: 0;
+  display: none;
+  transition: 0.2s;
+  z-index: 1;
+}
+
+.menu li {
+  padding: 0.7em 0.5em;
+  margin: 0.3em 0;
+  border-radius: 0.5em;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.menu li:hover {
+  background: var(--colors-background);
+}
+
+.active {
+  background: #1c2e1f;
+}
+
+.menu-open {
+  display: block;
+  opacity: 1;
+}
+
+.settings-menu {
+  min-width: 15em;
+}
+
+.api-menu {
+  background: var(--colors-dark);
+  color: var(--colors-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px var(--colors-dark) solid;
+  border-radius: 0.5em;
+  padding: 0.7em;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.api-menu:hover {
+  background: var(--colors-background);
+}
+
+.modal_overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+.modal_window {
+  max-width: 50%;
+  min-width: 200px;
+  font-size: 16px;
+  border-radius: 5px;
+  overflow-y: hidden;
+  pointer-events: all;
+  animation: popout 0.2s linear;
+}
+.modal_titlebar {
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal_icon {
+  margin: 0;
+  padding: 5px;
+}
+.modal_title {
+  font-weight: bold;
+  position: relative;
+  left: 0;
+}
+.modal_close {
+  font-size: 28px !important;
+  margin-left: auto;
+  text-shadow: none;
+  cursor: pointer;
+  margin: 0;
+  padding: 5px;
+}
+
+.modal_content {
+  margin: 0;
+  padding: 5px;
+  background: var(--colors-dark);
+  color: var(--colors-light);
 }

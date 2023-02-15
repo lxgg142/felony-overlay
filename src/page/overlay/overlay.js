@@ -24,7 +24,7 @@ $(() => {
     );
   } else {
     $('#client').remove();
-    main();
+    return main();
   }
 });
 
@@ -121,7 +121,7 @@ function main() {
 }
 
 function loadPATH() {
-  if (client.getClient() === CLIENTS.lunar) {
+  if (String(client.getClient()).toUpperCase() === CLIENTS.lunar) {
     /**
      * Find the latest LunarClient log file. It creates three objects containing the
      * path and modification time of the three log files, checks if the files exist
@@ -151,83 +151,73 @@ function loadPATH() {
       return b.modified - a.modified;
     });
 
-    logpath = lunarLogs[0].path;
+    return (logpath = lunarLogs[0].path);
   } else if (process.platform === 'darwin') {
     if (client.getClient() === CLIENTS.badlion) {
-      logpath = `${homedir}/Library/Application Support/minecraft/logs/blclient/minecraft/latest.log`;
+      return (logpath = `${homedir}/Library/Application Support/minecraft/logs/blclient/minecraft/latest.log`);
     } else if (client.getClient() === CLIENTS.default) {
-      logpath = `${homedir}/Library/Application Support/minecraft/logs/latest.log`;
+      return (logpath = `${homedir}/Library/Application Support/minecraft/logs/latest.log`);
     }
   } else {
     if (client.getClient() === CLIENTS.badlion) {
-      logpath = `${homedir}/AppData/Roaming/.minecraft/logs/blclient/minecraft/latest.log`;
+      return (logpath = `${homedir}/AppData/Roaming/.minecraft/logs/blclient/minecraft/latest.log`);
     } else if (client.getClient() === CLIENTS.default) {
-      logpath = `${homedir}/AppData/Roaming/.minecraft/logs/latest.log`;
+      return (logpath = `${homedir}/AppData/Roaming/.minecraft/logs/latest.log`);
     }
   }
 }
 
-function addPlayer(player) {
-  const nick = {
-    newPackageRank: undefined,
+async function addPlayer(player) {
+  const playerStats = await bedwars.get(player);
+  let nick = {
+    rank: undefined,
     displayname: player,
-    rankPlusColor: '',
-    monthlyPackageRank: '',
+    plus_color: {
+      color: '',
+    },
   };
 
-  let ign = `<li class="player-item ${player}">
-  ${starColor(0)} ${nameColor(nick)} 
-  <span style="color: #f59e0b">NICK?</span></li>`,
-    winstreak = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`,
-    fkdr = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`,
-    wlr = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`,
-    finals = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`,
-    wins = `<li class="player-item ${player}">-</li>`,
-    blr = `<li class="player-item ${player}">-</li>`;
+  if (playerStats.success) {
+    var ign = `<li class="player-item ${player}">
+    ${starColor(playerStats.star)} 
+    ${nameColor(playerStats.player)}</li>`;
+    var winstreak = `<li class="player-item ${player}">
+    ${wsColor(playerStats.winstreak)}</li>`;
+    var fkdr = `<li class="player-item ${player}">
+    ${fkdrColor(playerStats.fkdr)}</li>`;
+    var wlr = `<li class="player-item ${player}">
+    ${wlrColor(playerStats.wlr)}</li>`;
+    var finals = `<li class="player-item ${player}">
+    ${finalsColor(playerStats.final_kills)}</li>`;
+    var wins = `<li class="player-item ${player}">
+    ${winsColor(playerStats.wins)}</li>`;
+    var blr = `<li class="player-item ${player}">
+    ${bblrColor(playerStats.blr)}</li>`;
+  } else {
+    var ign = `<li class="player-item ${player}">
+    ${starColor(0)} ${nameColor(nick)} 
+    <span style="color: #f59e0b">NICK?</span></li>`;
+    var winstreak = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`;
+    var fkdr = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`;
+    var wlr = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`;
+    var finals = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`;
+    var wins = `<li class="player-item ${player}">-</li>`;
+    var blr = `<li class="player-item ${player}">-</li>`;
+  }
 
-  bedwars
-    .get(player)
-    .then((res) => {
-      if (res.success == true) {
-        ign = `<li class="player-item ${player}">
-        ${starColor(res.star)} 
-        ${nameColor(res.player)}</li>`;
-
-        winstreak = `<li class="player-item ${player}">
-        ${wsColor(res.winstreak)}</li>`;
-
-        fkdr = `<li class="player-item ${player}">
-        ${fkdrColor(res.fkdr)}</li>`;
-
-        wlr = `<li class="player-item ${player}">${wlrColor(res.wlr)}</li>`;
-
-        finals = `<li class="player-item ${player}">
-        ${finalsColor(res.final_kills)}</li>`;
-
-        wins = `<li class="player-item ${player}">
-        ${winsColor(res.wins)}</li>`;
-
-        blr = `<li class="player-item ${player}">${bblrColor(res.blr)}</li>`;
-      }
-    })
-    .then(() => {
-      $('#ign').append(ign);
-      $('#ws').append(winstreak);
-      $('#fkdr').append(fkdr);
-      $('#wlr').append(wlr);
-      $('#blr').append(blr);
-      $('#finals').append(finals);
-      $('#wins').append(wins);
-    })
-    .catch((error) => {
-      logger.log(error);
-    });
+  $('#ign').append(ign);
+  $('#ws').append(winstreak);
+  $('#fkdr').append(fkdr);
+  $('#wlr').append(wlr);
+  $('#blr').append(blr);
+  $('#finals').append(finals);
+  $('#wins').append(wins);
 }
 
 function removePlayer(player) {
-  $(`.${player}`).remove();
+  return $(`.${player}`).remove();
 }
 
 function clear() {
-  $('.player-item').remove();
+  return $('.player-item').remove();
 }

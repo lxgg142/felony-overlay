@@ -34,16 +34,11 @@
   </head>
   <body>
     <div id="base">
-      <!--menu bar-->
-      <div class="menu">
-        <div class="menu_bar">
-          <span id="sidebar-toggle">
-            <i class="fa-solid fa-bars"></i>
-          </span>
-          <p id="menu_label" class="menu_label">Felony Overlay</p>
-        </div>
-        <div class="menu_buttons">
-          <button name="reload" id="btnSettings">
+      <!--task bar-->
+      <div class="task">
+        <p id="task_label" class="task_label">Felony Overlay</p>
+        <div class="task_buttons">
+          <button name="settings" id="btnSettings">
             <!--SETTINGS-->
             <i class="fa-solid fa-gear"></i>
           </button>
@@ -64,29 +59,6 @@
 
       <!--content-->
       <div class="content">
-        <div id="sidebar-menu" class="sidebar">
-          <label>Clients</label>
-          <div id="clients">
-            <a id="lunar">Lunar</a>
-            <a id="badlion">Badlion</a>
-            <a id="default">Vanilla/Forge</a>
-          </div>
-
-          <label>Mode</label>
-          <div id="modes">
-            <a id="overall">Overall</a>
-            <a id="eight_one">Solo</a>
-            <a id="eight_two">Doubles</a>
-            <a id="four_three">Trio</a>
-            <a id="four_four">Squad</a>
-            <a class="mode-btn" id="two_four">4v4</a>
-          </div>
-
-          <label>Hypixel API</label>
-          <div>
-            <a id="api_key">Click to paste API Key</a>
-          </div>
-        </div>
         <div id="player">
           <div>
             <div class="title"><label>PLAYERS</label></div>
@@ -154,7 +126,59 @@
         </div>
 
         <div id="settings" style="display: none">
-          <div class="settings_wrapper"></div>
+          <h1 class="settings_title">Settings</h1>
+
+          <div class="settings_wrapper">
+            <div class="settings-item">
+              <div class="settings-info">
+                <label>Select Client</label>
+                <p>Reload requiert</p>
+              </div>
+              <div class="dropdown">
+                <div class="select">
+                  <span class="selected">Vanilla/Forge</span>
+                  <div class="caret"></div>
+                </div>
+                <ul class="menu">
+                  <li data-value="default" id="default">Vanilla/Forge</li>
+                  <li data-value="lunar" id="lunar">Lunar</li>
+                  <li data-value="badlion" id="badlion">Badlion</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <div class="settings-info">
+                <label>Select Bedwars Gamemode</label>
+              </div>
+              <div class="dropdown">
+                <div class="select">
+                  <span class="selected">Overall</span>
+                  <div class="caret"></div>
+                </div>
+                <ul class="menu">
+                  <li data-value="overall" id="overall">Overall</li>
+                  <li data-value="solo" id="eight_one">Solo</li>
+                  <li data-value="doubels" id="eight_two">Doubles</li>
+                  <li data-value="threes" id="four_three">Trio</li>
+                  <li data-value="fours" id="four_four">Squad</li>
+                  <li data-value="4v4" id="two_four">4v4</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <div class="settings-info">
+                <label>Hypixel Api</label>
+                <p>do /api new</p>
+              </div>
+              <div class="settings-menu">
+                <div class="api-menu" id="api_key">
+                  <a>Click to paste API Key</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

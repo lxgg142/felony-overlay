@@ -108,11 +108,11 @@ const client = {
 
 const MODES = {
   overall: 'overall',
-  squad: 'four_four',
-  trio: 'four_three',
-  doubels: 'eight_two',
-  solo: 'eight_one',
-  four_vs_four: 'two_four',
+  squad: 'fours',
+  trio: 'threes',
+  doubels: 'doubels',
+  solo: 'solo',
+  four_vs_four: '4v4',
 };
 
 const mode = {
