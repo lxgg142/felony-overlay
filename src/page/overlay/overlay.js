@@ -169,7 +169,7 @@ function loadPATH() {
 
 async function addPlayer(player) {
   const playerStats = await bedwars.get(player);
-  let nick = {
+  const nick = {
     rank: undefined,
     displayname: player,
     plus_color: {
