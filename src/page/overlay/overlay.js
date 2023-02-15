@@ -1,7 +1,7 @@
 const remote = require('@electron/remote');
 const fs = require('fs');
 const { apiKey, CLIENTS, client } = require('../../data/config');
-const { bedwars } = require('../../helper/bedwars');
+const { bedwars, Errors } = require('../../helper/bedwars');
 const {
   nameColor,
   fkdrColor,
@@ -11,6 +11,7 @@ const {
   finalsColor,
   starColor,
   wlrColor,
+  tagsColor,
 } = require('../../helper/hypixelColors');
 const LoggerManager = require('../../helper/logger');
 
@@ -182,7 +183,8 @@ function loadPATH() {
 
 async function addPlayer(player) {
   const playerStats = await bedwars.get(player);
-  let nick = {
+  let playerInfo = {
+    info: 'NICK',
     rank: undefined,
     displayname: player,
     plus_color: {
@@ -190,26 +192,30 @@ async function addPlayer(player) {
     },
   };
 
-  if (playerStats.success) {
+  if (playerStats.success == true) {
     var ign = `<li class="player-item ${player}">
     ${starColor(playerStats.star)} 
     ${nameColor(playerStats.player)}</li>`;
     var winstreak = `<li class="player-item ${player}">
     ${wsColor(playerStats.winstreak)}</li>`;
     var fkdr = `<li class="player-item ${player}">
-    ${fkdrColor(playerStats.fkdr)}</li>`;
+    ${fkdrColor(playerStats.finalKDRatio)}</li>`;
     var wlr = `<li class="player-item ${player}">
-    ${wlrColor(playerStats.wlr)}</li>`;
+    ${wlrColor(playerStats.WLRatio)}</li>`;
     var finals = `<li class="player-item ${player}">
-    ${finalsColor(playerStats.final_kills)}</li>`;
+    ${finalsColor(playerStats.finalKills)}</li>`;
     var wins = `<li class="player-item ${player}">
     ${winsColor(playerStats.wins)}</li>`;
     var blr = `<li class="player-item ${player}">
-    ${bblrColor(playerStats.blr)}</li>`;
+    ${bblrColor(playerStats.BLRatio)}</li>`;
   } else {
+    console.log(playerStats.error);
+    if (playerStats.error == Errors.PLAYER_HAS_NOT_PLAYED_BEDWARS)
+      playerInfo.info = 'NEW';
+
     var ign = `<li class="player-item ${player}">
-    ${starColor(0)} ${nameColor(nick)} 
-    <span style="color: #f59e0b">NICK?</span></li>`;
+    ${starColor(0)} ${nameColor(playerInfo)} ${tagsColor(playerInfo.info)}
+    </li>`;
     var winstreak = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`;
     var fkdr = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`;
     var wlr = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`;
@@ -233,4 +239,18 @@ function removePlayer(player) {
 
 function clear() {
   return $('.player-item').remove();
+}
+
+// testarea
+
+const ign = [
+  'obvBetter',
+  'eGirlEismelSimp',
+  'Zumulus',
+  'Hypixel',
+  'fiesifjseijfisejfi',
+];
+
+for (let i = 0; i < ign.length; i++) {
+  addPlayer(ign[i]);
 }

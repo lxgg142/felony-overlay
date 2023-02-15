@@ -51,21 +51,19 @@ function nameColor(player) {
   if (plus !== undefined) {
     plus = HypixelColors[plus];
   } else plus = '#FF5555';
-  if (rank !== undefined) {
-    if (rank === 'YOUTUBER')
-      return `<span style="color: #FF5555;">[</span><span style="color: #FFFFFF;">YT</span><span style="color: #FF5555;">] ${player.displayname}</span>`;
-    else if (rank === 'ADMIN')
-      return `<span style="color: #AA0000">[ADMIN] ${player.displayname}</span>`;
-    else if (rank === 'MODERATOR')
-      return `<span style="color: #00AA00">[MOD] ${player.displayname}</span>`;
-    else if (rank === 'GAME_MASTER')
-      return `<span style="color: #00AA00">[GM] ${player.displayname}</span>`;
-  }
-  if (rank === 'MVP++') {
+  if (rank === 'YOUTUBER')
+    return `<span style="color: #FF5555;">[</span><span style="color: #FFFFFF;">YT</span><span style="color: #FF5555;">] ${player.displayname}</span>`;
+  else if (rank === 'OWNER')
+    return `<span style="color: #AA0000">[ADMIN] ${player.displayname}</span>`;
+  else if (rank === 'MODERATOR')
+    return `<span style="color: #00AA00">[MOD] ${player.displayname}</span>`;
+  else if (rank === 'GAME_MASTER')
+    return `<span style="color: #00AA00">[GM] ${player.displayname}</span>`;
+  else if (rank === 'MVP++')
     return `<span style="color: #FFAA00;">[MVP</span><span style="color: ${plus}">++</span><span style="color: #FFAA00;">] ${player.displayname}</span>`;
-  } else if (rank === 'MVP+') {
+  else if (rank === 'MVP+')
     return `<span style="color: #55FFFF;">[MVP</span><span style="color: ${plus}">+</span><span style="color: #55FFFF;">] ${player.displayname}</span>`;
-  } else if (rank === 'MVP')
+  else if (rank === 'MVP')
     return `<span style="color: #55FFFF;">[MVP] ${player.displayname}</span>`;
   else if (rank === 'VIP+')
     return `<span style="color: #55FF55;">[VIP</span><span style="color: #FFAA00;">+</span><span style="color: #55FF55;">] ${player.displayname}</span>`;
@@ -177,6 +175,11 @@ function bblrColor(bblr) {
   }
 }
 
+function tagsColor(tag) {
+  if (tag == 'NICK') return `<span style="color: #f59e0b">${tag}</span>`;
+  else if (tag == 'NEW') return `<span style="color: #5555FF">${tag}</span>`;
+}
+
 module.exports = {
   starColor,
   nameColor,
@@ -186,4 +189,5 @@ module.exports = {
   finalsColor,
   winsColor,
   bblrColor,
+  tagsColor,
 };

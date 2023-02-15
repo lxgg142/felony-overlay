@@ -1,5 +1,12 @@
 const hypixel = require('../api/hypixelAPI');
 const { mode } = require('../data/config');
+const HypixelAPIReborn = require('hypixel-api-reborn');
+const APIError = HypixelAPIReborn.Errors;
+
+const Errors = {
+  PLAYER_DOES_NOT_EXIST: 'Player does not exist',
+  PLAYER_HAS_NOT_PLAYED_BEDWARS: 'Player has not played Bedwars',
+};
 
 /**
  * @author lxgg#8588
@@ -11,30 +18,32 @@ const bedwars = {
    * @param {String} player ingame name
    */
   get: async function (player) {
-    const playerStats = await hypixel.getPlayer(player);
-    var star = playerStats.achievements.bedwarsLevel;
-    var nickname = playerStats.nickname;
-    var plusColor = playerStats.plusColor;
-    var rank = playerStats.rank;
+    const playerStats = await hypixel.getPlayer(player).catch((err) => {
+      if (err.message === APIError.PLAYER_DOES_NOT_EXIST) {
+        return { success: false, error: Errors.PLAYER_DOES_NOT_EXIST };
+      }
+    });
+    var star = playerStats?.achievements?.bedwarsLevel;
+    var nickname = playerStats?.nickname;
+    var plusColor = playerStats?.plusColor;
+    var rank = playerStats?.rank;
     var gamemode = mode.getMode();
 
-    if (playerStats.stats.bedwars != undefined) {
+    if (playerStats?.stats?.bedwars != undefined) {
       if (gamemode != 'overall') {
-        var wins = playerStats.stats.bedwars[gamemode].wins;
-        var losses = playerStats.stats.bedwars[gamemode].losses;
-        var finalKills = playerStats.stats.bedwars[gamemode].finalKills;
-        var finalDeaths = playerStats.stats.bedwars[gamemode].finalDeaths;
-        var bedsBroken = playerStats.stats.bedwars[gamemode].beds.broken;
-        var bedsLost = playerStats.stats.bedwars[gamemode].beds.lost;
-        var winstreak = playerStats.stats.bedwars[gamemode].winstreak || '?';
+        var BLRatio = playerStats?.stats?.bedwars[gamemode]?.beds.BLRatio;
+        var WLRatio = playerStats?.stats?.bedwars[gamemode]?.WLRatio;
+        var finalKills = playerStats?.stats?.bedwars[gamemode]?.finalKills;
+        var finalKDRatio = playerStats?.stats?.bedwars[gamemode]?.finalKDRatio;
+        var winstreak = playerStats?.stats?.bedwars[gamemode]?.winstreak || '?';
+        var wins = playerStats?.stats?.bedwars[gamemode]?.wins;
       } else {
-        var wins = playerStats.stats.bedwars.wins;
-        var losses = playerStats.stats.bedwars.losses;
-        var finalKills = playerStats.stats.bedwars.finalKills;
-        var finalDeaths = playerStats.stats.bedwars.finalDeaths;
-        var bedsBroken = playerStats.stats.bedwars.beds.broken;
-        var bedsLost = playerStats.stats.bedwars.beds.lost;
-        var winstreak = playerStats.stats.bedwars.winstreak || '?';
+        var BLRatio = playerStats?.stats?.bedwars?.beds.BLRatio;
+        var WLRatio = playerStats?.stats?.bedwars?.WLRatio;
+        var finalKills = playerStats?.stats?.bedwars?.finalKills;
+        var finalKDRatio = playerStats?.stats?.bedwars?.finalKDRatio;
+        var winstreak = playerStats?.stats?.bedwars?.winstreak || '?';
+        var wins = playerStats?.stats?.bedwars?.wins;
       }
 
       return {
@@ -42,26 +51,26 @@ const bedwars = {
         player: {
           rank: rank,
           displayname: nickname,
-          plus_color: plusColor?.toCode() || ' ',
+          plusColor: plusColor?.toCode() || ' ',
         },
         star: star,
-        bedwars_beds: bedsBroken,
-        beds_lost_bedwars: bedsLost,
-        blr: (bedsBroken / bedsLost).toFixed(2) || 0,
-        winstreak: winstreak,
-        final_kills: finalKills,
-        final_deaths: finalDeaths,
-        fkdr: (finalKills / finalDeaths).toFixed(2) || 0,
+        BLRatio: BLRatio,
+        WLRatio: WLRatio,
+        finalKills: finalKills,
+        finalKDRatio: finalKDRatio,
         wins: wins,
-        wlr: (wins / losses).toFixed(2) || 0,
+        winstreak: winstreak,
       };
     } else {
-      return {
-        success: false,
-        error: `Player has not played Bedwars`,
-      };
+      if (playerStats != undefined) {
+        return playerStats;
+      } else
+        return {
+          success: false,
+          error: Errors.PLAYER_HAS_NOT_PLAYED_BEDWARS,
+        };
     }
   },
 };
 
-module.exports = { bedwars };
+module.exports = { bedwars, Errors };
