@@ -5,7 +5,8 @@ const APIError = HypixelAPIReborn.Errors;
 
 const Errors = {
   PLAYER_DOES_NOT_EXIST: 'Player does not exist',
-  PLAYER_HAS_NOT_PLAYED_BEDWARS: 'Player has not played Bedwars',
+  PLAYER_NOT_PLAYED_BEDWARS: 'Player has not played Bedwars',
+  PLAYER_HAS_NEVER_LOGGED: 'Player has never logged into Hypixel',
 };
 
 /**
@@ -19,31 +20,43 @@ const bedwars = {
    */
   get: async function (player) {
     const playerStats = await hypixel.getPlayer(player).catch((err) => {
-      if (err.message === APIError.PLAYER_DOES_NOT_EXIST) {
+      console.log(err);
+      if (err.message === APIError.PLAYER_DOES_NOT_EXIST)
         return { success: false, error: Errors.PLAYER_DOES_NOT_EXIST };
-      }
+      else if (err.message === APIError.PLAYER_HAS_NEVER_LOGGED)
+        return { success: false, error: Errors.PLAYER_HAS_NEVER_LOGGED };
     });
-    var star = playerStats?.achievements?.bedwarsLevel;
     var nickname = playerStats?.nickname;
     var plusColor = playerStats?.plusColor;
     var rank = playerStats?.rank;
+    var star = playerStats?.achievements?.bedwarsLevel;
     var gamemode = mode.getMode();
 
-    if (playerStats?.stats?.bedwars != undefined) {
+    //console.log(playerStats);
+
+    if (playerStats.stats?.bedwars != null) {
+      var BLRatio;
+      var WLRatio;
+      var finalKills;
+      var finalKills;
+      var finalKDRatio;
+      var winstreak;
+      var wins;
+
       if (gamemode != 'overall') {
-        var BLRatio = playerStats?.stats?.bedwars[gamemode]?.beds.BLRatio;
-        var WLRatio = playerStats?.stats?.bedwars[gamemode]?.WLRatio;
-        var finalKills = playerStats?.stats?.bedwars[gamemode]?.finalKills;
-        var finalKDRatio = playerStats?.stats?.bedwars[gamemode]?.finalKDRatio;
-        var winstreak = playerStats?.stats?.bedwars[gamemode]?.winstreak || '?';
-        var wins = playerStats?.stats?.bedwars[gamemode]?.wins;
+        BLRatio = playerStats.stats.bedwars[gamemode].beds.BLRatio;
+        WLRatio = playerStats.stats.bedwars[gamemode].WLRatio;
+        finalKills = playerStats.stats.bedwars[gamemode].finalKills;
+        finalKDRatio = playerStats.stats.bedwars[gamemode].finalKDRatio;
+        winstreak = playerStats.stats.bedwars[gamemode].winstreak || '?';
+        wins = playerStats.stats.bedwars[gamemode].wins;
       } else {
-        var BLRatio = playerStats?.stats?.bedwars?.beds.BLRatio;
-        var WLRatio = playerStats?.stats?.bedwars?.WLRatio;
-        var finalKills = playerStats?.stats?.bedwars?.finalKills;
-        var finalKDRatio = playerStats?.stats?.bedwars?.finalKDRatio;
-        var winstreak = playerStats?.stats?.bedwars?.winstreak || '?';
-        var wins = playerStats?.stats?.bedwars?.wins;
+        BLRatio = playerStats.stats.bedwars.beds.BLRatio;
+        WLRatio = playerStats.stats.bedwars.WLRatio;
+        finalKills = playerStats.stats.bedwars.finalKills;
+        finalKDRatio = playerStats.stats.bedwars.finalKDRatio;
+        winstreak = playerStats.stats.bedwars.winstreak || '?';
+        wins = playerStats.stats.bedwars.wins;
       }
 
       return {
@@ -59,16 +72,22 @@ const bedwars = {
         finalKills: finalKills,
         finalKDRatio: finalKDRatio,
         wins: wins,
-        winstreak: winstreak,
+        winstreak: winstreak || 0,
       };
     } else {
-      if (playerStats != undefined) {
+      if (playerStats.error != undefined) {
         return playerStats;
-      } else
+      } else {
         return {
           success: false,
-          error: Errors.PLAYER_HAS_NOT_PLAYED_BEDWARS,
+          error: Errors.PLAYER_NOT_PLAYED_BEDWARS,
+          player: {
+            rank: rank,
+            displayname: nickname,
+            plusColor: plusColor?.toCode() || ' ',
+          },
         };
+      }
     }
   },
 };

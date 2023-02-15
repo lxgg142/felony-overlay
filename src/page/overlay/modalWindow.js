@@ -1,6 +1,8 @@
+// eslint-disable-next-line
 window.$ = window.jQuery = require('jquery');
 
-const ModalWindow = {
+const modalWindow = {
+  // eslint-disable-next-line
   getHTML: function (HTMLoptions) {
     return `
         <div class="modal_overlay ${HTMLoptions.class}">
@@ -69,4 +71,4 @@ const ModalWindow = {
   },
 };
 
-module.exports = { ModalWindow };
+module.exports = { modalWindow };

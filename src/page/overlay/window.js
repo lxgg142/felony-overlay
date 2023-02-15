@@ -1,6 +1,6 @@
 const { ipcRenderer, clipboard } = require('electron');
-const { ModalWindow } = require('./modalWindow.js');
-ModalWindow.initialize();
+const { modalWindow } = require('./modalWindow.js');
+modalWindow.initialize();
 const { client, CLIENTS, mode, MODES, apiKey } = require('../../data/config');
 
 const RELOAD = document.getElementById('btnReload');
@@ -12,8 +12,8 @@ MINUS.addEventListener('click', () => ipcRenderer.send('app/minimize'));
 CLOSE.addEventListener('click', () => ipcRenderer.send('app/close'));
 
 //settings
-const settings = document.getElementById('btnSettings');
-settings.addEventListener('click', () => {
+const SETTINGS = document.getElementById('btnSettings');
+SETTINGS.addEventListener('click', () => {
   if ($('#settings').css('display') === 'none') {
     $('#settings').css('display', 'block');
     $('#player').css('display', 'none');
@@ -25,36 +25,36 @@ settings.addEventListener('click', () => {
 
 // api_key
 
-const api_key = document.getElementById('api_key');
-api_key.addEventListener('click', () => {
+const API_KEY = document.getElementById('api_key');
+API_KEY.addEventListener('click', () => {
   let key = clipboard.readText();
   if (key) key = key.replace(/\s/g, '');
   if (key.length !== 36) return;
   apiKey.setKey(key);
-  return ModalWindow.open({
+  return modalWindow.open({
     content: 'API-Key has been pasted in',
   });
 });
 
 //dropdown @QuickCodingTuts
-const dropdowns = document.querySelectorAll('.dropdown');
-dropdowns.forEach((dropdown) => {
-  const select = dropdown.querySelector('.select');
-  const caret = dropdown.querySelector('.caret');
-  const menu = dropdown.querySelector('.menu');
-  const options = dropdown.querySelectorAll('.menu li');
-  const selected = dropdown.querySelector('.selected');
+const DROPDOWNS = document.querySelectorAll('.dropdown');
+DROPDOWNS.forEach((dropdown) => {
+  const SELECT = dropdown.querySelector('.select');
+  const CARET = dropdown.querySelector('.caret');
+  const MENU = dropdown.querySelector('.menu');
+  const OPTIONS = dropdown.querySelectorAll('.menu li');
+  const SELECTED = dropdown.querySelector('.selected');
 
-  select.addEventListener('click', () => {
+  SELECT.addEventListener('click', () => {
     //add the clicked select styles to the select element
-    select.classList.toggle('select-clicked');
+    SELECT.classList.toggle('select-clicked');
     //add the rotate styles to the caret element
-    caret.classList.toggle('caret-rotate');
+    CARET.classList.toggle('caret-rotate');
     //add the open styles to the menu element
-    menu.classList.toggle('menu-open');
+    MENU.classList.toggle('menu-open');
   });
 
-  options.forEach((option) => {
+  OPTIONS.forEach((option) => {
     const currentState = option.getAttribute('data-value');
 
     //add active class to current option element
@@ -62,21 +62,21 @@ dropdowns.forEach((dropdown) => {
       client.getClient() == currentState.toUpperCase() ||
       mode.getMode() == currentState
     ) {
-      selected.innerHTML = option.innerHTML;
+      SELECTED.innerHTML = option.innerHTML;
       option.classList.add('active');
     }
 
     option.addEventListener('click', () => {
-      selected.innerHTML = option.innerHTML;
+      SELECTED.innerHTML = option.innerHTML;
       //remove the clicked select styles to the select element
-      select.classList.remove('select-clicked');
+      SELECT.classList.remove('select-clicked');
       //remove the rotate styles to the caret element
-      caret.classList.remove('caret-rotate');
+      CARET.classList.remove('caret-rotate');
       //remove the open styles to the menu element
-      menu.classList.remove('menu-open');
+      MENU.classList.remove('menu-open');
 
       //remove active class from all option elements
-      options.forEach((option) => {
+      OPTIONS.forEach((option) => {
         option.classList.remove('active');
       });
 

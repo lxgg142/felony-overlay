@@ -1,10 +1,12 @@
 // eslint-disable-next-line
 const HypixelAPIReborn = require('hypixel-api-reborn');
-const { apiKey } = require('../data/config');
-var key = apiKey.getKey();
+const { APIKey } = require('../data/config');
+var KEY = APIKey.getKey();
 
-const hypixel = new HypixelAPIReborn.Client(key, {
+const hypixel = new HypixelAPIReborn.Client(KEY, {
   cache: true,
 });
 
 module.exports = hypixel;
+
+console.log(hypixel.getKeyInfo());

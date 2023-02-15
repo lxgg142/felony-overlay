@@ -1,4 +1,4 @@
-const HypixelColors = {
+const hypixelRankColors = {
   RED: '#FF5555',
   GOLD: '#FFAA00',
   GREEN: '#55FF55',
@@ -16,26 +16,27 @@ const HypixelColors = {
 };
 
 function starColor(stars) {
-  if (stars < 100) return `<span style="color: #AAAAAA;">[${stars}✫]</span>`;
-  else if (stars < 200)
+  if (stars < 100) {
+    return `<span style="color: #AAAAAA;">[${stars}✫]</span>`;
+  } else if (stars < 200) {
     return `<span style="color: #FFFFFF">[${stars}✫]</span>`;
-  else if (stars < 300)
+  } else if (stars < 300) {
     return `<span style="color: #FFAA00">[${stars}✫]</span>`;
-  else if (stars < 400)
+  } else if (stars < 400) {
     return `<span style="color: #55FFFF">[${stars}✫]</span>`;
-  else if (stars < 500)
+  } else if (stars < 500) {
     return `<span style="color: #00AA00">[${stars}✫]</span>`;
-  else if (stars < 600)
+  } else if (stars < 600) {
     return `<span style="color: #00AAAA">[${stars}✫]</span>`;
-  else if (stars < 700)
+  } else if (stars < 700) {
     return `<span style="color: #AA0000">[${stars}✫]</span>`;
-  else if (stars < 800)
+  } else if (stars < 800) {
     return `<span style="color: #FF55FF">[${stars}✫]</span>`;
-  else if (stars < 900)
+  } else if (stars < 900) {
     return `<span style="color: #5555FF">[${stars}✫]</span>`;
-  else if (stars < 1000)
+  } else if (stars < 1000) {
     return `<span style="color: #AA00AA">[${stars}✫]</span>`;
-  else
+  } else {
     return `<span style="color: #FF5555">[<span style="color: #FFAA00">1</span><span style="color: #FFFF55">${Math.floor(
       (stars % 1000) / 100
     )}</span><span style="color: #55FF55">${Math.floor(
@@ -43,47 +44,59 @@ function starColor(stars) {
     )}</span><span style="color: #55FFFF">${
       stars % 10
     }</span><span style="color: #FF55FF">✯</span><span style="color: #AA00AA">]</span>`;
+  }
 }
 
 function nameColor(player) {
   let rank = player.rank;
-  let plus = player.plus_color;
+  let plus = player.plusColor;
   if (plus !== undefined) {
-    plus = HypixelColors[plus];
+    plus = hypixelRankColors[plus];
   } else plus = '#FF5555';
-  if (rank === 'YOUTUBER')
+  if (rank === 'YOUTUBER') {
     return `<span style="color: #FF5555;">[</span><span style="color: #FFFFFF;">YT</span><span style="color: #FF5555;">] ${player.displayname}</span>`;
-  else if (rank === 'OWNER')
+  } else if (rank === 'OWNER') {
+    return `<span style="color: #AA0000">[OWNER] ${player.displayname}</span>`;
+  } else if (rank === 'Admin') {
     return `<span style="color: #AA0000">[ADMIN] ${player.displayname}</span>`;
-  else if (rank === 'MODERATOR')
+  } else if (rank === 'MODERATOR') {
     return `<span style="color: #00AA00">[MOD] ${player.displayname}</span>`;
-  else if (rank === 'GAME_MASTER')
+  } else if (rank === 'GAME_MASTER') {
     return `<span style="color: #00AA00">[GM] ${player.displayname}</span>`;
-  else if (rank === 'MVP++')
+  } else if (rank === 'MVP++') {
     return `<span style="color: #FFAA00;">[MVP</span><span style="color: ${plus}">++</span><span style="color: #FFAA00;">] ${player.displayname}</span>`;
-  else if (rank === 'MVP+')
+  } else if (rank === 'MVP+') {
     return `<span style="color: #55FFFF;">[MVP</span><span style="color: ${plus}">+</span><span style="color: #55FFFF;">] ${player.displayname}</span>`;
-  else if (rank === 'MVP')
+  } else if (rank === 'MVP') {
     return `<span style="color: #55FFFF;">[MVP] ${player.displayname}</span>`;
-  else if (rank === 'VIP+')
+  } else if (rank === 'VIP+') {
     return `<span style="color: #55FF55;">[VIP</span><span style="color: #FFAA00;">+</span><span style="color: #55FF55;">] ${player.displayname}</span>`;
-  else if (rank === 'VIP')
+  } else if (rank === 'VIP') {
     return `<span style="color: #55FF55;">[VIP] ${player.displayname}</span>`;
-  else return `<span style="color: #AAAAAA;">${player.displayname}</span>`;
+  } else {
+    return `<span style="color: #AAAAAA;">${player.displayname}</span>`;
+  }
 }
 
 function wsColor(ws) {
   try {
-    if (ws < 4) return `<span style="color: #AAAAAA">${ws}</span>`;
-    else if (ws < 10)
-      return `<span style="color: #FFFFFF">${ws}</span>`; //100 stars
-    else if (ws < 25)
-      return `<span style="color: #FFAA00">${ws}</span>`; //200 stars
-    else if (ws < 25)
-      return `<span style="color: #00AAAA">${ws}</span>`; //500 stars
-    else if (ws < 100)
-      return `<span style="color: #AA0000">${ws}</span>`; //600 stars
-    else return `<span style="color: #AA00AA">${ws}</span>`; //900 stars
+    if (ws < 4) {
+      return `<span style="color: #AAAAAA">${ws}</span>`;
+    } else if (ws < 10) {
+      return `<span style="color: #FFFFFF">${ws}</span>`;
+    } //100 stars
+    else if (ws < 25) {
+      return `<span style="color: #FFAA00">${ws}</span>`;
+    } //200 stars
+    else if (ws < 25) {
+      return `<span style="color: #00AAAA">${ws}</span>`;
+    } //500 stars
+    else if (ws < 100) {
+      return `<span style="color: #AA0000">${ws}</span>`;
+    } //600 stars
+    else {
+      return `<span style="color: #AA00AA">${ws}</span>`;
+    } //900 stars
   } catch {
     return `<span style="color: #AAAAAA">${ws}</span>`;
   }
@@ -91,16 +104,23 @@ function wsColor(ws) {
 
 function fkdrColor(fkdr) {
   try {
-    if (fkdr < 1) return `<span style="color: #AAAAAA">${fkdr}</span>`;
-    else if (fkdr < 3)
-      return `<span style="color: #FFFFFF">${fkdr}</span>`; //100 stars
-    else if (fkdr < 5)
-      return `<span style="color: #FFAA00">${fkdr}</span>`; //200 stars
-    else if (fkdr < 10)
-      return `<span style="color: #00AAAA">${fkdr}</span>`; //500 stars
-    else if (fkdr < 25)
-      return `<span style="color: #AA0000">${fkdr}</span>`; //600 stars
-    else return `<span style="color: #AA00AA">${fkdr}</span>`; //900 stars
+    if (fkdr < 1) {
+      return `<span style="color: #AAAAAA">${fkdr}</span>`;
+    } else if (fkdr < 3) {
+      return `<span style="color: #FFFFFF">${fkdr}</span>`;
+    } //100 stars
+    else if (fkdr < 5) {
+      return `<span style="color: #FFAA00">${fkdr}</span>`;
+    } //200 stars
+    else if (fkdr < 10) {
+      return `<span style="color: #00AAAA">${fkdr}</span>`;
+    } //500 stars
+    else if (fkdr < 25) {
+      return `<span style="color: #AA0000">${fkdr}</span>`;
+    } //600 stars
+    else {
+      return `<span style="color: #AA00AA">${fkdr}</span>`;
+    } //900 stars
   } catch {
     return `<span style="color: #AAAAAA">${fkdr}</span>`;
   }

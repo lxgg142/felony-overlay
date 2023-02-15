@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const { app, BrowserWindow, ipcMain } = require('electron');
 const electronLocalshortcut = require('electron-localshortcut');
 const path = require('path');

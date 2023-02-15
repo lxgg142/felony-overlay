@@ -1,6 +1,6 @@
 const remote = require('@electron/remote');
 const fs = require('fs');
-const { apiKey, CLIENTS, client } = require('../../data/config');
+const { APIKey, CLIENTS, client } = require('../../data/config');
 const { bedwars, Errors } = require('../../helper/bedwars');
 const {
   nameColor,
@@ -22,7 +22,7 @@ window.$ = window.jQuery = require('jquery');
 
 const logger = new LoggerManager('Overlay');
 
-let logpath,
+var logPath,
   players = [];
 
 $(() => {
@@ -44,17 +44,17 @@ function main() {
    * adds some HTML elements to an element with the id "ign", and then logs an error
    * message in the console.
    */
-  if (!apiKey.isKey()) {
-    let key = `<li class="player-item "><span style="color: #ef4444">INVAILID/MISSING API KEY</span></li>
+  if (!APIKey.isKey()) {
+    let KEY = `<li class="player-item "><span style="color: #ef4444">INVAILID/MISSING API KEY</span></li>
     <li class="player-item "><span style="color: #ef4444">DO /API NEW</span></li>`;
     $(document).ready(function () {
-      $('#ign').append(key);
+      $('#ign').append(KEY);
     });
     logger.log('API-Key was not specified do: /api new');
   }
 
   loadPATH();
-  if (!fs.existsSync(logpath)) {
+  if (!fs.existsSync(logPath)) {
     return logger.log('logpath was not found!');
   }
 
@@ -63,17 +63,17 @@ function main() {
    * for only one line of log output at a time, and to check the log file for updates
    * every 100 milliseconds.
    */
-  const tail = new Tail(logpath, {
+  const tails = new Tail(logPath, {
     useWatchFile: true,
     nLines: 1,
     fsWatchOptions: { interval: 100 },
   });
 
-  tail.on('line', (data) => {
-    const k = data.indexOf('[CHAT]');
-    if (k !== -1) {
+  tails.on('line', (data) => {
+    const chat = data.indexOf('[CHAT]');
+    if (chat !== -1) {
       const msg = data
-        .substring(k + 7)
+        .substring(chat + 7)
         .replace(/(§|�)([0-9]|a|b|e|d|f|k|l|m|n|o|r|c)/gm, '');
 
       if (msg.indexOf('ONLINE:') !== -1 && msg.indexOf(',') !== -1) {
@@ -122,7 +122,7 @@ function main() {
         removePlayer(left); //remove player from UI (HTML)
       } else if (msg.indexOf('new API key') !== -1 && msg.indexOf(':') === -1) {
         let key = msg.substring(msg.indexOf('is ') + 3);
-        apiKey.setKey(key); //save the api key
+        APIKey.setKey(key); //save the api key
         clear(); //clear the ui (HTML)
       } else if (msg.indexOf('Sending you') !== -1 && msg.indexOf(':') === -1) {
         clear(); //clear the ui (HTML)
@@ -139,44 +139,44 @@ function loadPATH() {
      * and updates the modification times accordingly, sorts the three objects by the
      * modified variable and sets the logpath variable to the modified file.
      */
-    let lunar_18 = {
+    let lunar18 = {
       path: `${homedir}/.lunarclient/offline/1.8/logs/latest.log`,
       modified: 0,
     };
-    let lunar_189 = {
+    let lunar189 = {
       path: `${homedir}/.lunarclient/offline/1.8.9/logs/latest.log`,
       modified: 0,
     };
-    let lunar_multiver = {
+    let lunarMultiver = {
       path: `${homedir}/.lunarclient/offline/multiver/logs/latest.log`,
       modified: 0,
     };
 
-    if (fs.existsSync(lunar_18.path))
-      lunar_18.modified = fs.statSync(lunar_18.path).mtime;
-    if (fs.existsSync(lunar_189.path))
-      lunar_189.modified = fs.statSync(lunar_189.path).mtime;
-    if (fs.existsSync(lunar_multiver.path))
-      lunar_multiver.modified = fs.statSync(lunar_multiver.path).mtime;
+    if (fs.existsSync(lunar18.path))
+      lunar18.modified = fs.statSync(lunar18.path).mtime;
+    if (fs.existsSync(lunar189.path))
+      lunar189.modified = fs.statSync(lunar189.path).mtime;
+    if (fs.existsSync(lunarMultiver.path))
+      lunarMultiver.modified = fs.statSync(lunarMultiver.path).mtime;
 
-    const lunarLogs = [lunar_18, lunar_189, lunar_multiver];
+    const lunarLogs = [lunar18, lunar189, lunarMultiver];
 
     lunarLogs.sort((a, b) => {
       return b.modified - a.modified;
     });
 
-    return (logpath = lunarLogs[0].path);
+    return (logPath = lunarLogs[0].path);
   } else if (process.platform === 'darwin') {
     if (client.getClient() === CLIENTS.badlion) {
-      return (logpath = `${homedir}/Library/Application Support/minecraft/logs/blclient/minecraft/latest.log`);
+      return (logPath = `${homedir}/Library/Application Support/minecraft/logs/blclient/minecraft/latest.log`);
     } else if (client.getClient() === CLIENTS.default) {
-      return (logpath = `${homedir}/Library/Application Support/minecraft/logs/latest.log`);
+      return (logPath = `${homedir}/Library/Application Support/minecraft/logs/latest.log`);
     }
   } else {
     if (client.getClient() === CLIENTS.badlion) {
-      return (logpath = `${homedir}/AppData/Roaming/.minecraft/logs/blclient/minecraft/latest.log`);
+      return (logPath = `${homedir}/AppData/Roaming/.minecraft/logs/blclient/minecraft/latest.log`);
     } else if (client.getClient() === CLIENTS.default) {
-      return (logpath = `${homedir}/AppData/Roaming/.minecraft/logs/latest.log`);
+      return (logPath = `${homedir}/AppData/Roaming/.minecraft/logs/latest.log`);
     }
   }
 }
@@ -187,41 +187,52 @@ async function addPlayer(player) {
     info: 'NICK',
     rank: undefined,
     displayname: player,
-    plus_color: {
+    plusColor: {
       color: '',
     },
   };
+  var ign;
+  var winstreak;
+  var fkdr;
+  var wlr;
+  var finals;
+  var wins;
+  var blr;
 
   if (playerStats.success == true) {
-    var ign = `<li class="player-item ${player}">
+    ign = `<li class="player-item ${player}">
     ${starColor(playerStats.star)} 
     ${nameColor(playerStats.player)}</li>`;
-    var winstreak = `<li class="player-item ${player}">
+    winstreak = `<li class="player-item ${player}">
     ${wsColor(playerStats.winstreak)}</li>`;
-    var fkdr = `<li class="player-item ${player}">
+    fkdr = `<li class="player-item ${player}">
     ${fkdrColor(playerStats.finalKDRatio)}</li>`;
-    var wlr = `<li class="player-item ${player}">
+    wlr = `<li class="player-item ${player}">
     ${wlrColor(playerStats.WLRatio)}</li>`;
-    var finals = `<li class="player-item ${player}">
+    finals = `<li class="player-item ${player}">
     ${finalsColor(playerStats.finalKills)}</li>`;
-    var wins = `<li class="player-item ${player}">
+    wins = `<li class="player-item ${player}">
     ${winsColor(playerStats.wins)}</li>`;
-    var blr = `<li class="player-item ${player}">
+    blr = `<li class="player-item ${player}">
     ${bblrColor(playerStats.BLRatio)}</li>`;
   } else {
-    console.log(playerStats.error);
-    if (playerStats.error == Errors.PLAYER_HAS_NOT_PLAYED_BEDWARS)
+    if (playerStats.error === Errors.PLAYER_NOT_PLAYED_BEDWARS) {
       playerInfo.info = 'NEW';
+      playerInfo.rank = playerStats.player.rank;
+      playerInfo.plusColor.color = playerStats.player.plusColor;
+      playerInfo.displayname = playerStats.player.displayname;
+    } else if (playerStats.error === Errors.PLAYER_HAS_NEVER_LOGGED)
+      playerInfo.info = 'NICK';
 
-    var ign = `<li class="player-item ${player}">
+    ign = `<li class="player-item ${player}">
     ${starColor(0)} ${nameColor(playerInfo)} ${tagsColor(playerInfo.info)}
     </li>`;
-    var winstreak = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`;
-    var fkdr = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`;
-    var wlr = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`;
-    var finals = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`;
-    var wins = `<li class="player-item ${player}">-</li>`;
-    var blr = `<li class="player-item ${player}">-</li>`;
+    winstreak = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`;
+    fkdr = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`;
+    wlr = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`;
+    finals = `<li class="player-item ${player}"><span style="color: #FF5555;">-</span></li>`;
+    wins = `<li class="player-item ${player}">-</li>`;
+    blr = `<li class="player-item ${player}">-</li>`;
   }
 
   $('#ign').append(ign);
@@ -243,16 +254,8 @@ function clear() {
 
 // testarea
 
-/**
- * const ign = [
-  'obvBetter',
-  'eGirlEismelSimp',
-  'Zumulus',
-  'Hypixel',
-  'fiesifjseijfisejfi',
-];
+const ign = ['obvBetter'];
 
 for (let i = 0; i < ign.length; i++) {
   addPlayer(ign[i]);
 }
- */

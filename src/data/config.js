@@ -22,7 +22,7 @@ const logger = new LoggerManager('CONFIG');
  * @author lxgg#8588
  */
 
-const apiKey = {
+const APIKey = {
   /**
    * @returns true if config contains api key
    */
@@ -127,4 +127,4 @@ const mode = {
   },
 };
 
-module.exports = { apiKey, client, CLIENTS, mode, MODES };
+module.exports = { APIKey, client, CLIENTS, mode, MODES };
