@@ -15,7 +15,7 @@ const {
 } = require('../../helper/hypixelColors');
 const LoggerManager = require('../../helper/logger');
 
-const Tail = require('tail').Tail;
+const Tails = require('tail').Tail;
 const { app } = remote;
 const homedir = app.getPath('home').replaceAll('\\', '/');
 window.$ = window.jQuery = require('jquery');
@@ -63,13 +63,13 @@ function main() {
    * for only one line of log output at a time, and to check the log file for updates
    * every 100 milliseconds.
    */
-  const tails = new Tail(logPath, {
+  const tail = new Tails(logPath, {
     useWatchFile: true,
     nLines: 1,
     fsWatchOptions: { interval: 100 },
   });
 
-  tails.on('line', (data) => {
+  tail.on('line', (data) => {
     const chat = data.indexOf('[CHAT]');
     if (chat !== -1) {
       const msg = data
