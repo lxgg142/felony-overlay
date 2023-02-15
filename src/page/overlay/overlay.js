@@ -243,7 +243,8 @@ function clear() {
 
 // testarea
 
-const ign = [
+/**
+ * const ign = [
   'obvBetter',
   'eGirlEismelSimp',
   'Zumulus',
@@ -254,3 +255,4 @@ const ign = [
 for (let i = 0; i < ign.length; i++) {
   addPlayer(ign[i]);
 }
+ */
