@@ -1,5 +1,5 @@
-const hypixel = require('../api/hypixelAPI');
-const { mode } = require('../data/config');
+const hypixel = require('../api/hypixelAPI.js');
+const { mode } = require('../data/config.js');
 
 /**
  * @author lxgg#8588
@@ -19,22 +19,29 @@ const bedwars = {
     var gamemode = mode.getMode();
 
     if (playerStats.stats.bedwars != undefined) {
+      var wins = null
+      var losses = null
+      var finalKills = null
+      var finalDeaths = null
+      var bedsBroken = null
+      var bedsLost = null
+      var winstreak = null
       if (gamemode != 'overall') {
-        var wins = playerStats.stats.bedwars[gamemode].wins;
-        var losses = playerStats.stats.bedwars[gamemode].losses;
-        var finalKills = playerStats.stats.bedwars[gamemode].finalKills;
-        var finalDeaths = playerStats.stats.bedwars[gamemode].finalDeaths;
-        var bedsBroken = playerStats.stats.bedwars[gamemode].beds.broken;
-        var bedsLost = playerStats.stats.bedwars[gamemode].beds.lost;
-        var winstreak = playerStats.stats.bedwars[gamemode].winstreak || '?';
+        wins = playerStats.stats.bedwars[gamemode].wins;
+        losses = playerStats.stats.bedwars[gamemode].losses;
+        finalKills = playerStats.stats.bedwars[gamemode].finalKills;
+        finalDeaths = playerStats.stats.bedwars[gamemode].finalDeaths;
+        bedsBroken = playerStats.stats.bedwars[gamemode].beds.broken;
+        bedsLost = playerStats.stats.bedwars[gamemode].beds.lost;
+        winstreak = playerStats.stats.bedwars[gamemode].winstreak || '?';
       } else {
-        var wins = playerStats.stats.bedwars.wins;
-        var losses = playerStats.stats.bedwars.losses;
-        var finalKills = playerStats.stats.bedwars.finalKills;
-        var finalDeaths = playerStats.stats.bedwars.finalDeaths;
-        var bedsBroken = playerStats.stats.bedwars.beds.broken;
-        var bedsLost = playerStats.stats.bedwars.beds.lost;
-        var winstreak = playerStats.stats.bedwars.winstreak || '?';
+        wins = playerStats.stats.bedwars.wins;
+        losses = playerStats.stats.bedwars.losses;
+        finalKills = playerStats.stats.bedwars.finalKills;
+        finalDeaths = playerStats.stats.bedwars.finalDeaths;
+        bedsBroken = playerStats.stats.bedwars.beds.broken;
+        bedsLost = playerStats.stats.bedwars.beds.lost;
+        winstreak = playerStats.stats.bedwars.winstreak || '?';
       }
 
       return {
