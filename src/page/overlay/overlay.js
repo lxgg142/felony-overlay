@@ -1,10 +1,4 @@
-const { nameColor, fkdrColor, bblrColor, wsColor, winsColor, finalsColor, starColor, wlrColor } = require('../../helper/hypixelColors.js');
-const { apiKey, CLIENTS, client } = require('../../data/config.js');
-const homedir = app.getPath('home').replaceAll('\\', '/');
-const loggerManager = require('../../helper/logger.js');
-const { bedwars } = require('../../helper/bedwars.js');
 const remote = require('@electron/remote');
-const tails = require('tail').Tail;
 const fs = require('fs');
 const { APIKey, CLIENTS, client } = require('../../data/config');
 const { bedwars, Errors } = require('../../helper/bedwars');
@@ -23,11 +17,10 @@ const LoggerManager = require('../../helper/logger');
 
 const Tails = require('tail').Tail;
 const { app } = remote;
-
-// eslint-disable-next-line
+const homedir = app.getPath('home').replaceAll('\\', '/');
 window.$ = window.jQuery = require('jquery');
 
-const logger = new loggerManager('Overlay');
+const logger = new LoggerManager('Overlay');
 
 var logPath,
   players = [];
@@ -85,7 +78,7 @@ function main() {
 
       if (msg.indexOf('ONLINE:') !== -1 && msg.indexOf(',') !== -1) {
         clear();
-        const who = msg.substring(8).split(', ');
+        let who = msg.substring(8).split(', ');
         /**
          * looping through an array of strings, "who", and checking them against an array
          * of players. If the players array does not contain the first name of each string
@@ -94,7 +87,8 @@ function main() {
          */
         for (let i = 0; i < who.length; i++) {
           if (!players.includes(who[i].split(' ')[0])) {
-            if (who[i].indexOf('[') !== -1) { who[i] = who[i].substring(0, who[i].indexOf('[') - 1); }
+            if (who[i].indexOf('[') !== -1)
+              who[i] = who[i].substring(0, who[i].indexOf('[') - 1);
             let contains = false;
             for (let l = 0; l < players.length; l++) {
               if (players[l] === who[i]) contains = true;
@@ -108,7 +102,7 @@ function main() {
           }
         }
       } else if (msg.indexOf('has joined') !== -1 && msg.indexOf(':') === -1) {
-        const join = msg.split(' ')[0];
+        let join = msg.split(' ')[0];
         // if a player is already in the players array. If the player is not already in the array, it adds the player to the array.
         let contains = false;
         for (let i = 0; i < players.length; i++) {
@@ -118,7 +112,7 @@ function main() {
         }
         if (!contains) addPlayer(join); //adds Player to UI (HTML)
       } else if (msg.indexOf('has quit') !== -1 && msg.indexOf(':') === -1) {
-        const left = msg.split(' ')[0];
+        let left = msg.split(' ')[0];
         //remove player from array
         for (let i = 0; i < players.length; i++) {
           if (left == players[i]) {

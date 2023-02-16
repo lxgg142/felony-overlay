@@ -1,6 +1,6 @@
-const loggerManager = require('../helper/logger.js');
-const electronStore = require('electron-store');
-const store = new electronStore({
+const Store = require('electron-store');
+const LoggerManager = require('../helper/logger');
+const store = new Store({
   schema: {
     key: {
       default: '',
@@ -16,7 +16,7 @@ const store = new electronStore({
   },
 });
 
-const logger = new loggerManager('CONFIG');
+const logger = new LoggerManager('CONFIG');
 
 /**
  * @author lxgg#8588
@@ -31,9 +31,7 @@ const APIKey = {
       const key = store.get('key');
       if (key) return true;
       else return false;
-    } catch (error) {
-      logger.error(error)
-    }
+    } catch (error) {}
   },
 
   /**
@@ -55,9 +53,7 @@ const APIKey = {
     try {
       const key = store.get('key');
       return key;
-    } catch (error) {
-      logger.error(error)
-    }
+    } catch (error) {}
   },
 };
 
@@ -76,9 +72,7 @@ const client = {
       const client = store.get('client');
       if (client) return true;
       else return false;
-    } catch (error) {
-      logger.error(error)
-    }
+    } catch (error) {}
   },
 
   /**
@@ -88,9 +82,7 @@ const client = {
     try {
       const client = store.get('client');
       return client;
-    } catch (error) {
-      logger.error(error)
-    }
+    } catch (error) {}
   },
 
   /**
@@ -100,9 +92,7 @@ const client = {
     try {
       if (client == null) return;
       store.set('client', client);
-    } catch (error) {
-      logger.error(error)
-    }
+    } catch (error) {}
   },
 };
 
@@ -123,9 +113,7 @@ const mode = {
     try {
       const mode = store.get('mode');
       return mode;
-    } catch (error) {
-      logger.error(error)
-    }
+    } catch (error) {}
   },
 
   /**
@@ -135,9 +123,7 @@ const mode = {
     try {
       if (mode == null) return;
       store.set('mode', mode);
-    } catch (error) {
-      logger.error(error)
-    }
+    } catch (error) {}
   },
 };
 

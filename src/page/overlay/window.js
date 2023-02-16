@@ -1,4 +1,3 @@
-const { client, CLIENTS, mode, MODES, apiKey } = require('../../data/config.js');
 const { ipcRenderer, clipboard } = require('electron');
 const { modalWindow } = require('./modalWindow.js');
 modalWindow.initialize();

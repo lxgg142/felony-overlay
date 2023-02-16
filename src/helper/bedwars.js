@@ -91,6 +91,5 @@ const bedwars = {
     }
   },
 };
-/* eslint-enable */
 
 module.exports = { bedwars, Errors };

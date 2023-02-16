@@ -1,5 +1,5 @@
-const loggerManager = require('../../helper/logger.js');
-const logger = new loggerManager('RPC');
+const LoggerManager = require('../../helper/logger');
+const logger = new LoggerManager('RPC');
 
 const { clientId } = require('../../config.json');
 
