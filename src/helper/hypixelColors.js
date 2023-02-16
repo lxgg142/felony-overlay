@@ -16,78 +16,87 @@ const hypixelRankColors = {
 };
 
 function starColor(stars) {
-  if (stars < 100) {return `<span style="color: #AAAAAA;">[${stars}✫]</span>`;}
-  else if (stars < 200)
-    {return `<span style="color: #FFFFFF">[${stars}✫]</span>`;}
-  else if (stars < 300)
-    {return `<span style="color: #FFAA00">[${stars}✫]</span>`;}
-  else if (stars < 400)
-    {return `<span style="color: #55FFFF">[${stars}✫]</span>`;}
-  else if (stars < 500)
-    {return `<span style="color: #00AA00">[${stars}✫]</span>`;}
-  else if (stars < 600)
-    {return `<span style="color: #00AAAA">[${stars}✫]</span>`;}
-  else if (stars < 700)
-    {return `<span style="color: #AA0000">[${stars}✫]</span>`;}
-  else if (stars < 800)
-    {return `<span style="color: #FF55FF">[${stars}✫]</span>`;}
-  else if (stars < 900)
-    {return `<span style="color: #5555FF">[${stars}✫]</span>`;}
-  else if (stars < 1000)
-    {return `<span style="color: #AA00AA">[${stars}✫]</span>`;}
-  else
-    {return `<span style="color: #FF5555">[<span style="color: #FFAA00">1</span><span style="color: #FFFF55">${Math.floor(
+  if (stars < 100) {
+    return `<span style="color: #AAAAAA;">[${stars}✫]</span>`;
+  } else if (stars < 200) {
+    return `<span style="color: #FFFFFF">[${stars}✫]</span>`;
+  } else if (stars < 300) {
+    return `<span style="color: #FFAA00">[${stars}✫]</span>`;
+  } else if (stars < 400) {
+    return `<span style="color: #55FFFF">[${stars}✫]</span>`;
+  } else if (stars < 500) {
+    return `<span style="color: #00AA00">[${stars}✫]</span>`;
+  } else if (stars < 600) {
+    return `<span style="color: #00AAAA">[${stars}✫]</span>`;
+  } else if (stars < 700) {
+    return `<span style="color: #AA0000">[${stars}✫]</span>`;
+  } else if (stars < 800) {
+    return `<span style="color: #FF55FF">[${stars}✫]</span>`;
+  } else if (stars < 900) {
+    return `<span style="color: #5555FF">[${stars}✫]</span>`;
+  } else if (stars < 1000) {
+    return `<span style="color: #AA00AA">[${stars}✫]</span>`;
+  } else {
+    return `<span style="color: #FF5555">[<span style="color: #FFAA00">1</span><span style="color: #FFFF55">${Math.floor(
       (stars % 1000) / 100
     )}</span><span style="color: #55FF55">${Math.floor(
       (stars % 100) / 10
     )}</span><span style="color: #55FFFF">${
       stars % 10
-    }</span><span style="color: #FF55FF">✯</span><span style="color: #AA00AA">]</span>`;}
+    }</span><span style="color: #FF55FF">✯</span><span style="color: #AA00AA">]</span>`;
+  }
 }
 
 function nameColor(player) {
-  const rank = player.rank;
-  let plus = player.plus_color;
+  let rank = player.rank;
+  let plus = player.plusColor;
   if (plus !== undefined) {
     plus = hypixelRankColors[plus];
-  } else {plus = '#FF5555';}
-  if (rank.rank !== undefined) {
-    if (rank.rank === 'YOUTUBER')
-      {return `<span style="color: #FF5555;">[</span><span style="color: #FFFFFF;">YT</span><span style="color: #FF5555;">] ${rank.displayname}</span>`;}
-    else if (rank.rank === 'ADMIN')
-      {return `<span style="color: #AA0000">[ADMIN] ${rank.displayname}</span>`;}
-    else if (rank.rank === 'MODERATOR')
-      {return `<span style="color: #00AA00">[MOD] ${rank.displayname}</span>`;}
-    else if (rank.rank === 'GAME_MASTER')
-      {return `<span style="color: #00AA00">[GM] ${rank.displayname}</span>`;}
-  }
-  if (rank === 'MVP++') {
+  } else plus = '#FF5555';
+  if (rank === 'YOUTUBER') {
+    return `<span style="color: #FF5555;">[</span><span style="color: #FFFFFF;">YT</span><span style="color: #FF5555;">] ${player.displayname}</span>`;
+  } else if (rank === 'OWNER') {
+    return `<span style="color: #AA0000">[OWNER] ${player.displayname}</span>`;
+  } else if (rank === 'Admin') {
+    return `<span style="color: #AA0000">[ADMIN] ${player.displayname}</span>`;
+  } else if (rank === 'MODERATOR') {
+    return `<span style="color: #00AA00">[MOD] ${player.displayname}</span>`;
+  } else if (rank === 'GAME_MASTER') {
+    return `<span style="color: #00AA00">[GM] ${player.displayname}</span>`;
+  } else if (rank === 'MVP++') {
     return `<span style="color: #FFAA00;">[MVP</span><span style="color: ${plus}">++</span><span style="color: #FFAA00;">] ${player.displayname}</span>`;
   } else if (rank === 'MVP+') {
     return `<span style="color: #55FFFF;">[MVP</span><span style="color: ${plus}">+</span><span style="color: #55FFFF;">] ${player.displayname}</span>`;
-  } else if (rank === 'MVP')
-    {return `<span style="color: #55FFFF;">[MVP] ${player.displayname}</span>`;}
-  else if (rank === 'VIP+')
-    {return `<span style="color: #55FF55;">[VIP</span><span style="color: #FFAA00;">+</span><span style="color: #55FF55;">] ${player.displayname}</span>`;}
-  else if (rank === 'VIP')
-    {return `<span style="color: #55FF55;">[VIP] ${player.displayname}</span>`;}
-  else {return `<span style="color: #AAAAAA;">${player.displayname}</span>`;}
+  } else if (rank === 'MVP') {
+    return `<span style="color: #55FFFF;">[MVP] ${player.displayname}</span>`;
+  } else if (rank === 'VIP+') {
+    return `<span style="color: #55FF55;">[VIP</span><span style="color: #FFAA00;">+</span><span style="color: #55FF55;">] ${player.displayname}</span>`;
+  } else if (rank === 'VIP') {
+    return `<span style="color: #55FF55;">[VIP] ${player.displayname}</span>`;
+  } else {
+    return `<span style="color: #AAAAAA;">${player.displayname}</span>`;
+  }
 }
 
 function wsColor(ws) {
   try {
-    if (ws < 4) {return `<span style="color: #AAAAAA">${ws}</span>`;}
-    else if (ws < 10)
-      {return `<span style="color: #FFFFFF">${ws}</span>`;} //100 stars
-    else if (ws < 25)
-      {return `<span style="color: #FFAA00">${ws}</span>`;} //200 stars
-      // TODO ask lxgg about this
-      // eslint-disable-next-line
-    else if (ws < 25)
-      {return `<span style="color: #00AAAA">${ws}</span>`;} //500 stars
-    else if (ws < 100)
-      {return `<span style="color: #AA0000">${ws}</span>`;} //600 stars
-    else {return `<span style="color: #AA00AA">${ws}</span>`;} //900 stars
+    if (ws < 4) {
+      return `<span style="color: #AAAAAA">${ws}</span>`;
+    } else if (ws < 10) {
+      return `<span style="color: #FFFFFF">${ws}</span>`;
+    } //100 stars
+    else if (ws < 25) {
+      return `<span style="color: #FFAA00">${ws}</span>`;
+    } //200 stars
+    else if (ws < 25) {
+      return `<span style="color: #00AAAA">${ws}</span>`;
+    } //500 stars
+    else if (ws < 100) {
+      return `<span style="color: #AA0000">${ws}</span>`;
+    } //600 stars
+    else {
+      return `<span style="color: #AA00AA">${ws}</span>`;
+    } //900 stars
   } catch {
     return `<span style="color: #AAAAAA">${ws}</span>`;
   }
@@ -95,16 +104,23 @@ function wsColor(ws) {
 
 function fkdrColor(fkdr) {
   try {
-    if (fkdr < 1) {return `<span style="color: #AAAAAA">${fkdr}</span>`;}
-    else if (fkdr < 3)
-      {return `<span style="color: #FFFFFF">${fkdr}</span>`;} //100 stars
-    else if (fkdr < 5)
-      {return `<span style="color: #FFAA00">${fkdr}</span>`;} //200 stars
-    else if (fkdr < 10)
-      {return `<span style="color: #00AAAA">${fkdr}</span>`;} //500 stars
-    else if (fkdr < 25)
-      {return `<span style="color: #AA0000">${fkdr}</span>`;} //600 stars
-    else {return `<span style="color: #AA00AA">${fkdr}</span>`;} //900 stars
+    if (fkdr < 1) {
+      return `<span style="color: #AAAAAA">${fkdr}</span>`;
+    } else if (fkdr < 3) {
+      return `<span style="color: #FFFFFF">${fkdr}</span>`;
+    } //100 stars
+    else if (fkdr < 5) {
+      return `<span style="color: #FFAA00">${fkdr}</span>`;
+    } //200 stars
+    else if (fkdr < 10) {
+      return `<span style="color: #00AAAA">${fkdr}</span>`;
+    } //500 stars
+    else if (fkdr < 25) {
+      return `<span style="color: #AA0000">${fkdr}</span>`;
+    } //600 stars
+    else {
+      return `<span style="color: #AA00AA">${fkdr}</span>`;
+    } //900 stars
   } catch {
     return `<span style="color: #AAAAAA">${fkdr}</span>`;
   }
@@ -179,6 +195,11 @@ function bblrColor(bblr) {
   }
 }
 
+function tagsColor(tag) {
+  if (tag == 'NICK') return `<span style="color: #f59e0b">${tag}</span>`;
+  else if (tag == 'NEW') return `<span style="color: #5555FF">${tag}</span>`;
+}
+
 module.exports = {
   starColor,
   nameColor,
@@ -188,4 +209,5 @@ module.exports = {
   finalsColor,
   winsColor,
   bblrColor,
+  tagsColor,
 };

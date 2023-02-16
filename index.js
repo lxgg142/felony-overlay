@@ -53,7 +53,7 @@ function createWindow() {
   remoteMain.initialize();
   remoteMain.enable(win.webContents);
 
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 
   ipc.on('app/close', () => {
     app.quit();
