@@ -1,6 +1,7 @@
 const remote = require('@electron/remote');
 const fs = require('fs');
-const { APIKey, CLIENTS, client } = require('../../data/config');
+const { getWinstreak } = require('../../api/antisniperAPI');
+const { hypixelAPI, CLIENTS, client } = require('../../data/config');
 const { bedwars, Errors } = require('../../helper/bedwars');
 const {
   nameColor,
@@ -12,6 +13,7 @@ const {
   starColor,
   wlrColor,
   tagsColor,
+  guildColor,
 } = require('../../helper/hypixelColors');
 const LoggerManager = require('../../helper/logger');
 
@@ -44,7 +46,7 @@ function main() {
    * adds some HTML elements to an element with the id "ign", and then logs an error
    * message in the console.
    */
-  if (!APIKey.isKey()) {
+  if (!hypixelAPI.isKey()) {
     let KEY = `<li class="player-item "><span style="color: #ef4444">INVAILID/MISSING API KEY</span></li>
     <li class="player-item "><span style="color: #ef4444">DO /API NEW</span></li>`;
     $(document).ready(function () {
@@ -122,7 +124,7 @@ function main() {
         removePlayer(left); //remove player from UI (HTML)
       } else if (msg.indexOf('new API key') !== -1 && msg.indexOf(':') === -1) {
         let key = msg.substring(msg.indexOf('is ') + 3);
-        APIKey.setKey(key); //save the api key
+        hypixelAPI.setKey(key); //save the api key
         clear(); //clear the ui (HTML)
       } else if (msg.indexOf('Sending you') !== -1 && msg.indexOf(':') === -1) {
         clear(); //clear the ui (HTML)
@@ -199,10 +201,13 @@ async function addPlayer(player) {
   var wins;
   var blr;
 
+  console.log(playerStats);
+
   if (playerStats.success == true) {
     ign = `<li class="player-item ${player}">
     ${starColor(playerStats.star)} 
-    ${nameColor(playerStats.player)}</li>`;
+    ${nameColor(playerStats.player)} 
+    ${guildColor(playerStats.guild) || ''}</li>`;
     winstreak = `<li class="player-item ${player}">
     ${wsColor(playerStats.winstreak)}</li>`;
     fkdr = `<li class="player-item ${player}">
@@ -256,6 +261,4 @@ function clear() {
 
 const ign = ['obvBetter'];
 
-for (let i = 0; i < ign.length; i++) {
-  addPlayer(ign[i]);
-}
+addPlayer('obvBetter');

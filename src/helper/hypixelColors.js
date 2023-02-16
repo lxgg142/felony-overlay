@@ -1,4 +1,4 @@
-const hypixelRankColors = {
+const hypixelColors = {
   RED: '#FF5555',
   GOLD: '#FFAA00',
   GREEN: '#55FF55',
@@ -51,7 +51,7 @@ function nameColor(player) {
   let rank = player.rank;
   let plus = player.plusColor;
   if (plus !== undefined) {
-    plus = hypixelRankColors[plus];
+    plus = hypixelColors[plus];
   } else plus = '#FF5555';
   if (rank === 'YOUTUBER') {
     return `<span style="color: #FF5555;">[</span><span style="color: #FFFFFF;">YT</span><span style="color: #FF5555;">] ${player.displayname}</span>`;
@@ -76,6 +76,17 @@ function nameColor(player) {
   } else {
     return `<span style="color: #AAAAAA;">${player.displayname}</span>`;
   }
+}
+
+function guildColor(guild) {
+  let guildTag = guild.guildTag;
+  let guildColor = guild.guildColor;
+  if (guildColor != undefined) {
+    guildColor = hypixelColors[guildColor];
+  } else guildColor = hypixelColors.DARK_GRAY;
+  if (guildTag != undefined) {
+    return `<span style="color: ${guildColor}">[${guildTag}]</span>`;
+  } else return;
 }
 
 function wsColor(ws) {
@@ -203,6 +214,7 @@ function tagsColor(tag) {
 module.exports = {
   starColor,
   nameColor,
+  guildColor,
   wsColor,
   fkdrColor,
   wlrColor,

@@ -1,6 +1,7 @@
 const hypixel = require('../api/hypixelAPI');
-const { mode } = require('../data/config');
+const { mode, store } = require('../data/config');
 const HypixelAPIReborn = require('hypixel-api-reborn');
+const { getWinstreak } = require('../api/antisniperAPI');
 const APIError = HypixelAPIReborn.Errors;
 
 const Errors = {
@@ -26,13 +27,19 @@ const bedwars = {
       else if (err.message === APIError.PLAYER_HAS_NEVER_LOGGED)
         return { success: false, error: Errors.PLAYER_HAS_NEVER_LOGGED };
     });
+
     var nickname = playerStats?.nickname;
-    var plusColor = playerStats?.plusColor;
+    var plusColor = playerStats?.plusColor?.toCode();
     var rank = playerStats?.rank;
     var star = playerStats?.achievements?.bedwarsLevel;
     var gamemode = mode.getMode();
 
-    //console.log(playerStats);
+    const GUILD = store.get('guild');
+    if (GUILD) {
+      const guild = await hypixel.getGuild('player', player);
+      var guildTag = guild.tag;
+      var guildColor = guild.tagColor?.toCode();
+    }
 
     if (playerStats.stats?.bedwars != null) {
       var BLRatio;
@@ -42,6 +49,17 @@ const bedwars = {
       var finalKDRatio;
       var winstreak;
       var wins;
+
+      const WINSTREAK_ESTIMATE = store.get('winstreakEstimate');
+      if (WINSTREAK_ESTIMATE) {
+        var antiWinstreak;
+
+        getWinstreak(player).then((winstreak) => {
+          antiWinstreak = winstreak;
+        });
+
+        console.log(antiWinstreak);
+      }
 
       if (gamemode != 'overall') {
         BLRatio = playerStats.stats.bedwars[gamemode].beds.BLRatio;
@@ -64,7 +82,11 @@ const bedwars = {
         player: {
           rank: rank,
           displayname: nickname,
-          plusColor: plusColor?.toCode() || ' ',
+          plusColor: plusColor || '',
+        },
+        guild: {
+          guildColor: guildColor,
+          guildTag: guildTag,
         },
         star: star,
         BLRatio: BLRatio,
@@ -72,7 +94,7 @@ const bedwars = {
         finalKills: finalKills,
         finalKDRatio: finalKDRatio,
         wins: wins,
-        winstreak: winstreak || 0,
+        winstreak: winstreak,
       };
     } else {
       if (playerStats.error != undefined) {

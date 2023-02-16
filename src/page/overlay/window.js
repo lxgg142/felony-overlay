@@ -1,7 +1,15 @@
 const { ipcRenderer, clipboard } = require('electron');
 const { modalWindow } = require('./modalWindow.js');
 modalWindow.initialize();
-const { client, CLIENTS, mode, MODES, apiKey } = require('../../data/config');
+const {
+  client,
+  CLIENTS,
+  mode,
+  MODES,
+  hypixelAPI,
+  antisniperAPI,
+  store,
+} = require('../../data/config');
 
 const RELOAD = document.getElementById('btnReload');
 const MINUS = document.getElementById('btnMini');
@@ -25,12 +33,24 @@ SETTINGS.addEventListener('click', () => {
 
 // api_key
 
-const API_KEY = document.getElementById('api_key');
-API_KEY.addEventListener('click', () => {
+const hypixelKey = document.getElementById('hypixelKey');
+const antisniperKey = document.getElementById('antisniperKey');
+
+hypixelKey.addEventListener('click', () => {
   let key = clipboard.readText();
   if (key) key = key.replace(/\s/g, '');
   if (key.length !== 36) return;
-  apiKey.setKey(key);
+  hypixelAPI.setKey(key);
+  return modalWindow.open({
+    content: 'API-Key has been pasted in',
+  });
+});
+
+antisniperKey.addEventListener('click', () => {
+  let key = clipboard.readText();
+  if (key) key = key.replace(/\s/g, '');
+  if (key.length !== 36) return;
+  antisniperAPI.setKey(key);
   return modalWindow.open({
     content: 'API-Key has been pasted in',
   });
@@ -151,4 +171,29 @@ FOUR_FOUR.addEventListener('click', () => {
 TWO_FOUR.addEventListener('click', () => {
   if (mode.getMode() == MODES.four_vs_four) return;
   return mode.setMode(MODES.four_vs_four);
+});
+
+//settings
+
+const GUILD_CHECKBOX = document.getElementById('guild');
+const GUILD = store.get('guild');
+if (GUILD) GUILD_CHECKBOX.checked = true;
+GUILD_CHECKBOX.addEventListener('change', (e) => {
+  if (e.target.checked == true) {
+    store.set('guild', true);
+  } else {
+    store.set('guild', false);
+  }
+});
+
+const WINSTREAK_ESTIMATE_CHECKBOX =
+  document.getElementById('winstreakEstimate');
+const WINSTREAK_ESTIMATE = store.get('winstreakEstimate');
+if (WINSTREAK_ESTIMATE) WINSTREAK_ESTIMATE_CHECKBOX.checked = true;
+WINSTREAK_ESTIMATE_CHECKBOX.addEventListener('change', (e) => {
+  if (e.target.checked == true) {
+    store.set('winstreakEstimate', true);
+  } else {
+    store.set('winstreakEstimate', false);
+  }
 });

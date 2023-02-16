@@ -16,6 +16,10 @@ async function setActivity() {
     instance: false,
     details: `The Official Felony Stats Overlay`,
     startTimestamp,
+    largeImageKey: 'felony',
+    largeImageText: 'Felony Overlay',
+    smallImageKey: 'hypixel',
+    smallImageText: 'mc.hypixel.net',
     buttons: [
       {
         label: `Get Overlay`,

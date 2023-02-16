@@ -2,7 +2,10 @@ const Store = require('electron-store');
 const LoggerManager = require('../helper/logger');
 const store = new Store({
   schema: {
-    key: {
+    hypixel: {
+      default: '',
+    },
+    antisniper: {
       default: '',
     },
     client: {
@@ -13,6 +16,14 @@ const store = new Store({
       type: 'string',
       default: 'overall',
     },
+    guild: {
+      type: 'boolean',
+      default: false,
+    },
+    winstreakEstimate: {
+      type: 'boolean',
+      default: false,
+    },
   },
 });
 
@@ -22,13 +33,13 @@ const logger = new LoggerManager('CONFIG');
  * @author lxgg#8588
  */
 
-const APIKey = {
+const hypixelAPI = {
   /**
    * @returns true if config contains api key
    */
   isKey: function () {
     try {
-      const key = store.get('key');
+      const key = store.get('hypixel');
       if (key) return true;
       else return false;
     } catch (error) {}
@@ -39,7 +50,7 @@ const APIKey = {
    */
   setKey: function (apiKey) {
     try {
-      store.set('key', apiKey);
+      store.set('hypixel', apiKey);
       logger.log(`APIKey succesfully set: ${apiKey}`);
     } catch (error) {
       logger.log(`Couldn't set APIKey`);
@@ -51,7 +62,42 @@ const APIKey = {
    */
   getKey: function () {
     try {
-      const key = store.get('key');
+      const key = store.get('hypixel');
+      return key;
+    } catch (error) {}
+  },
+};
+
+const antisniperAPI = {
+  /**
+   * @returns true if config contains api key
+   */
+  isKey: function () {
+    try {
+      const key = store.get('antisniper');
+      if (key) return true;
+      else return false;
+    } catch (error) {}
+  },
+
+  /**
+   * @param {*} apiKey Antisniper key
+   */
+  setKey: function (apiKey) {
+    try {
+      store.set('antisniper', apiKey);
+      logger.log(`APIKey succesfully set: ${apiKey}`);
+    } catch (error) {
+      logger.log(`Couldn't set APIKey`);
+    }
+  },
+
+  /**
+   * @returns Antisniper Key
+   */
+  getKey: function () {
+    try {
+      const key = store.get('antisniper');
       return key;
     } catch (error) {}
   },
@@ -127,4 +173,35 @@ const mode = {
   },
 };
 
-module.exports = { APIKey, client, CLIENTS, mode, MODES };
+const settings = {
+  /**
+   * @param {String} key
+   */
+  get: function (key) {
+    const setting = store.get(key);
+    if (!setting) return;
+    else setting;
+  },
+
+  /**
+   * @param {String} key
+   * @param {*} state
+   */
+  set: function ({ key, state }) {
+    try {
+      if (key == null || state == null) return;
+      store.set(key, state);
+    } catch (error) {}
+  },
+};
+
+module.exports = {
+  antisniperAPI,
+  hypixelAPI,
+  client,
+  CLIENTS,
+  mode,
+  MODES,
+  settings,
+  store,
+};

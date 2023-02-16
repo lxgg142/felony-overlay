@@ -126,9 +126,8 @@
         </div>
 
         <div id="settings" style="display: none">
-          <h1 class="settings_title">Settings</h1>
-
           <div class="settings_wrapper">
+            <h1 class="settings_title">Settings</h1>
             <div class="settings-item">
               <div class="settings-info">
                 <label>Select Client</label>
@@ -169,11 +168,57 @@
 
             <div class="settings-item">
               <div class="settings-info">
+                <label>Guild Tag's</label>
+              </div>
+              <div class="settings-menu">
+                <div
+                  class="settings-content"
+                  style="padding: 0.2em; flex-direction: row-reverse"
+                >
+                  <div class="switch" style="padding: 0.2em">
+                    <input id="guild" type="checkbox" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <div class="settings-info">
+                <label>Winstreak estimate</label>
+              </div>
+              <div class="settings-menu">
+                <div
+                  class="settings-content"
+                  style="padding: 0.2em; flex-direction: row-reverse"
+                >
+                  <div class="switch" style="padding: 0.2em">
+                    <input id="winstreakEstimate" type="checkbox" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h1 class="settings_title">Api Settings</h1>
+
+            <div class="settings-item">
+              <div class="settings-info">
                 <label>Hypixel Api</label>
                 <p>do /api new</p>
               </div>
               <div class="settings-menu">
-                <div class="api-menu" id="api_key">
+                <div class="api-menu" id="hypixelKey">
+                  <a>Click to paste API Key</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <div class="settings-info">
+                <label>Antisniper Api</label>
+                <p>Requiert for Winstreak estimate</p>
+              </div>
+              <div class="settings-menu">
+                <div class="api-menu" id="antisniperKey">
                   <a>Click to paste API Key</a>
                 </div>
               </div>
