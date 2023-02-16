@@ -1,26 +1,15 @@
-const remote = require('@electron/remote');
-const fs = require('fs');
-const { APIKey, CLIENTS, client } = require('../../data/config');
-const { bedwars, Errors } = require('../../helper/bedwars');
-const {
-  nameColor,
-  fkdrColor,
-  bblrColor,
-  wsColor,
-  winsColor,
-  finalsColor,
-  starColor,
-  wlrColor,
-  tagsColor,
-} = require('../../helper/hypixelColors');
-const LoggerManager = require('../../helper/logger');
-
-const Tails = require('tail').Tail;
-const { app } = remote;
+const { nameColor, fkdrColor, bblrColor, wsColor, winsColor, finalsColor, starColor, wlrColor, tagsColor } = require('../../helper/hypixelColors.js');
+const { hypixelAPIKey, clients, client } = require('../../data/config.js');
+const { bedwars, errors } = require('../../helper/bedwars.js');
 const homedir = app.getPath('home').replaceAll('\\', '/');
-window.$ = window.jQuery = require('jquery');
+const loggerManager = require('../../helper/logger.js');
+const logger = new loggerManager('Overlay');
+const remote = require('@electron/remote');
+const notTails = require('tail').Tail;
+const fs = require('fs');
+const { app } = remote;
 
-const logger = new LoggerManager('Overlay');
+window.$ = window.jQuery = require('jquery');
 
 var logPath,
   players = [];
@@ -44,8 +33,8 @@ function main() {
    * adds some HTML elements to an element with the id "ign", and then logs an error
    * message in the console.
    */
-  if (!APIKey.isKey()) {
-    let KEY = `<li class="player-item "><span style="color: #ef4444">INVAILID/MISSING API KEY</span></li>
+  if (!hypixelAPIKey.isKey()) {
+    const KEY = `<li class="player-item "><span style="color: #ef4444">INVAILID/MISSING API KEY</span></li>
     <li class="player-item "><span style="color: #ef4444">DO /API NEW</span></li>`;
     $(document).ready(function () {
       $('#ign').append(KEY);
@@ -63,7 +52,7 @@ function main() {
    * for only one line of log output at a time, and to check the log file for updates
    * every 100 milliseconds.
    */
-  const tail = new Tails(logPath, {
+  const tail = new notTails(logPath, {
     useWatchFile: true,
     nLines: 1,
     fsWatchOptions: { interval: 100 },
@@ -78,7 +67,7 @@ function main() {
 
       if (msg.indexOf('ONLINE:') !== -1 && msg.indexOf(',') !== -1) {
         clear();
-        let who = msg.substring(8).split(', ');
+        const who = msg.substring(8).split(', ');
         /**
          * looping through an array of strings, "who", and checking them against an array
          * of players. If the players array does not contain the first name of each string
@@ -87,8 +76,7 @@ function main() {
          */
         for (let i = 0; i < who.length; i++) {
           if (!players.includes(who[i].split(' ')[0])) {
-            if (who[i].indexOf('[') !== -1)
-              who[i] = who[i].substring(0, who[i].indexOf('[') - 1);
+            if (who[i].indexOf('[') !== -1) { who[i] = who[i].substring(0, who[i].indexOf('[') - 1); }
             let contains = false;
             for (let l = 0; l < players.length; l++) {
               if (players[l] === who[i]) contains = true;
@@ -102,7 +90,7 @@ function main() {
           }
         }
       } else if (msg.indexOf('has joined') !== -1 && msg.indexOf(':') === -1) {
-        let join = msg.split(' ')[0];
+        const join = msg.split(' ')[0];
         // if a player is already in the players array. If the player is not already in the array, it adds the player to the array.
         let contains = false;
         for (let i = 0; i < players.length; i++) {
@@ -112,7 +100,7 @@ function main() {
         }
         if (!contains) addPlayer(join); //adds Player to UI (HTML)
       } else if (msg.indexOf('has quit') !== -1 && msg.indexOf(':') === -1) {
-        let left = msg.split(' ')[0];
+        const left = msg.split(' ')[0];
         //remove player from array
         for (let i = 0; i < players.length; i++) {
           if (left == players[i]) {
@@ -121,8 +109,8 @@ function main() {
         }
         removePlayer(left); //remove player from UI (HTML)
       } else if (msg.indexOf('new API key') !== -1 && msg.indexOf(':') === -1) {
-        let key = msg.substring(msg.indexOf('is ') + 3);
-        APIKey.setKey(key); //save the api key
+        const key = msg.substring(msg.indexOf('is ') + 3);
+        hypixelAPIKey.setKey(key); //save the api key
         clear(); //clear the ui (HTML)
       } else if (msg.indexOf('Sending you') !== -1 && msg.indexOf(':') === -1) {
         clear(); //clear the ui (HTML)
@@ -132,32 +120,29 @@ function main() {
 }
 
 function loadPATH() {
-  if (String(client.getClient()).toUpperCase() === CLIENTS.lunar) {
+  if (String(client.getClient()).toUpperCase() === clients.lunar) {
     /**
      * Find the latest LunarClient log file. It creates three objects containing the
      * path and modification time of the three log files, checks if the files exist
      * and updates the modification times accordingly, sorts the three objects by the
      * modified variable and sets the logpath variable to the modified file.
      */
-    let lunar18 = {
+    const lunar18 = {
       path: `${homedir}/.lunarclient/offline/1.8/logs/latest.log`,
       modified: 0,
     };
-    let lunar189 = {
+    const lunar189 = {
       path: `${homedir}/.lunarclient/offline/1.8.9/logs/latest.log`,
       modified: 0,
     };
-    let lunarMultiver = {
+    const lunarMultiver = {
       path: `${homedir}/.lunarclient/offline/multiver/logs/latest.log`,
       modified: 0,
     };
 
-    if (fs.existsSync(lunar18.path))
-      lunar18.modified = fs.statSync(lunar18.path).mtime;
-    if (fs.existsSync(lunar189.path))
-      lunar189.modified = fs.statSync(lunar189.path).mtime;
-    if (fs.existsSync(lunarMultiver.path))
-      lunarMultiver.modified = fs.statSync(lunarMultiver.path).mtime;
+    if (fs.existsSync(lunar18.path)) { lunar18.modified = fs.statSync(lunar18.path).mtime; }
+    if (fs.existsSync(lunar189.path)) { lunar189.modified = fs.statSync(lunar189.path).mtime; }
+    if (fs.existsSync(lunarMultiver.path)) { lunarMultiver.modified = fs.statSync(lunarMultiver.path).mtime; }
 
     const lunarLogs = [lunar18, lunar189, lunarMultiver];
 
@@ -167,15 +152,15 @@ function loadPATH() {
 
     return (logPath = lunarLogs[0].path);
   } else if (process.platform === 'darwin') {
-    if (client.getClient() === CLIENTS.badlion) {
+    if (client.getClient() === clients.badlion) {
       return (logPath = `${homedir}/Library/Application Support/minecraft/logs/blclient/minecraft/latest.log`);
-    } else if (client.getClient() === CLIENTS.default) {
+    } else if (client.getClient() === clients.default) {
       return (logPath = `${homedir}/Library/Application Support/minecraft/logs/latest.log`);
     }
   } else {
-    if (client.getClient() === CLIENTS.badlion) {
+    if (client.getClient() === clients.badlion) {
       return (logPath = `${homedir}/AppData/Roaming/.minecraft/logs/blclient/minecraft/latest.log`);
-    } else if (client.getClient() === CLIENTS.default) {
+    } else if (client.getClient() === clients.default) {
       return (logPath = `${homedir}/AppData/Roaming/.minecraft/logs/latest.log`);
     }
   }
@@ -183,7 +168,7 @@ function loadPATH() {
 
 async function addPlayer(player) {
   const playerStats = await bedwars.get(player);
-  let playerInfo = {
+  const playerInfo = {
     info: 'NICK',
     rank: undefined,
     displayname: player,
@@ -216,13 +201,12 @@ async function addPlayer(player) {
     blr = `<li class="player-item ${player}">
     ${bblrColor(playerStats.BLRatio)}</li>`;
   } else {
-    if (playerStats.error === Errors.PLAYER_NOT_PLAYED_BEDWARS) {
+    if (playerStats.error === errors.PLAYER_NOT_PLAYED_BEDWARS) {
       playerInfo.info = 'NEW';
       playerInfo.rank = playerStats.player.rank;
       playerInfo.plusColor.color = playerStats.player.plusColor;
       playerInfo.displayname = playerStats.player.displayname;
-    } else if (playerStats.error === Errors.PLAYER_HAS_NEVER_LOGGED)
-      playerInfo.info = 'NICK';
+    } else if (playerStats.error === errors.PLAYER_HAS_NEVER_LOGGED) { playerInfo.info = 'NICK'; }
 
     ign = `<li class="player-item ${player}">
     ${starColor(0)} ${nameColor(playerInfo)} ${tagsColor(playerInfo.info)}

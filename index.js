@@ -2,14 +2,14 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const electronLocalshortcut = require('electron-localshortcut');
 const path = require('path');
-const remoteMain = require('@electron/remote/main');
-const Store = require('electron-store');
+const remoteMain = require('@electron/remote/main.js');
+const store = require('electron-store');
 const ipc = ipcMain;
-Store.initRenderer();
+store.initRenderer();
 
 if (process.platform === 'win32') app.setAppUserModelId('FelonyOverlay');
 function createWindow() {
-  let splash = new BrowserWindow({
+  const splash = new BrowserWindow({
     width: 450,
     height: 200,
     transparent: true,
@@ -22,7 +22,7 @@ function createWindow() {
   splash.setMenu(null);
   splash.center();
 
-  let win = new BrowserWindow({
+  const win = new BrowserWindow({
     maxWidth: 800,
     maxHeight: 600,
     width: 800,

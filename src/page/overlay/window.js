@@ -1,7 +1,7 @@
+const { client, clients, mode, modes, hypixelAPIKey } = require('../../data/config.js');
 const { ipcRenderer, clipboard } = require('electron');
 const { modalWindow } = require('./modalWindow.js');
 modalWindow.initialize();
-const { client, CLIENTS, mode, MODES, apiKey } = require('../../data/config');
 
 const RELOAD = document.getElementById('btnReload');
 const MINUS = document.getElementById('btnMini');
@@ -30,7 +30,7 @@ API_KEY.addEventListener('click', () => {
   let key = clipboard.readText();
   if (key) key = key.replace(/\s/g, '');
   if (key.length !== 36) return;
-  apiKey.setKey(key);
+  hypixelAPIKey.setKey(key);
   return modalWindow.open({
     content: 'API-Key has been pasted in',
   });
@@ -93,24 +93,24 @@ const DEFAULT = document.querySelectorAll("[id='default']");
 
 LUNAR.forEach((button) => {
   button.addEventListener('click', () => {
-    if (String(client.getClient()).toUpperCase() == CLIENTS.lunar) return;
-    client.setClient(CLIENTS.lunar);
+    if (String(client.getClient()).toUpperCase() == clients.lunar) return;
+    client.setClient(clients.lunar);
     return ipcRenderer.send('client/change');
   });
 });
 
 BADLION.forEach((button) => {
   button.addEventListener('click', () => {
-    if (String(client.getClient()).toUpperCase() == CLIENTS.badlion) return;
-    client.setClient(CLIENTS.badlion);
+    if (String(client.getClient()).toUpperCase() == clients.badlion) return;
+    client.setClient(clients.badlion);
     return ipcRenderer.send('client/change');
   });
 });
 
 DEFAULT.forEach((button) => {
   button.addEventListener('click', () => {
-    if (String(client.getClient()).toUpperCase() == CLIENTS.default) return;
-    client.setClient(CLIENTS.default);
+    if (String(client.getClient()).toUpperCase() == clients.default) return;
+    client.setClient(clients.default);
     return ipcRenderer.send('client/change');
   });
 });
@@ -124,31 +124,31 @@ const FOUR_FOUR = document.getElementById('four_four');
 const TWO_FOUR = document.getElementById('two_four');
 
 OVERALL.addEventListener('click', () => {
-  if (mode.getMode() == MODES.overall) return;
-  return mode.setMode(MODES.overall);
+  if (mode.getMode() == modes.overall) return;
+  return mode.setMode(modes.overall);
 });
 
 EIGHT_ONE.addEventListener('click', () => {
-  if (mode.getMode() == MODES.solo) return;
-  return mode.setMode(MODES.solo);
+  if (mode.getMode() == modes.solo) return;
+  return mode.setMode(modes.solo);
 });
 
 EIGHT_TWO.addEventListener('click', () => {
-  if (mode.getMode() == MODES.doubels) return;
-  return mode.setMode(MODES.doubels);
+  if (mode.getMode() == modes.doubels) return;
+  return mode.setMode(modes.doubels);
 });
 
 FOUR_THREE.addEventListener('click', () => {
-  if (mode.getMode() == MODES.trio) return;
-  return mode.setMode(MODES.trio);
+  if (mode.getMode() == modes.trio) return;
+  return mode.setMode(modes.trio);
 });
 
 FOUR_FOUR.addEventListener('click', () => {
-  if (mode.getMode() == MODES.squad) return;
-  return mode.setMode(MODES.squad);
+  if (mode.getMode() == modes.squad) return;
+  return mode.setMode(modes.squad);
 });
 
 TWO_FOUR.addEventListener('click', () => {
-  if (mode.getMode() == MODES.four_vs_four) return;
-  return mode.setMode(MODES.four_vs_four);
+  if (mode.getMode() == modes.four_vs_four) return;
+  return mode.setMode(modes.four_vs_four);
 });

@@ -1,6 +1,6 @@
-const Store = require('electron-store');
-const LoggerManager = require('../helper/logger');
-const store = new Store({
+const loggerManager = require('../helper/logger.js');
+const store = require('electron-store');
+const workingStore = new store({
   schema: {
     key: {
       default: '',
@@ -16,22 +16,24 @@ const store = new Store({
   },
 });
 
-const logger = new LoggerManager('CONFIG');
+const logger = new loggerManager('CONFIG');
 
 /**
  * @author lxgg#8588
  */
 
-const APIKey = {
+const hypixelAPIKey = {
   /**
    * @returns true if config contains api key
    */
   isKey: function () {
     try {
-      const key = store.get('key');
+      const key = workingStore.get('key');
       if (key) return true;
       else return false;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 
   /**
@@ -39,7 +41,7 @@ const APIKey = {
    */
   setKey: function (apiKey) {
     try {
-      store.set('key', apiKey);
+      workingStore.set('key', apiKey);
       logger.log(`APIKey succesfully set: ${apiKey}`);
     } catch (error) {
       logger.log(`Couldn't set APIKey`);
@@ -51,13 +53,15 @@ const APIKey = {
    */
   getKey: function () {
     try {
-      const key = store.get('key');
+      const key = workingStore.get('key');
       return key;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 };
 
-const CLIENTS = {
+const clients = {
   lunar: 'LUNAR',
   badlion: 'BADLION',
   default: 'DEFAULT',
@@ -69,10 +73,12 @@ const client = {
    */
   isClient: function () {
     try {
-      const client = store.get('client');
+      const client = workingStore.get('client');
       if (client) return true;
       else return false;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 
   /**
@@ -80,9 +86,11 @@ const client = {
    */
   getClient: function () {
     try {
-      const client = store.get('client');
+      const client = workingStore.get('client');
       return client;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 
   /**
@@ -91,12 +99,14 @@ const client = {
   setClient: function (client) {
     try {
       if (client == null) return;
-      store.set('client', client);
-    } catch (error) {}
+      workingStore.set('client', client);
+    } catch (error) {
+      console.log(error)
+    }
   },
 };
 
-const MODES = {
+const modes = {
   overall: 'overall',
   squad: 'fours',
   trio: 'threes',
@@ -111,9 +121,11 @@ const mode = {
    */
   getMode: function () {
     try {
-      const mode = store.get('mode');
+      const mode = workingStore.get('mode');
       return mode;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 
   /**
@@ -122,9 +134,11 @@ const mode = {
   setMode: function (mode) {
     try {
       if (mode == null) return;
-      store.set('mode', mode);
-    } catch (error) {}
+      workingStore.set('mode', mode);
+    } catch (error) {
+      console.log(error)
+    }
   },
 };
 
-module.exports = { APIKey, client, CLIENTS, mode, MODES };
+module.exports = { hypixelAPIKey, client, clients, mode,  modes };
