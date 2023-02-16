@@ -52,6 +52,7 @@ const bedwars = {
 
       const WINSTREAK_ESTIMATE = store.get('winstreakEstimate');
       if (WINSTREAK_ESTIMATE) {
+        // antiWinstreak is undefind
         var antiWinstreak;
 
         getWinstreak(player).then((winstreak) => {
