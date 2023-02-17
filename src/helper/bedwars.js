@@ -1,10 +1,10 @@
-const hypixel = require('../api/hypixelAPI');
-const { mode, store } = require('../data/config');
-const HypixelAPIReborn = require('hypixel-api-reborn');
-const { getWinstreak } = require('../api/antisniperAPI');
-const APIError = HypixelAPIReborn.Errors;
+const { getWinstreak } = require('../api/antisniperAPI.js');
+const hypixelAPIReborn = require('hypixel-api-reborn');
+const { mode, store } = require('../data/config.js');
+const hypixel = require('../api/hypixelAPI.js');
+const apiErrors = hypixelAPIReborn.Errors;
 
-const Errors = {
+const normalErrors = {
   PLAYER_DOES_NOT_EXIST: 'Player does not exist',
   PLAYER_NOT_PLAYED_BEDWARS: 'Player has not played Bedwars',
   PLAYER_HAS_NEVER_LOGGED: 'Player has never logged into Hypixel',
@@ -22,10 +22,10 @@ const bedwars = {
   get: async function (player) {
     const playerStats = await hypixel.getPlayer(player).catch((err) => {
       console.log(err);
-      if (err.message === APIError.PLAYER_DOES_NOT_EXIST)
-        return { success: false, error: Errors.PLAYER_DOES_NOT_EXIST };
-      else if (err.message === APIError.PLAYER_HAS_NEVER_LOGGED)
-        return { success: false, error: Errors.PLAYER_HAS_NEVER_LOGGED };
+      if (err.message === apiErrors.PLAYER_DOES_NOT_EXIST)
+        {return { success: false, error: normalErrors.PLAYER_DOES_NOT_EXIST };}
+      else if (err.message === apiErrors.PLAYER_HAS_NEVER_LOGGED)
+        {return { success: false, error: normalErrors.PLAYER_HAS_NEVER_LOGGED };}
     });
 
     var nickname = playerStats?.nickname;
@@ -42,9 +42,8 @@ const bedwars = {
     }
 
     if (playerStats.stats?.bedwars != null) {
-      var BLRatio;
-      var WLRatio;
-      var finalKills;
+      var bedLossRatio;
+      var winLossRatio;
       var finalKills;
       var finalKDRatio;
       var winstreak;
@@ -63,15 +62,15 @@ const bedwars = {
       }
 
       if (gamemode != 'overall') {
-        BLRatio = playerStats.stats.bedwars[gamemode].beds.BLRatio;
-        WLRatio = playerStats.stats.bedwars[gamemode].WLRatio;
+        bedLossRatio = playerStats.stats.bedwars[gamemode].beds.BLRatio;
+        winLossRatio = playerStats.stats.bedwars[gamemode].WLRatio;
         finalKills = playerStats.stats.bedwars[gamemode].finalKills;
         finalKDRatio = playerStats.stats.bedwars[gamemode].finalKDRatio;
         winstreak = playerStats.stats.bedwars[gamemode].winstreak || '?';
         wins = playerStats.stats.bedwars[gamemode].wins;
       } else {
-        BLRatio = playerStats.stats.bedwars.beds.BLRatio;
-        WLRatio = playerStats.stats.bedwars.WLRatio;
+        bedLossRatio = playerStats.stats.bedwars.beds.BLRatio;
+        winLossRatio = playerStats.stats.bedwars.WLRatio;
         finalKills = playerStats.stats.bedwars.finalKills;
         finalKDRatio = playerStats.stats.bedwars.finalKDRatio;
         winstreak = playerStats.stats.bedwars.winstreak || '?';
@@ -90,8 +89,8 @@ const bedwars = {
           guildTag: guildTag,
         },
         star: star,
-        BLRatio: BLRatio,
-        WLRatio: WLRatio,
+        BLRatio: bedLossRatio,
+        WLRatio: winLossRatio,
         finalKills: finalKills,
         finalKDRatio: finalKDRatio,
         wins: wins,
@@ -103,7 +102,7 @@ const bedwars = {
       } else {
         return {
           success: false,
-          error: Errors.PLAYER_NOT_PLAYED_BEDWARS,
+          error: normalErrors.PLAYER_NOT_PLAYED_BEDWARS,
           player: {
             rank: rank,
             displayname: nickname,
@@ -115,4 +114,4 @@ const bedwars = {
   },
 };
 
-module.exports = { bedwars, Errors };
+module.exports = { bedwars, Errors: normalErrors };

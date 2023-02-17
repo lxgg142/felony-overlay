@@ -1,9 +1,7 @@
-const LoggerManager = require('../../helper/logger');
-const logger = new LoggerManager('RPC');
-
+const loggerManager = require('../../helper/logger.js');
 const { clientId } = require('../../config.json');
-
 const discordRPC = require('discord-rpc');
+const logger = new loggerManager('RPC');
 const RPC = new discordRPC.Client({ transport: 'ipc' });
 
 const startTimestamp = new Date();

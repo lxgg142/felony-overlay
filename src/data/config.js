@@ -1,6 +1,6 @@
-const Store = require('electron-store');
-const LoggerManager = require('../helper/logger');
-const store = new Store({
+const loggerManager = require('../helper/logger.js');
+const electronStore = require('electron-store');
+const store = new electronStore({
   schema: {
     hypixel: {
       default: '',
@@ -27,7 +27,7 @@ const store = new Store({
   },
 });
 
-const logger = new LoggerManager('CONFIG');
+const logger = new loggerManager('CONFIG');
 
 /**
  * @author lxgg#8588
@@ -42,7 +42,9 @@ const hypixelAPI = {
       const key = store.get('hypixel');
       if (key) return true;
       else return false;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 
   /**
@@ -64,7 +66,9 @@ const hypixelAPI = {
     try {
       const key = store.get('hypixel');
       return key;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 };
 
@@ -77,7 +81,9 @@ const antisniperAPI = {
       const key = store.get('antisniper');
       if (key) return true;
       else return false;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 
   /**
@@ -99,7 +105,9 @@ const antisniperAPI = {
     try {
       const key = store.get('antisniper');
       return key;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 };
 
@@ -118,7 +126,9 @@ const client = {
       const client = store.get('client');
       if (client) return true;
       else return false;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 
   /**
@@ -128,7 +138,9 @@ const client = {
     try {
       const client = store.get('client');
       return client;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 
   /**
@@ -138,7 +150,9 @@ const client = {
     try {
       if (client == null) return;
       store.set('client', client);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 };
 
@@ -159,7 +173,9 @@ const mode = {
     try {
       const mode = store.get('mode');
       return mode;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 
   /**
@@ -169,7 +185,9 @@ const mode = {
     try {
       if (mode == null) return;
       store.set('mode', mode);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 };
 
@@ -191,7 +209,9 @@ const settings = {
     try {
       if (key == null || state == null) return;
       store.set(key, state);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   },
 };
 

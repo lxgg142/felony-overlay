@@ -9,7 +9,7 @@ const {
   hypixelAPI,
   antisniperAPI,
   store,
-} = require('../../data/config');
+} = require('../../data/config.js');
 
 const RELOAD = document.getElementById('btnReload');
 const MINUS = document.getElementById('btnMini');

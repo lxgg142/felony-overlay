@@ -1,8 +1,7 @@
+const { hypixelAPI, CLIENTS, client } = require('../../data/config.js');
+const { bedwars, normalErrors } = require('../../helper/bedwars.js');
 const remote = require('@electron/remote');
 const fs = require('fs');
-const { getWinstreak } = require('../../api/antisniperAPI');
-const { hypixelAPI, CLIENTS, client } = require('../../data/config');
-const { bedwars, Errors } = require('../../helper/bedwars');
 const {
   nameColor,
   fkdrColor,
@@ -14,15 +13,15 @@ const {
   wlrColor,
   tagsColor,
   guildColor,
-} = require('../../helper/hypixelColors');
-const LoggerManager = require('../../helper/logger');
+} = require('../../helper/hypixelColors.js');
+const loggerManager = require('../../helper/logger.js');
 
-const Tails = require('tail').Tail;
+const notTails = require('tail').Tail;
 const { app } = remote;
 const homedir = app.getPath('home').replaceAll('\\', '/');
 window.$ = window.jQuery = require('jquery');
 
-const logger = new LoggerManager('Overlay');
+const logger = new loggerManager('Overlay');
 
 var logPath,
   players = [];
@@ -47,7 +46,7 @@ function main() {
    * message in the console.
    */
   if (!hypixelAPI.isKey()) {
-    let KEY = `<li class="player-item "><span style="color: #ef4444">INVAILID/MISSING API KEY</span></li>
+    const KEY = `<li class="player-item "><span style="color: #ef4444">INVAILID/MISSING API KEY</span></li>
     <li class="player-item "><span style="color: #ef4444">DO /API NEW</span></li>`;
     $(document).ready(function () {
       $('#ign').append(KEY);
@@ -65,7 +64,7 @@ function main() {
    * for only one line of log output at a time, and to check the log file for updates
    * every 100 milliseconds.
    */
-  const tail = new Tails(logPath, {
+  const tail = new notTails(logPath, {
     useWatchFile: true,
     nLines: 1,
     fsWatchOptions: { interval: 100 },
@@ -80,7 +79,7 @@ function main() {
 
       if (msg.indexOf('ONLINE:') !== -1 && msg.indexOf(',') !== -1) {
         clear();
-        let who = msg.substring(8).split(', ');
+        const who = msg.substring(8).split(', ');
         /**
          * looping through an array of strings, "who", and checking them against an array
          * of players. If the players array does not contain the first name of each string
@@ -90,7 +89,7 @@ function main() {
         for (let i = 0; i < who.length; i++) {
           if (!players.includes(who[i].split(' ')[0])) {
             if (who[i].indexOf('[') !== -1)
-              who[i] = who[i].substring(0, who[i].indexOf('[') - 1);
+              {who[i] = who[i].substring(0, who[i].indexOf('[') - 1);}
             let contains = false;
             for (let l = 0; l < players.length; l++) {
               if (players[l] === who[i]) contains = true;
@@ -104,7 +103,7 @@ function main() {
           }
         }
       } else if (msg.indexOf('has joined') !== -1 && msg.indexOf(':') === -1) {
-        let join = msg.split(' ')[0];
+        const join = msg.split(' ')[0];
         // if a player is already in the players array. If the player is not already in the array, it adds the player to the array.
         let contains = false;
         for (let i = 0; i < players.length; i++) {
@@ -114,7 +113,7 @@ function main() {
         }
         if (!contains) addPlayer(join); //adds Player to UI (HTML)
       } else if (msg.indexOf('has quit') !== -1 && msg.indexOf(':') === -1) {
-        let left = msg.split(' ')[0];
+        const left = msg.split(' ')[0];
         //remove player from array
         for (let i = 0; i < players.length; i++) {
           if (left == players[i]) {
@@ -123,7 +122,7 @@ function main() {
         }
         removePlayer(left); //remove player from UI (HTML)
       } else if (msg.indexOf('new API key') !== -1 && msg.indexOf(':') === -1) {
-        let key = msg.substring(msg.indexOf('is ') + 3);
+        const key = msg.substring(msg.indexOf('is ') + 3);
         hypixelAPI.setKey(key); //save the api key
         clear(); //clear the ui (HTML)
       } else if (msg.indexOf('Sending you') !== -1 && msg.indexOf(':') === -1) {
@@ -141,25 +140,25 @@ function loadPATH() {
      * and updates the modification times accordingly, sorts the three objects by the
      * modified variable and sets the logpath variable to the modified file.
      */
-    let lunar18 = {
+    const lunar18 = {
       path: `${homedir}/.lunarclient/offline/1.8/logs/latest.log`,
       modified: 0,
     };
-    let lunar189 = {
+    const lunar189 = {
       path: `${homedir}/.lunarclient/offline/1.8.9/logs/latest.log`,
       modified: 0,
     };
-    let lunarMultiver = {
+    const lunarMultiver = {
       path: `${homedir}/.lunarclient/offline/multiver/logs/latest.log`,
       modified: 0,
     };
 
     if (fs.existsSync(lunar18.path))
-      lunar18.modified = fs.statSync(lunar18.path).mtime;
+      {lunar18.modified = fs.statSync(lunar18.path).mtime;}
     if (fs.existsSync(lunar189.path))
-      lunar189.modified = fs.statSync(lunar189.path).mtime;
+      {lunar189.modified = fs.statSync(lunar189.path).mtime;}
     if (fs.existsSync(lunarMultiver.path))
-      lunarMultiver.modified = fs.statSync(lunarMultiver.path).mtime;
+      {lunarMultiver.modified = fs.statSync(lunarMultiver.path).mtime;}
 
     const lunarLogs = [lunar18, lunar189, lunarMultiver];
 
@@ -185,7 +184,7 @@ function loadPATH() {
 
 async function addPlayer(player) {
   const playerStats = await bedwars.get(player);
-  let playerInfo = {
+  const playerInfo = {
     info: 'NICK',
     rank: undefined,
     displayname: player,
@@ -221,13 +220,13 @@ async function addPlayer(player) {
     blr = `<li class="player-item ${player}">
     ${bblrColor(playerStats.BLRatio)}</li>`;
   } else {
-    if (playerStats.error === Errors.PLAYER_NOT_PLAYED_BEDWARS) {
+    if (playerStats.error === normalErrors.PLAYER_NOT_PLAYED_BEDWARS) {
       playerInfo.info = 'NEW';
       playerInfo.rank = playerStats.player.rank;
       playerInfo.plusColor.color = playerStats.player.plusColor;
       playerInfo.displayname = playerStats.player.displayname;
-    } else if (playerStats.error === Errors.PLAYER_HAS_NEVER_LOGGED)
-      playerInfo.info = 'NICK';
+    } else if (playerStats.error === normalErrors.PLAYER_HAS_NEVER_LOGGED)
+      {playerInfo.info = 'NICK';}
 
     ign = `<li class="player-item ${player}">
     ${starColor(0)} ${nameColor(playerInfo)} ${tagsColor(playerInfo.info)}

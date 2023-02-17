@@ -1,5 +1,5 @@
+const { antisniperAPI } = require('../data/config.js');
 const config = require('../config.json');
-const { antisniperAPI } = require('../data/config');
 
 const key = antisniperAPI.getKey();
 
