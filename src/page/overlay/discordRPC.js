@@ -1,8 +1,6 @@
 const loggerManager = require('../../helper/logger.js');
-const logger = new loggerManager('RPC');
-
 const { clientId } = require('../../config.json');
-
+const logger = new loggerManager('RPC');
 const discordRPC = require('discord-rpc');
 const RPC = new discordRPC.Client({ transport: 'ipc' });
 
