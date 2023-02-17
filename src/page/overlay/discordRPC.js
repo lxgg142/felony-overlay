@@ -1,6 +1,8 @@
-const loggerManager = require('../../helper/logger.js');
+const LoggerManager = require('../../helper/logger');
+const logger = new LoggerManager('RPC');
+
 const { clientId } = require('../../config.json');
-const logger = new loggerManager('RPC');
+
 const discordRPC = require('discord-rpc');
 const RPC = new discordRPC.Client({ transport: 'ipc' });
 
@@ -14,6 +16,10 @@ async function setActivity() {
     instance: false,
     details: `The Official Felony Stats Overlay`,
     startTimestamp,
+    largeImageKey: 'felony',
+    largeImageText: 'Felony Overlay',
+    smallImageKey: 'hypixel',
+    smallImageText: 'mc.hypixel.net',
     buttons: [
       {
         label: `Get Overlay`,

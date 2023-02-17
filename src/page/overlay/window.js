@@ -1,7 +1,15 @@
-const { client, clients, mode, modes, hypixelAPIKey } = require('../../data/config.js');
 const { ipcRenderer, clipboard } = require('electron');
 const { modalWindow } = require('./modalWindow.js');
 modalWindow.initialize();
+const {
+  client,
+  CLIENTS,
+  mode,
+  MODES,
+  hypixelAPI,
+  antisniperAPI,
+  store,
+} = require('../../data/config');
 
 const RELOAD = document.getElementById('btnReload');
 const MINUS = document.getElementById('btnMini');
@@ -25,12 +33,24 @@ SETTINGS.addEventListener('click', () => {
 
 // api_key
 
-const API_KEY = document.getElementById('api_key');
-API_KEY.addEventListener('click', () => {
+const hypixelKey = document.getElementById('hypixelKey');
+const antisniperKey = document.getElementById('antisniperKey');
+
+hypixelKey.addEventListener('click', () => {
   let key = clipboard.readText();
   if (key) key = key.replace(/\s/g, '');
   if (key.length !== 36) return;
-  hypixelAPIKey.setKey(key);
+  hypixelAPI.setKey(key);
+  return modalWindow.open({
+    content: 'API-Key has been pasted in',
+  });
+});
+
+antisniperKey.addEventListener('click', () => {
+  let key = clipboard.readText();
+  if (key) key = key.replace(/\s/g, '');
+  if (key.length !== 36) return;
+  antisniperAPI.setKey(key);
   return modalWindow.open({
     content: 'API-Key has been pasted in',
   });
@@ -93,24 +113,24 @@ const DEFAULT = document.querySelectorAll("[id='default']");
 
 LUNAR.forEach((button) => {
   button.addEventListener('click', () => {
-    if (String(client.getClient()).toUpperCase() == clients.lunar) return;
-    client.setClient(clients.lunar);
+    if (String(client.getClient()).toUpperCase() == CLIENTS.lunar) return;
+    client.setClient(CLIENTS.lunar);
     return ipcRenderer.send('client/change');
   });
 });
 
 BADLION.forEach((button) => {
   button.addEventListener('click', () => {
-    if (String(client.getClient()).toUpperCase() == clients.badlion) return;
-    client.setClient(clients.badlion);
+    if (String(client.getClient()).toUpperCase() == CLIENTS.badlion) return;
+    client.setClient(CLIENTS.badlion);
     return ipcRenderer.send('client/change');
   });
 });
 
 DEFAULT.forEach((button) => {
   button.addEventListener('click', () => {
-    if (String(client.getClient()).toUpperCase() == clients.default) return;
-    client.setClient(clients.default);
+    if (String(client.getClient()).toUpperCase() == CLIENTS.default) return;
+    client.setClient(CLIENTS.default);
     return ipcRenderer.send('client/change');
   });
 });
@@ -124,31 +144,56 @@ const FOUR_FOUR = document.getElementById('four_four');
 const TWO_FOUR = document.getElementById('two_four');
 
 OVERALL.addEventListener('click', () => {
-  if (mode.getMode() == modes.overall) return;
-  return mode.setMode(modes.overall);
+  if (mode.getMode() == MODES.overall) return;
+  return mode.setMode(MODES.overall);
 });
 
 EIGHT_ONE.addEventListener('click', () => {
-  if (mode.getMode() == modes.solo) return;
-  return mode.setMode(modes.solo);
+  if (mode.getMode() == MODES.solo) return;
+  return mode.setMode(MODES.solo);
 });
 
 EIGHT_TWO.addEventListener('click', () => {
-  if (mode.getMode() == modes.doubels) return;
-  return mode.setMode(modes.doubels);
+  if (mode.getMode() == MODES.doubels) return;
+  return mode.setMode(MODES.doubels);
 });
 
 FOUR_THREE.addEventListener('click', () => {
-  if (mode.getMode() == modes.trio) return;
-  return mode.setMode(modes.trio);
+  if (mode.getMode() == MODES.trio) return;
+  return mode.setMode(MODES.trio);
 });
 
 FOUR_FOUR.addEventListener('click', () => {
-  if (mode.getMode() == modes.squad) return;
-  return mode.setMode(modes.squad);
+  if (mode.getMode() == MODES.squad) return;
+  return mode.setMode(MODES.squad);
 });
 
 TWO_FOUR.addEventListener('click', () => {
-  if (mode.getMode() == modes.four_vs_four) return;
-  return mode.setMode(modes.four_vs_four);
+  if (mode.getMode() == MODES.four_vs_four) return;
+  return mode.setMode(MODES.four_vs_four);
+});
+
+//settings
+
+const GUILD_CHECKBOX = document.getElementById('guild');
+const GUILD = store.get('guild');
+if (GUILD) GUILD_CHECKBOX.checked = true;
+GUILD_CHECKBOX.addEventListener('change', (e) => {
+  if (e.target.checked == true) {
+    store.set('guild', true);
+  } else {
+    store.set('guild', false);
+  }
+});
+
+const WINSTREAK_ESTIMATE_CHECKBOX =
+  document.getElementById('winstreakEstimate');
+const WINSTREAK_ESTIMATE = store.get('winstreakEstimate');
+if (WINSTREAK_ESTIMATE) WINSTREAK_ESTIMATE_CHECKBOX.checked = true;
+WINSTREAK_ESTIMATE_CHECKBOX.addEventListener('change', (e) => {
+  if (e.target.checked == true) {
+    store.set('winstreakEstimate', true);
+  } else {
+    store.set('winstreakEstimate', false);
+  }
 });

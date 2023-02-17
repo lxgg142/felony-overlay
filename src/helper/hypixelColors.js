@@ -1,4 +1,4 @@
-const hypixelRankColors = {
+const hypixelColors = {
   RED: '#FF5555',
   GOLD: '#FFAA00',
   GREEN: '#55FF55',
@@ -48,11 +48,11 @@ function starColor(stars) {
 }
 
 function nameColor(player) {
-  const rank = player.rank;
+  let rank = player.rank;
   let plus = player.plusColor;
   if (plus !== undefined) {
-    plus = hypixelRankColors[plus];
-  } else {plus = '#FF5555';}
+    plus = hypixelColors[plus];
+  } else plus = '#FF5555';
   if (rank === 'YOUTUBER') {
     return `<span style="color: #FF5555;">[</span><span style="color: #FFFFFF;">YT</span><span style="color: #FF5555;">] ${player.displayname}</span>`;
   } else if (rank === 'OWNER') {
@@ -78,6 +78,17 @@ function nameColor(player) {
   }
 }
 
+function guildColor(guild) {
+  let guildTag = guild.guildTag;
+  let guildColor = guild.guildColor;
+  if (guildColor != undefined) {
+    guildColor = hypixelColors[guildColor];
+  } else guildColor = hypixelColors.DARK_GRAY;
+  if (guildTag != undefined) {
+    return `<span style="color: ${guildColor}">[${guildTag}]</span>`;
+  } else return;
+}
+
 function wsColor(ws) {
   try {
     if (ws < 4) {
@@ -88,7 +99,6 @@ function wsColor(ws) {
     else if (ws < 25) {
       return `<span style="color: #FFAA00">${ws}</span>`;
     } //200 stars
-    // TODO ask lxgg
     else if (ws < 25) {
       return `<span style="color: #00AAAA">${ws}</span>`;
     } //500 stars
@@ -129,16 +139,16 @@ function fkdrColor(fkdr) {
 
 function wlrColor(wlr) {
   try {
-    if (wlr < 1) {return `<span style="color: #AAAAAA">${wlr}</span>`;}
+    if (wlr < 1) return `<span style="color: #AAAAAA">${wlr}</span>`;
     else if (wlr < 2)
-      {return `<span style="color: #FFFFFF">${wlr}</span>`;} //100 stars
+      return `<span style="color: #FFFFFF">${wlr}</span>`; //100 stars
     else if (wlr < 5)
-      {return `<span style="color: #FFAA00">${wlr}</span>`;} //200 stars
+      return `<span style="color: #FFAA00">${wlr}</span>`; //200 stars
     else if (wlr < 7)
-      {return `<span style="color: #00AAAA">${wlr}</span>`;} //500 stars
+      return `<span style="color: #00AAAA">${wlr}</span>`; //500 stars
     else if (wlr < 10)
-      {return `<span style="color: #AA0000">${wlr}</span>`;} //600 stars
-    else {return `<span style="color: #AA00AA">${wlr}</span>`;} //900 stars
+      return `<span style="color: #AA0000">${wlr}</span>`; //600 stars
+    else return `<span style="color: #AA00AA">${wlr}</span>`; //900 stars
   } catch {
     return `<span style="color: #AAAAAA">${wlr}</span>`;
   }
@@ -147,16 +157,16 @@ function wlrColor(wlr) {
 function finalsColor(finals) {
   try {
     if (finals < 1000)
-      {return `<span style="color: #AAAAAA">${finals}</span>`;} //100 stars
+      return `<span style="color: #AAAAAA">${finals}</span>`; //100 stars
     else if (finals < 5000)
-      {return `<span style="color: #FFFFFF">${finals}</span>`;} //200 stars
+      return `<span style="color: #FFFFFF">${finals}</span>`; //200 stars
     else if (finals < 10000)
-      {return `<span style="color: #FFAA00">${finals}</span>`;} //500 stars
+      return `<span style="color: #FFAA00">${finals}</span>`; //500 stars
     else if (finals < 20000)
-      {return `<span style="color: #00AAAA">${finals}</span>`;} //600 stars
+      return `<span style="color: #00AAAA">${finals}</span>`; //600 stars
     else if (finals < 30000)
-      {return `<span style="color: #AA0000">${finals}</span>`;}
-    else {return `<span style="color: #AA00AA">${finals}</span>`;} //900 stars
+      return `<span style="color: #AA0000">${finals}</span>`;
+    else return `<span style="color: #AA00AA">${finals}</span>`; //900 stars
   } catch {
     return `<span style="color: #AAAAAA">${finals}</span>`;
   }
@@ -164,16 +174,16 @@ function finalsColor(finals) {
 
 function winsColor(wins) {
   try {
-    if (wins < 500) {return `<span style="color: #AAAAAA">${wins}</span>`;}
+    if (wins < 500) return `<span style="color: #AAAAAA">${wins}</span>`;
     else if (wins < 1000)
-      {return `<span style="color: #FFFFFF">${wins}</span>`;} //100 stars
+      return `<span style="color: #FFFFFF">${wins}</span>`; //100 stars
     else if (wins < 2000)
-      {return `<span style="color: #FFAA00">${wins}</span>`;} //200 stars
+      return `<span style="color: #FFAA00">${wins}</span>`; //200 stars
     else if (wins < 5000)
-      {return `<span style="color: #00AAAA">${wins}</span>`;} //500 stars
+      return `<span style="color: #00AAAA">${wins}</span>`; //500 stars
     else if (wins < 10000)
-      {return `<span style="color: #AA0000">${wins}</span>`;} //600 stars
-    else {return `<span style="color: #AA00AA">${wins}</span>`;} //900 stars
+      return `<span style="color: #AA0000">${wins}</span>`; //600 stars
+    else return `<span style="color: #AA00AA">${wins}</span>`; //900 stars
   } catch {
     return `<span style="color: #AAAAAA">${wins}</span>`;
   }
@@ -181,16 +191,16 @@ function winsColor(wins) {
 
 function bblrColor(bblr) {
   try {
-    if (bblr < 1) {return `<span style="color: #AAAAAA">${bblr}</span>`;}
+    if (bblr < 1) return `<span style="color: #AAAAAA">${bblr}</span>`;
     else if (bblr < 2)
-      {return `<span style="color: #FFFFFF">${bblr}</span>`;} //100 stars
+      return `<span style="color: #FFFFFF">${bblr}</span>`; //100 stars
     else if (bblr < 3)
-      {return `<span style="color: #FFAA00">${bblr}</span>`;} //200 stars
+      return `<span style="color: #FFAA00">${bblr}</span>`; //200 stars
     else if (bblr < 5)
-      {return `<span style="color: #00AAAA">${bblr}</span>`;} //500 stars
+      return `<span style="color: #00AAAA">${bblr}</span>`; //500 stars
     else if (bblr < 7.5)
-      {return `<span style="color: #AA0000">${bblr}</span>`;} //600 stars
-    else {return `<span style="color: #AA00AA">${bblr}</span>`;} //900 stars
+      return `<span style="color: #AA0000">${bblr}</span>`; //600 stars
+    else return `<span style="color: #AA00AA">${bblr}</span>`; //900 stars
   } catch {
     return `<span style="color: #AAAAAA">${bblr}</span>`;
   }
@@ -204,6 +214,7 @@ function tagsColor(tag) {
 module.exports = {
   starColor,
   nameColor,
+  guildColor,
   wsColor,
   fkdrColor,
   wlrColor,
